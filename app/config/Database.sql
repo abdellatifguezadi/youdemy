@@ -1,4 +1,3 @@
-
 CREATE DATABASE IF NOT EXISTS youdemy;
 USE youdemy;
 
@@ -48,7 +47,8 @@ CREATE TABLE courses (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (teacher_id) REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT check_content CHECK (video_path IS NOT NULL OR document_path IS NOT NULL) 
+    CONSTRAINT check_content CHECK (video_path IS NOT NULL OR document_path IS NOT NULL),
+    price DECIMAL(10,2) DEFAULT 0.00
 );
 
 -- Table de relation cours-tags (Many-to-Many)
@@ -141,3 +141,9 @@ INSERT INTO enrollments (student_id, course_id) VALUES
 INSERT INTO comments (content, user_id, course_id) VALUES
 ('Excellent cours pour débuter!', 4, 1),
 ('Contenu très bien structuré', 4, 2); 
+
+
+UPDATE courses SET price = 0.00 WHERE id = 1; -- Cours gratuit
+UPDATE courses SET price = 29.99 WHERE id = 2;
+UPDATE courses SET price = 49.99 WHERE id = 3;
+UPDATE courses SET price = 39.99 WHERE id = 4; 
