@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/user/cours.php';
+require_once __DIR__ . '/../models/Course.php';
 
 class UserController extends BaseController 
 {
@@ -17,11 +17,6 @@ class UserController extends BaseController
         $offset = ($page - 1) * $limit;
 
         $courses = $this->courseModel->getAllCourses($limit, $offset);
-
-        foreach ($courses as &$course) {
-            $course['tags'] = $this->courseModel->getCourseTags($course['id']);
-        }
-
         $totalCourses = $this->courseModel->getTotalCourses();
         $totalPages = ceil($totalCourses / $limit);
 
@@ -34,5 +29,12 @@ class UserController extends BaseController
         ]);
     }
 
-    
+    public function courseDetails($id)
+    {
+        $course = $this->courseModel->getCourseById($id);
+        
+        $this->render('course/details', [
+            'course' => $course
+        ]);
+    }
 }

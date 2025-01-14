@@ -62,22 +62,25 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <?php foreach ($courses as $course): ?>
             <div class="bg-white rounded-lg shadow-md overflow-hidden hover:-translate-y-1 transition duration-300">
-                <img src="<?= htmlspecialchars($course['photo_url']) ?>"
-                     alt="<?= htmlspecialchars($course['title']) ?>"
+                <img src="<?= htmlspecialchars($course->getPhotoUrl() ?: 'https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?w=500&auto=format') ?>"
+                     alt="<?= htmlspecialchars($course->getTitle()) ?>"
                      class="w-full h-48 object-cover">
                 <div class="p-4">
                     <span class="text-sm text-blue-600 font-semibold">
-                        <?= strtoupper($course['category_name']) ?>
+                        <?= strtoupper($course->getCategoryName()) ?>
                     </span>
                     <h3 class="text-lg font-semibold mb-2">
-                        <?= htmlspecialchars($course['title']) ?>
+                        <?= htmlspecialchars($course->getTitle()) ?>
                     </h3>
                     <p class="text-gray-600 text-sm mb-3">
-                        By <?= htmlspecialchars($course['firstname'] . ' ' . $course['lastname']) ?>
+                        <span class="mr-4">
+                            <i class="fas fa-user mr-2"></i>
+                            <?= htmlspecialchars($course->getName()) ?>
+                        </span>
                     </p>
 
                     <div class="flex flex-wrap gap-2 mb-4">
-                        <?php foreach ($course['tags'] as $tag): ?>
+                        <?php foreach ($course->getTags() as $tag): ?>
                         <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full">
                             <?= htmlspecialchars($tag['name']) ?>
                         </span>
@@ -85,10 +88,15 @@
                     </div>
 
                     <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">
-                            <i class="fas fa-users mr-2"></i><?= $course['student_count'] ?> students
-                        </span>
-                        <a href="course.php?id=<?= $course['id'] ?>" 
+                        <div class="flex items-center gap-3">
+                            <span class="text-gray-500 text-sm">
+                                <i class="fas fa-users mr-2"></i><?= $course->getStudentCount() ?> students
+                            </span>
+                            <span class="<?= $course->getIconColor() ?> text-sm" title="<?= $course->getType() ?>">
+                                <i class="fas <?= $course->getIcon() ?>"></i>
+                            </span>
+                        </div>
+                        <a href="/course/<?= $course->getId() ?>" 
                            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
                             View Details
                         </a>

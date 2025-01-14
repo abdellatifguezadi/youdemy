@@ -11,8 +11,7 @@ session_start();
 $router = new Router();
 Route::setRouter($router);
 
-// Routes principales
 Route::get('/', [UserController::class, 'index']);
-Route::get('/course.php', [UserController::class, 'getCourseDetails']);
+Route::get('/course/{id}', [UserController::class, 'courseDetails']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

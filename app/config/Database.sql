@@ -13,8 +13,7 @@ CREATE TABLE roles (
 
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    firstname VARCHAR(50) NOT NULL,
-    lastname VARCHAR(50) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role_id INT,
@@ -38,8 +37,8 @@ CREATE TABLE courses (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    video_path VARCHAR(255),
-    document_path VARCHAR(255),
+    video_url VARCHAR(255),
+    document TEXT,
     photo_url VARCHAR(255),
     teacher_id INT,
     category_id INT,
@@ -47,8 +46,10 @@ CREATE TABLE courses (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (teacher_id) REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT check_content CHECK (video_path IS NOT NULL OR document_path IS NOT NULL),
-    price DECIMAL(10,2) DEFAULT 0.00
+    CONSTRAINT check_content CHECK (
+        (video_url IS NOT NULL AND document IS NULL) OR 
+        (video_url IS NULL AND document IS NOT NULL)
+    )
 );
 
 CREATE TABLE course_tags (
@@ -84,11 +85,11 @@ INSERT INTO roles (name) VALUES
 ('teacher'),
 ('student');
 
-INSERT INTO users (firstname, lastname, email, password, role_id) VALUES
-('Admin', 'System', 'admin@youdemy.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
-('John', 'Doe', 'john.doe@youdemy.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
-('Jane', 'Smith', 'jane.smith@youdemy.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
-('Bob', 'Johnson', 'bob.johnson@youdemy.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 3);
+INSERT INTO users (name, email, password, role_id) VALUES
+('Admin System', 'admin@youdemy.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1),
+('John Doe', 'john.doe@youdemy.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
+('Jane Smith', 'jane.smith@youdemy.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2),
+('Bob Johnson', 'bob.johnson@youdemy.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 3);
 
 INSERT INTO categories (name, description) VALUES
 ('Programmation', 'Cours de programmation et développement'),
@@ -109,39 +110,39 @@ INSERT INTO tags (name) VALUES
 ('Avancé');
 
 -- Insertion des cours initiaux
-INSERT INTO courses (title, description, video_path, document_path, photo_url, teacher_id, category_id, price) VALUES
-('Introduction à PHP', 'Apprenez les bases de PHP', '/courses/php-intro.mp4', '/courses/php-intro.pdf', '/images/courses/php-intro.jpg', 2, 1, 0.00),
-('JavaScript Avancé', 'Maîtrisez JavaScript', '/courses/js-advanced.mp4', NULL, '/images/courses/js-advanced.jpg', 2, 1, 29.99),
-('Design UI/UX', 'Principes de design moderne', NULL, '/courses/uiux-design.pdf', '/images/courses/uiux-design.jpg', 3, 2, 49.99),
-('Marketing Digital', 'Stratégies de marketing en ligne', '/courses/marketing.mp4', '/courses/digital-marketing.pdf', '/images/courses/digital-marketing.jpg', 3, 3, 39.99);
+INSERT INTO courses (title, description, video_url, document, photo_url, teacher_id, category_id) VALUES
+('Introduction à PHP', 'Apprenez les bases de PHP', 'https://www.w3schools.com/html/mov_bbb.mp4', NULL, 'https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?w=500', 2, 1),
+('JavaScript Avancé', 'Maîtrisez JavaScript', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=500', 2, 1),
+('Design UI/UX', 'Principes de design moderne', 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', NULL, 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500', 3, 2),
+('Marketing Digital', 'Stratégies de marketing en ligne', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=500', 3, 3);
 
 -- Ajout de 18 nouveaux cours
-INSERT INTO courses (title, description, video_path, document_path, photo_url, teacher_id, category_id, price) VALUES
+INSERT INTO courses (title, description, video_url, document, photo_url, teacher_id, category_id) VALUES
 -- Programmation (Category 1)
-('Laravel Framework', 'Développez des applications web robustes avec Laravel', '/courses/laravel.mp4', '/courses/laravel.pdf', '/images/courses/laravel.jpg', 2, 1, 49.99),
-('React.js Mastery', 'Créez des interfaces modernes avec React', '/courses/react.mp4', '/courses/react.pdf', '/images/courses/react.jpg', 3, 1, 44.99),
-('Python pour Data Science', 'Analyse de données avec Python', '/courses/python-data.mp4', '/courses/python-data.pdf', '/images/courses/python.jpg', 2, 1, 59.99),
-('Vue.js 3 Complete', 'Maîtrisez Vue.js et son écosystème', '/courses/vue.mp4', '/courses/vue.pdf', '/images/courses/vue.jpg', 3, 1, 39.99),
-('Node.js Backend', 'Développement backend avec Node.js', '/courses/nodejs.mp4', '/courses/nodejs.pdf', '/images/courses/nodejs.jpg', 2, 1, 54.99),
+('Laravel Framework', 'Développez des applications web robustes avec Laravel', 'https://www.w3schools.com/html/mov_bbb.mp4', NULL, 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=500', 2, 1),
+('React.js Mastery', 'Créez des interfaces modernes avec React', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500', 3, 1),
+('Python pour Data Science', 'Analyse de données avec Python', 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', NULL, 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500', 2, 1),
+('Vue.js 3 Complete', 'Maîtrisez Vue.js et son écosystème', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=500', 3, 1),
+('Node.js Backend', 'Développement backend avec Node.js', '/uploads/courses/videos/nodejs.mp4', NULL, 'https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=500', 2, 1),
 
 -- Design (Category 2)
-('Figma Masterclass', 'Design d\'interfaces avec Figma', '/courses/figma.mp4', '/courses/figma.pdf', '/images/courses/figma.jpg', 3, 2, 49.99),
-('Adobe XD Pro', 'Prototypage avancé avec Adobe XD', '/courses/xd.mp4', '/courses/xd.pdf', '/images/courses/xd.jpg', 2, 2, 44.99),
-('Design System', 'Créez des systèmes de design cohérents', '/courses/design-system.mp4', '/courses/design-system.pdf', '/images/courses/design-system.jpg', 3, 2, 64.99),
-('Motion Design', 'Animation et motion design', '/courses/motion.mp4', '/courses/motion.pdf', '/images/courses/motion.jpg', 2, 2, 69.99),
-('UX Writing', 'L\'art d\'écrire pour les interfaces', '/courses/ux-writing.mp4', '/courses/ux-writing.pdf', '/images/courses/ux-writing.jpg', 3, 2, 39.99),
+('Figma Masterclass', 'Design d\'interfaces avec Figma', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500', 3, 2),
+('Adobe XD Pro', 'Prototypage avancé avec Adobe XD', '/uploads/courses/videos/xd.mp4', NULL, 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500', 2, 2),
+('Design System', 'Créez des systèmes de design cohérents', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500', 3, 2),
+('Motion Design', 'Animation et motion design', '/uploads/courses/videos/motion.mp4', NULL, 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500', 2, 2),
+('UX Writing', 'L\'art d\'écrire pour les interfaces', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500', 3, 2),
 
 -- Business (Category 3)
-('Growth Hacking', 'Stratégies de croissance rapide', '/courses/growth.mp4', '/courses/growth.pdf', '/images/courses/growth.jpg', 2, 3, 79.99),
-('SEO Avancé', 'Optimisation pour les moteurs de recherche', '/courses/seo.mp4', '/courses/seo.pdf', '/images/courses/seo.jpg', 3, 3, 69.99),
-('E-commerce Strategy', 'Développez votre business en ligne', '/courses/ecommerce.mp4', '/courses/ecommerce.pdf', '/images/courses/ecommerce.jpg', 2, 3, 89.99),
-('Personal Branding', 'Construisez votre marque personnelle', '/courses/branding.mp4', '/courses/branding.pdf', '/images/courses/branding.jpg', 3, 3, 49.99),
+('Growth Hacking', 'Stratégies de croissance rapide', '/uploads/courses/videos/growth.mp4', NULL, 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500', 2, 3),
+('SEO Avancé', 'Optimisation pour les moteurs de recherche', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=500', 3, 3),
+('E-commerce Strategy', 'Développez votre business en ligne', '/uploads/courses/videos/ecommerce.mp4', NULL, 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500', 2, 3),
+('Personal Branding', 'Construisez votre marque personnelle', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500', 3, 3),
 
 -- Langues (Category 4)
-('English for Business', 'Anglais professionnel', '/courses/business-english.mp4', '/courses/business-english.pdf', '/images/courses/english.jpg', 2, 4, 44.99),
-('Spanish Beginner', 'Espagnol pour débutants', '/courses/spanish.mp4', '/courses/spanish.pdf', '/images/courses/spanish.jpg', 3, 4, 39.99),
-('French Advanced', 'Français niveau avancé', '/courses/french.mp4', '/courses/french.pdf', '/images/courses/french.jpg', 2, 4, 49.99),
-('Japanese Culture & Language', 'Initiation au japonais', '/courses/japanese.mp4', '/courses/japanese.pdf', '/images/courses/japanese.jpg', 3, 4, 54.99);
+('English for Business', 'Anglais professionnel', '/uploads/courses/videos/business-english.mp4', NULL, 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500', 2, 4),
+('Spanish Beginner', 'Espagnol pour débutants', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500', 3, 4),
+('French Advanced', 'Français niveau avancé', '/uploads/courses/videos/french.mp4', NULL, 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500', 2, 4),
+('Japanese Culture & Language', 'Initiation au japonais', NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.', 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500', 3, 4);
 
 -- Association des tags aux cours
 INSERT INTO course_tags (course_id, tag_id) VALUES
