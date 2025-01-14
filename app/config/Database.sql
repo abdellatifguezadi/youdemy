@@ -61,12 +61,12 @@ CREATE TABLE course_tags (
 );
 
 CREATE TABLE enrollments (
-    id INT PRIMARY KEY AUTO_INCREMENT,
     student_id INT,
     course_id INT,
     enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (student_id) REFERENCES users(id),
-    FOREIGN KEY (course_id) REFERENCES courses(id)
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE CASCADE
 );
 
 CREATE TABLE comments (

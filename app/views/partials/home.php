@@ -2,21 +2,30 @@
 
 <!-- Main Content -->
 <main class="flex-grow mt-24">
-    <section class="bg-gradient-to-r from-blue-600 to-blue-800 py-16 px-4">
-        <div class="container mx-auto text-center text-white">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+    <section class="relative h-[400px] overflow-hidden">
+        <!-- Background Image -->
+        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop" 
+             alt="Education Background" 
+             class="absolute top-0 left-0 w-full h-full object-cover">
+        
+        <!-- Dark Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-blue-800/30"></div>
+        
+        <!-- Content -->
+        <div class="container mx-auto text-center text-white relative z-10 h-full flex flex-col justify-center px-4">
+            <h1 class="text-3xl md:text-4xl font-bold mb-3 animate-fade-in">
                 Welcome to YouDemy
             </h1>
-            <p class="text-xl mb-8">
+            <p class="text-lg md:text-xl mb-6 animate-fade-in-delay">
                 Join our community of learners and teachers
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto animate-fade-in-delay-2">
                 <a href="/register?role=student"
-                    class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition">
+                    class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105">
                     Become a Student
                 </a>
                 <a href="/register?role=teacher"
-                    class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition">
+                    class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition transform hover:scale-105">
                     Become a Teacher
                 </a>
             </div>
