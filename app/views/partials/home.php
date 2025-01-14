@@ -60,120 +60,74 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
+            <?php foreach ($courses as $course): ?>
             <div class="bg-white rounded-lg shadow-md overflow-hidden hover:-translate-y-1 transition duration-300">
-                <img src="https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?w=500&auto=format"
-                    alt="PHP Introduction"
-                    class="w-full h-48 object-cover">
+                <img src="<?= htmlspecialchars($course['photo_url']) ?>"
+                     alt="<?= htmlspecialchars($course['title']) ?>"
+                     class="w-full h-48 object-cover">
                 <div class="p-4">
-                    <span class="text-sm text-blue-600 font-semibold">PROGRAMMING</span>
-                    <h3 class="text-lg font-semibold mb-2">PHP Introduction</h3>
-                    <p class="text-gray-600 text-sm mb-3">By John Doe</p>
+                    <span class="text-sm text-blue-600 font-semibold">
+                        <?= strtoupper($course['category_name']) ?>
+                    </span>
+                    <h3 class="text-lg font-semibold mb-2">
+                        <?= htmlspecialchars($course['title']) ?>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                        By <?= htmlspecialchars($course['firstname'] . ' ' . $course['lastname']) ?>
+                    </p>
 
                     <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full">Backend</span>
-                        <span class="px-2 py-1 bg-green-50 text-green-600 text-xs rounded-full">Database</span>
-                        <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full">Web Development</span>
+                        <?php foreach ($course['tags'] as $tag): ?>
+                        <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full">
+                            <?= htmlspecialchars($tag['name']) ?>
+                        </span>
+                        <?php endforeach; ?>
                     </div>
+
                     <div class="flex justify-between items-center">
                         <span class="text-gray-500 text-sm">
-                            <i class="fas fa-users mr-2"></i>150 students
+                            <i class="fas fa-users mr-2"></i><?= $course['student_count'] ?> students
                         </span>
-                        <a href="/course/1" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                        <a href="course.php?id=<?= $course['id'] ?>" 
+                           class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
                             View Details
                         </a>
                     </div>
                 </div>
             </div>
-
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:-translate-y-1 transition duration-300">
-                <img src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=500&auto=format"
-                    alt="Advanced JavaScript"
-                    class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <span class="text-sm text-blue-600 font-semibold">WEB DEVELOPMENT</span>
-                    <h3 class="text-lg font-semibold mb-2">Advanced JavaScript</h3>
-                    <p class="text-gray-600 text-sm mb-3">By Jane Smith</p>
- 
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="px-2 py-1 bg-yellow-50 text-yellow-600 text-xs rounded-full">Frontend</span>
-                        <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full">Web Development</span>
-                        <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full">Game Development</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">
-                            <i class="fas fa-users mr-2"></i>120 students
-                        </span>
-                        <a href="/course/2" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
-                            View Details
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:-translate-y-1 transition duration-300">
-                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500&auto=format"
-                    alt="UI/UX Design"
-                    class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <span class="text-sm text-purple-600 font-semibold">DESIGN</span>
-                    <h3 class="text-lg font-semibold mb-2">UI/UX Design</h3>
-                    <p class="text-gray-600 text-sm mb-3">By Sarah Wilson</p>
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="px-2 py-1 bg-pink-50 text-pink-600 text-xs rounded-full">UI/UX Design</span>
-                        <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full">Graphic Design</span>
-                        <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full">Frontend</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">
-                            <i class="fas fa-users mr-2"></i>200 students
-                        </span>
-                        <a href="/course/3" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
-                            View Details
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:-translate-y-1 transition duration-300">
-                <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=500&auto=format"
-                    alt="Digital Marketing"
-                    class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <span class="text-sm text-yellow-600 font-semibold">MARKETING</span>
-                    <h3 class="text-lg font-semibold mb-2">Digital Marketing</h3>
-                    <p class="text-gray-600 text-sm mb-3">By Mike Johnson</p>
-
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="px-2 py-1 bg-orange-50 text-orange-600 text-xs rounded-full">Digital Marketing</span>
-                        <span class="px-2 py-1 bg-yellow-50 text-yellow-600 text-xs rounded-full">SEO</span>
-                        <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full">Business Analytics</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-500 text-sm">
-                            <i class="fas fa-users mr-2"></i>180 students
-                        </span>
-                        <a href="/course/4" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
-                            View Details
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
-
+        <!-- Pagination -->
         <div class="flex justify-center gap-2 mt-8">
-            <a href="#" class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition disabled:opacity-50">
+            <?php if ($currentPage > 1): ?>
+            <a href="?page=<?= $currentPage - 1 ?>" 
+               class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition">
                 Previous
             </a>
-            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">1</a>
-            <a href="#" class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition">2</a>
-            <a href="#" class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition">3</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= min($totalPages, 3); $i++): ?>
+            <a href="?page=<?= $i ?>" 
+               class="px-4 py-2 <?= $i === $currentPage ? 'bg-blue-500 text-white' : 'bg-white border border-gray-300' ?> rounded-md hover:bg-<?= $i === $currentPage ? 'blue-600' : 'gray-50' ?> transition">
+                <?= $i ?>
+            </a>
+            <?php endfor; ?>
+
+            <?php if ($totalPages > 3): ?>
             <span class="px-4 py-2 border border-gray-300 rounded-md">...</span>
-            <a href="#" class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition">10</a>
-            <a href="#" class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition">
+            <a href="?page=<?= $totalPages ?>" 
+               class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition">
+                <?= $totalPages ?>
+            </a>
+            <?php endif; ?>
+
+            <?php if ($currentPage < $totalPages): ?>
+            <a href="?page=<?= $currentPage + 1 ?>" 
+               class="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition">
                 Next
             </a>
+            <?php endif; ?>
         </div>
     </section>
 </main>
