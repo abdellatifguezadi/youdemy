@@ -18,29 +18,35 @@ class User extends Db {
             'teacher' => 2,
             'student' => 3
         ];
-        return $roleMap[$role] ?? 3; // Par défaut, retourne le rôle student
+        return $roleMap[$role] ?? 3; 
     }
 
     public function register($name, $email, $password, $role = 'student') {
-        // Vérifier si l'email existe déjà
+        
         $stmt = $this->conn->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) {
             return ['success' => false, 'message' => 'Email already exists'];
         }
 
-        // Hash du mot de passe
+        
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Obtenir l'ID du rôle
+      
         $roleId = $this->getRoleId($role);
 
-        // Insérer le nouvel utilisateur
-        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, role_id) VALUES (?, ?, ?, ?)");
-        $success = $stmt->execute([$name, $email, $hashedPassword, $roleId]);
+       
+        $isActive = ($role === 'teacher') ? 0 : 1;
+
+     
+        $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, role_id, is_active) VALUES (?, ?, ?, ?, ?)");
+        $success = $stmt->execute([$name, $email, $hashedPassword, $roleId, $isActive]);
 
         if ($success) {
-            return ['success' => true, 'message' => 'Registration successful'];
+            $message = ($role === 'teacher') 
+                ? 'Registration successful! Please wait for admin approval before logging in.'
+                : 'Registration successful! Please login.';
+            return ['success' => true, 'message' => $message];
         } else {
             return ['success' => false, 'message' => 'Registration failed'];
         }
@@ -56,8 +62,15 @@ class User extends Db {
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
-            
+        if (!$user) {
+            return ['success' => false, 'message' => 'Invalid credentials'];
+        }
+
+        if (!$user['is_active']) {
+            return ['success' => false, 'message' => 'Your account is not active. Please wait for admin approval.'];
+        }
+
+        if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_email'] = $user['email'];

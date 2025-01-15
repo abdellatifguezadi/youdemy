@@ -46,14 +46,33 @@ class AuthController extends BaseController {
 
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'] ?? '';
-            $email = $_POST['email'] ?? '';
+
+            $name = trim($_POST['name'] ?? '');
+            $email = trim(strtolower($_POST['email'] ?? ''));
             $password = $_POST['password'] ?? '';
             $role = $_POST['role'] ?? 'student';
 
-            // Validation
-            if (empty($name) || empty($email) || empty($password)) {
-                $_SESSION['error'] = 'Please fill in all fields';
+            if (empty($name)) {
+                $_SESSION['error'] = 'Please enter your name';
+                header('Location: /register');
+                exit;
+            }
+
+            if (strlen($name) < 6) {
+                $_SESSION['error'] = 'Name must be at least 6 characters long';
+                header('Location: /register');
+                exit;
+            }
+
+
+            if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+                $_SESSION['error'] = 'Name can only contain letters and spaces';
+                header('Location: /register');
+                exit;
+            }
+
+            if (empty($email)) {
+                $_SESSION['error'] = 'Please enter your email';
                 header('Location: /register');
                 exit;
             }
@@ -64,13 +83,56 @@ class AuthController extends BaseController {
                 exit;
             }
 
-            if (strlen($password) < 6) {
-                $_SESSION['error'] = 'Password must be at least 6 characters long';
+
+            if (empty($password)) {
+                $_SESSION['error'] = 'Please enter a password';
                 header('Location: /register');
                 exit;
             }
 
-            // Tentative d'inscription
+            if (strlen($password) < 8) {
+                $_SESSION['error'] = 'Password must be at least 8 characters long';
+                header('Location: /register');
+                exit;
+            }
+
+            if (strlen($password) > 50) {
+                $_SESSION['error'] = 'Password must be less than 50 characters';
+                header('Location: /register');
+                exit;
+            }
+
+            if (!preg_match("/[0-9]/", $password)) {
+                $_SESSION['error'] = 'Password must contain at least one number';
+                header('Location: /register');
+                exit;
+            }
+
+            if (!preg_match("/[a-z]/", $password)) {
+                $_SESSION['error'] = 'Password must contain at least one lowercase letter';
+                header('Location: /register');
+                exit;
+            }
+
+            if (!preg_match("/[A-Z]/", $password)) {
+                $_SESSION['error'] = 'Password must contain at least one uppercase letter';
+                header('Location: /register');
+                exit;
+            }
+
+            if (!preg_match("/[@#$%^&*()!_-]/", $password)) {
+                $_SESSION['error'] = 'Password must contain at least one special character (@#$%^&*()!_-)';
+                header('Location: /register');
+                exit;
+            }
+
+
+            if (!in_array($role, ['student', 'teacher'])) {
+                $_SESSION['error'] = 'Invalid role selected';
+                header('Location: /register');
+                exit;
+            }
+
             $result = $this->userModel->register($name, $email, $password, $role);
 
             if ($result['success']) {
