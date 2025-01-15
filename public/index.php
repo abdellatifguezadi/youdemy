@@ -5,13 +5,20 @@ require_once '../core/BaseController.php';
 require_once '../core/Router.php';
 require_once '../core/Route.php';
 require_once '../app/controllers/UserController.php';
+require_once '../app/controllers/AuthController.php';
 
 session_start();
 
 $router = new Router();
 Route::setRouter($router);
 
+// Pages principales
 Route::get('/', [UserController::class, 'index']);
 Route::get('/course/{id}', [UserController::class, 'courseDetails']);
+
+// Routes d'authentification
+Route::get('/login', [AuthController::class, 'showLoginForm']);
+Route::get('/register', [AuthController::class, 'showRegisterForm']);
+
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

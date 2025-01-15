@@ -3,7 +3,7 @@
             <div class="text-center">
                 <div class="mb-2">
                     <span class="text-2xl font-bold">
-                        <span class="text-blue-500">You</span>Demy
+                        <span class="bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">You</span>Demy
                     </span>
                 </div>
                 <p class="text-gray-400 text-sm">

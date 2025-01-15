@@ -9,7 +9,7 @@
              class="absolute top-0 left-0 w-full h-full object-cover">
         
         <!-- Dark Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-blue-800/30"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/40 to-purple-800/30"></div>
         
         <!-- Content -->
         <div class="container mx-auto text-center text-white relative z-10 h-full flex flex-col justify-center px-4">
@@ -20,14 +20,18 @@
                 Join our community of learners and teachers
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto animate-fade-in-delay-2">
-                <a href="/register?role=student"
-                    class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105">
-                    Become a Student
-                </a>
-                <a href="/register?role=teacher"
-                    class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition transform hover:scale-105">
-                    Become a Teacher
-                </a>
+                <div class="flex flex-col gap-3">
+                    <a href="/register?role=student"
+                        class="bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition transform hover:scale-105">
+                        Become a Student
+                    </a>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <a href="/register?role=teacher"
+                        class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition transform hover:scale-105">
+                        Become a Teacher
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -40,11 +44,11 @@
                         <input type="text"
                             name="keywords"
                             placeholder="Search courses..."
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500">
                     </div>
                     <div class="flex-1">
                         <select name="category"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500">
                             <option value="">All Categories</option>
                             <option value="programming">Programming</option>
                             <option value="design">Design</option>
@@ -54,7 +58,7 @@
                     </div>
                     <div>
                         <button type="submit"
-                            class="w-full bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition">
+                            class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
                             Search
                         </button>
                     </div>
@@ -75,7 +79,7 @@
                      alt="<?= htmlspecialchars($course->getTitle()) ?>"
                      class="w-full h-48 object-cover">
                 <div class="p-4">
-                    <span class="text-sm text-blue-600 font-semibold">
+                    <span class="text-sm text-indigo-600 font-semibold">
                         <?= strtoupper($course->getCategoryName()) ?>
                     </span>
                     <h3 class="text-lg font-semibold mb-2">
@@ -106,7 +110,7 @@
                             </span>
                         </div>
                         <a href="/course/<?= $course->getId() ?>" 
-                           class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                           class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
                             View Details
                         </a>
                     </div>
@@ -126,7 +130,7 @@
 
             <?php for ($i = 1; $i <= min($totalPages, 3); $i++): ?>
             <a href="?page=<?= $i ?>" 
-               class="px-4 py-2 <?= $i === $currentPage ? 'bg-blue-500 text-white' : 'bg-white border border-gray-300' ?> rounded-md hover:bg-<?= $i === $currentPage ? 'blue-600' : 'gray-50' ?> transition">
+               class="px-4 py-2 <?= $i === $currentPage ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white' : 'bg-white border border-gray-300' ?> rounded-md hover:<?= $i === $currentPage ? 'from-indigo-700 hover:to-purple-700' : 'bg-gray-50' ?> transition">
                 <?= $i ?>
             </a>
             <?php endfor; ?>
