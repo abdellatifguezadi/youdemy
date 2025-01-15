@@ -46,12 +46,23 @@
                 </div>
 
                 <div class="flex gap-4">
-                    <a href="/register" class="px-4 py-2 border border-indigo-500 text-indigo-500 rounded-md hover:bg-indigo-50 transition">
-                        <i class="fas fa-user-plus mr-2"></i>Sign Up
-                    </a>
-                    <a href="/login" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
-                        <i class="fas fa-sign-in-alt mr-2"></i>Login
-                    </a>
+                    <?php 
+                    // Vérifier si nous sommes sur une page d'authentification
+                    $currentPage = $_SERVER['REQUEST_URI'];
+                    $isAuthPage = strpos($currentPage, 'login') !== false || strpos($currentPage, 'register') !== false;
+                    
+                    if ($isAuthPage): ?>
+                        <a href="/" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
+                            <i class="fas fa-home mr-2"></i>Homepage
+                        </a>
+                    <?php else: ?>
+                        <a href="/register" class="px-4 py-2 border border-indigo-500 text-indigo-500 rounded-md hover:bg-indigo-50 transition">
+                            <i class="fas fa-user-plus mr-2"></i>Sign Up
+                        </a>
+                        <a href="/login" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         </nav>
