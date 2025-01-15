@@ -6,6 +6,7 @@ require_once '../core/Router.php';
 require_once '../core/Route.php';
 require_once '../app/controllers/UserController.php';
 require_once '../app/controllers/AuthController.php';
+require_once '../app/controllers/AdminController.php';
 
 session_start();
 
@@ -22,5 +23,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout']);
+
+// Routes admin
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
