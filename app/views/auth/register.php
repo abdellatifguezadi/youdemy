@@ -16,9 +16,7 @@
             </div>
         <?php endif; ?>
 
-        <!-- Formulaire -->
         <form class="mt-4 space-y-4" action="/register" method="POST">
-            <!-- Full Name -->
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
                 <div class="mt-1 relative">
@@ -31,8 +29,6 @@
                         placeholder="John Doe">
                 </div>
             </div>
-
-            <!-- Email -->
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
                 <div class="mt-1 relative">
@@ -46,7 +42,6 @@
                 </div>
             </div>
 
-            <!-- Password -->
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <div class="mt-1 relative">
@@ -60,7 +55,6 @@
                 </div>
             </div>
 
-            <!-- Role Selection -->
             <div>
                 <label for="role" class="block text-sm font-medium text-gray-700">I want to</label>
                 <div class="mt-1 relative">
@@ -76,18 +70,6 @@
                 </div>
             </div>
 
-            <!-- Terms -->
-            <div class="flex items-center">
-                <input type="checkbox" name="terms" required 
-                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                <label class="ml-2 block text-sm text-gray-900">
-                    I agree to the 
-                    <a href="/terms" class="text-indigo-600 hover:text-indigo-500">Terms of Service</a> and 
-                    <a href="/privacy" class="text-indigo-600 hover:text-indigo-500">Privacy Policy</a>
-                </label>
-            </div>
-
-            <!-- Submit Button -->
             <div>
                 <button type="submit" 
                     class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm 
@@ -98,7 +80,6 @@
             </div>
         </form>
 
-        <!-- Sign in link -->
         <p class="mt-3 text-center text-sm text-gray-600">
             Already have an account? 
             <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">

@@ -2,7 +2,6 @@
 
 <div class="min-h-screen bg-gradient-to-r from-indigo-600 to-purple-700 flex items-center justify-center pt-20 pb-6 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl p-6 transform transition-all hover:scale-105">
-        <!-- Icon et Titre -->
         <div class="text-center mb-4">
             <i class="fas fa-graduation-cap text-4xl text-indigo-600 mb-2"></i>
             <h2 class="text-2xl font-bold text-gray-900">Welcome Back</h2>
@@ -19,9 +18,8 @@
             </div>
         <?php endif; ?>
 
-        <!-- Formulaire -->
         <form class="mt-4 space-y-4" action="/login" method="POST">
-            <!-- Email -->
+
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
                 <div class="mt-1 relative">
@@ -35,7 +33,6 @@
                 </div>
             </div>
 
-            <!-- Password -->
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <div class="mt-1 relative">
@@ -49,21 +46,7 @@
                 </div>
             </div>
 
-            <!-- Remember me & Forgot password -->
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <input type="checkbox" name="remember" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                    <label class="ml-2 block text-sm text-gray-900">Remember me</label>
-                </div>
 
-                <div class="text-sm">
-                    <a href="/forgot-password" class="font-medium text-indigo-600 hover:text-indigo-500">
-                        <i class="fas fa-key mr-1"></i>Forgot password?
-                    </a>
-                </div>
-            </div>
-
-            <!-- Submit Button -->
             <div>
                 <button type="submit" 
                     class="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm 
@@ -74,7 +57,7 @@
             </div>
         </form>
 
-        <!-- Sign up link -->
+
         <p class="mt-3 text-center text-sm text-gray-600">
             Not registered? 
             <a href="/register" class="font-medium text-indigo-600 hover:text-indigo-500">
