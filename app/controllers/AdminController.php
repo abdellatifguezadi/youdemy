@@ -1,10 +1,27 @@
 <?php
 
 class AdminController extends BaseController {
+
+    function __construct()
+    {
+       
+    }
+
+
     public function dashboard() {
-        // TODO: Add authentication check for admin role
         
-        // For now, just render the dashboard view
         $this->render('admin/dashboard');
+    }
+
+    public function  pending (){
+        $this->render('admin/pending-teachers');
+    }
+
+    public function courses(){
+        $this->render('admin/courses');
+    }
+
+    public function users(){
+        $this->render('admin/users');
     }
 }

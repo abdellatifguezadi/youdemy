@@ -2,28 +2,25 @@
 
 <div class="flex min-h-screen bg-gray-100 pt-16">
     <!-- Sidebar -->
-    <div class="fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white shadow-lg mt-16 z-10">
-        <nav class="px-4 py-6">
-            <a href="#overview" class="flex items-center px-4 py-3 mb-3 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                <i class="fas fa-chart-line w-5 h-5 mr-3"></i>
-                <span>Vue d'ensemble</span>
+    <div class="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-violet-800 to-violet-600 text-white shadow-lg mt-16 z-10">
+        <nav class="py-6">
+            <a href="/admin/dashboard" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors">
+                <i class="fas fa-home w-6"></i>
+                <span class="ml-3">Overview</span>
             </a>
-            <a href="#teachers" class="flex items-center px-4 py-3 mb-3 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                <i class="fas fa-chalkboard-teacher w-5 h-5 mr-3"></i>
-                <span>Enseignants</span>
+            <a href="/admin/pending-teachers" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors">
+                <i class="fas fa-user-clock w-6"></i>
+                <span class="ml-3">Pending Teachers</span>
             </a>
-            <a href="#courses" class="flex items-center px-4 py-3 mb-3 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                <i class="fas fa-book w-5 h-5 mr-3"></i>
-                <span>Cours</span>
+            <a href="/admin/courses" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors">
+                <i class="fas fa-book w-6"></i>
+                <span class="ml-3">Courses</span>
             </a>
-            <a href="#users" class="flex items-center px-4 py-3 mb-3 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                <i class="fas fa-users w-5 h-5 mr-3"></i>
-                <span>Utilisateurs</span>
+            <a href="/admin/users" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors">
+                <i class="fas fa-users w-6"></i>
+                <span class="ml-3">Users</span>
             </a>
-            <a href="#settings" class="flex items-center px-4 py-3 mb-3 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                <i class="fas fa-cog w-5 h-5 mr-3"></i>
-                <span>Paramètres</span>
-            </a>
+
         </nav>
     </div>
 
@@ -35,7 +32,7 @@
             <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-blue-100 text-sm">Total Utilisateurs</p>
+                        <p class="text-blue-100 text-sm">Total Users</p>
                         <p class="text-3xl font-bold mt-1">2,450</p>
                     </div>
                     <div class="p-2 bg-blue-400 bg-opacity-30 rounded-lg">
@@ -48,7 +45,7 @@
             <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl p-6 text-white shadow-lg">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-emerald-100 text-sm">Total Cours</p>
+                        <p class="text-emerald-100 text-sm">Total Courses</p>
                         <p class="text-3xl font-bold mt-1">150</p>
                     </div>
                     <div class="p-2 bg-emerald-400 bg-opacity-30 rounded-lg">
@@ -61,7 +58,7 @@
             <div class="bg-gradient-to-br from-violet-500 to-violet-600 rounded-xl p-6 text-white shadow-lg">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-violet-100 text-sm">Enseignants Actifs</p>
+                        <p class="text-violet-100 text-sm">Active Teachers</p>
                         <p class="text-3xl font-bold mt-1">45</p>
                     </div>
                     <div class="p-2 bg-violet-400 bg-opacity-30 rounded-lg">
@@ -74,7 +71,7 @@
             <div class="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl p-6 text-white shadow-lg">
                 <div class="flex justify-between items-start">
                     <div>
-                        <p class="text-amber-100 text-sm">En attente</p>
+                        <p class="text-amber-100 text-sm">Pending Teachers</p>
                         <p class="text-3xl font-bold mt-1">8</p>
                     </div>
                     <div class="p-2 bg-amber-400 bg-opacity-30 rounded-lg">
@@ -91,7 +88,7 @@
                 <!-- Most Popular Course -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">Cours le plus populaire</h3>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Most Popular Course</h3>
                         <div class="flex items-center space-x-4 mb-4">
                             <img src="https://via.placeholder.com/150" alt="Course thumbnail" 
                                  class="w-24 h-24 rounded-lg object-cover shadow-lg">
@@ -113,12 +110,12 @@
 
                 <!-- Category Distribution -->
                 <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Répartition par catégorie</h3>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Category Distribution</h3>
                     <div class="space-y-4">
                         <!-- Web Development -->
                         <div class="bg-gradient-to-r from-sky-100 to-blue-200 rounded-lg p-4">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="text-gray-700 font-semibold">Développement Web</span>
+                                <span class="text-gray-700 font-semibold">Web Development</span>
                                 <span class="text-blue-600 font-bold">45%</span>
                             </div>
                             <div class="w-full bg-blue-100 rounded-full h-2">
@@ -142,7 +139,7 @@
                         <!-- Marketing -->
                         <div class="bg-gradient-to-r from-teal-100 to-emerald-200 rounded-lg p-4">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="text-gray-700 font-semibold">Marketing Digital</span>
+                                <span class="text-gray-700 font-semibold">Marketing</span>
                                 <span class="text-emerald-600 font-bold">25%</span>
                             </div>
                             <div class="w-full bg-emerald-100 rounded-full h-2">
@@ -158,7 +155,7 @@
             <div class="space-y-8">
                 <!-- Top 3 Teachers -->
                 <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Top 3 Enseignants</h3>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Top 3 Teachers</h3>
                     <div class="space-y-6">
                         <!-- First Place -->
                         <div class="flex items-center space-x-4 bg-gradient-to-r from-amber-100 to-yellow-200 p-4 rounded-lg">
@@ -200,7 +197,7 @@
 
                 <!-- Recent Activities -->
                 <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Activités récentes</h3>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Activities</h3>
                     <div class="space-y-4">
                         <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
                             <div class="flex-shrink-0">

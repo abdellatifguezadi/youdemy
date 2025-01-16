@@ -26,5 +26,8 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 // Routes admin
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+Route::get('/admin/pending-teachers', [AdminController::class, 'pending']);
+Route::get('/admin/courses', [AdminController::class, 'courses']);
+Route::get('/admin/users', [AdminController::class, 'users']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
