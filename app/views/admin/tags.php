@@ -39,17 +39,17 @@
                 <h1 class="text-2xl font-bold text-gray-800">Tags Management</h1>
                 <div class="flex gap-4">
                     <button onclick="document.getElementById('bulkInsertModal').classList.remove('hidden')" class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">
-                        <i class="fas fa-upload mr-2"></i>Add Tags
+                        <i class="fas fa-upload mr-2"></i>Bulk Insert
                     </button>
                 </div>
             </div>
 
-            <!-- Bulk Insert Modal -->
+
             <div id="bulkInsertModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
                 <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                     <div class="mt-3">
                         <div class="flex justify-between items-center pb-3">
-                            <h3 class="text-lg font-medium text-gray-900">Insert Tags</h3>
+                            <h3 class="text-lg font-medium text-gray-900">Bulk Insert Tags</h3>
                             <button onclick="document.getElementById('bulkInsertModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-500">
                                 <i class="fas fa-times"></i>
                             </button>
@@ -77,7 +77,7 @@
                 </div>
             </div>
 
-            <!-- Search and Filter -->
+
             <div class="bg-white rounded-xl shadow-md p-6 mb-6">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="relative">
@@ -100,11 +100,11 @@
             <!-- Tags Grid -->
             <div class="bg-white rounded-xl shadow-lg p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Example Tag 1 -->
+                    <?php foreach ($tags as $tag): ?>
                     <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                         <div class="flex items-center justify-between mb-2">
                             <span class="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm font-medium">
-                                JavaScript
+                                <?= htmlspecialchars($tag['name']) ?>
                             </span>
                             <div class="flex items-center space-x-2">
                                 <button class="text-violet-600 hover:text-violet-900">
@@ -116,115 +116,11 @@
                             </div>
                         </div>
                         <div class="text-sm text-gray-500">
-                            <span class="mr-4"><i class="fas fa-book mr-1"></i>45 courses</span>
-                            <span><i class="fas fa-clock mr-1"></i>Added 2 months ago</span>
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i><?= $tag['course_count'] ?> courses</span>
+                            <span><i class="fas fa-clock mr-1"></i>Added in <?= date('M d, Y', strtotime($tag['created_at'])) ?></span>
                         </div>
                     </div>
-
-                    <!-- Example Tag 2 -->
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                                React
-                            </span>
-                            <div class="flex items-center space-x-2">
-                                <button class="text-violet-600 hover:text-violet-900">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text-sm text-gray-500">
-                            <span class="mr-4"><i class="fas fa-book mr-1"></i>32 courses</span>
-                            <span><i class="fas fa-clock mr-1"></i>Added 1 month ago</span>
-                        </div>
-                    </div>
-
-                    <!-- Example Tag 3 -->
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                                Node.js
-                            </span>
-                            <div class="flex items-center space-x-2">
-                                <button class="text-violet-600 hover:text-violet-900">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text-sm text-gray-500">
-                            <span class="mr-4"><i class="fas fa-book mr-1"></i>28 courses</span>
-                            <span><i class="fas fa-clock mr-1"></i>Added 3 weeks ago</span>
-                        </div>
-                    </div>
-
-                    <!-- Example Tag 4 -->
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm font-medium">
-                                UI Design
-                            </span>
-                            <div class="flex items-center space-x-2">
-                                <button class="text-violet-600 hover:text-violet-900">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text-sm text-gray-500">
-                            <span class="mr-4"><i class="fas fa-book mr-1"></i>24 courses</span>
-                            <span><i class="fas fa-clock mr-1"></i>Added 1 week ago</span>
-                        </div>
-                    </div>
-
-                    <!-- Example Tag 5 -->
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
-                                Python
-                            </span>
-                            <div class="flex items-center space-x-2">
-                                <button class="text-violet-600 hover:text-violet-900">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text-sm text-gray-500">
-                            <span class="mr-4"><i class="fas fa-book mr-1"></i>35 courses</span>
-                            <span><i class="fas fa-clock mr-1"></i>Added 5 days ago</span>
-                        </div>
-                    </div>
-
-                    <!-- Example Tag 6 -->
-                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">
-                                Machine Learning
-                            </span>
-                            <div class="flex items-center space-x-2">
-                                <button class="text-violet-600 hover:text-violet-900">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text-sm text-gray-500">
-                            <span class="mr-4"><i class="fas fa-book mr-1"></i>18 courses</span>
-                            <span><i class="fas fa-clock mr-1"></i>Added 2 days ago</span>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

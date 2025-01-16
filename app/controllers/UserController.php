@@ -1,16 +1,19 @@
 <?php
-require_once __DIR__ . '/../models/Course.php';
-require_once __DIR__ . '/../models/User.php';
+require_once '../app/models/Course.php';
+require_once '../app/models/Category.php';
+require_once '../app/models/Tag.php';
 
 class UserController extends BaseController 
 {
     private $courseModel;
-    private $userModel;
+    private $categoryModel;
+    private $tagModel;
 
     function __construct()
     {
         $this->courseModel = new Course();
-        $this->userModel = new User();
+        $this->categoryModel = new Category();
+        $this->tagModel = new Tag();
     }
 
     public function index()
@@ -27,8 +30,8 @@ class UserController extends BaseController
         $totalCourses = (int)$this->courseModel->getTotalFilteredCourses($keywords, $category, $tag);
         $totalPages = (int)ceil($totalCourses / $limit);
 
-        $categories = $this->courseModel->getAllCategories();
-        $tags = $this->courseModel->getAllTags();
+        $categories = $this->categoryModel->getAllCategories();
+        $tags = $this->tagModel->getAllTags();
 
         $queryParams = [];
         if (!empty($keywords)) $queryParams['keywords'] = $keywords;
@@ -59,4 +62,5 @@ class UserController extends BaseController
         ]);
     }
 
+  
 }

@@ -3,16 +3,19 @@ require_once(__DIR__ . '/../config/db.php');
 require_once(__DIR__ . '/course/VideoCourse.php');
 require_once(__DIR__ . '/course/DocumentCourse.php');
 require_once 'User.php';
+require_once 'Tag.php';
 
 class Course extends Db
 {
     private $table = "courses";
     private $user;
+    private $tagModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->user = new User();
+        $this->tagModel = new Tag();
     }
 
     public function createCourseObject($courseData)
@@ -24,7 +27,6 @@ class Course extends Db
         }
         return new DocumentCourse($courseData);
     }
-
 
     public function searchCourses($keywords = '', $category = '', $tag = '', $limit = null, $offset = null)
     {
@@ -73,7 +75,7 @@ class Course extends Db
         $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return array_map(function($course) {
-            $course['tags'] = $this->getCourseTags($course['id']);
+            $course['tags'] = $this->tagModel->getCourseTags($course['id']);
             return $this->createCourseObject($course);
         }, $courses);
     }
@@ -114,14 +116,6 @@ class Course extends Db
         return $result['total'];
     }
 
-    public function getAllCategories()
-    {
-        $sql = "SELECT * FROM categories ORDER BY name";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function getCourseById($id)
     {
         $sql = "SELECT c.*, u.name, cat.name as category_name,
@@ -136,22 +130,11 @@ class Course extends Db
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($course) {
-            $course['tags'] = $this->getCourseTags($course['id']);
+            $course['tags'] = $this->tagModel->getCourseTags($course['id']);
             return $this->createCourseObject($course);
         }
 
         return null;
-    }
-
-    public function getCourseTags($courseId)
-    {
-        $sql = "SELECT t.* FROM tags t
-                INNER JOIN course_tags ct ON t.id = ct.tag_id
-                WHERE ct.course_id = ?";
-                
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$courseId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getTotalCourses()
@@ -161,22 +144,5 @@ class Course extends Db
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
-    }
-
-    public function getAllTags()
-    {
-        $sql = "SELECT * FROM tags ORDER BY name";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getCoursesCountByCategory($categoryId)
-    {
-        $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE category_id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$categoryId]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['count'];
     }
 } 
