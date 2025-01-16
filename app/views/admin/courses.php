@@ -20,6 +20,14 @@
                 <i class="fas fa-users w-6"></i>
                 <span class="ml-3">Users</span>
             </a>
+            <a href="/admin/categories" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors">
+                <i class="fas fa-folder w-6"></i>
+                <span class="ml-3">Categories</span>
+            </a>
+            <a href="/admin/tags" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors">
+                <i class="fas fa-tags w-6"></i>
+                <span class="ml-3">Tags</span>
+            </a>
         </nav>
     </div>
 
@@ -82,7 +90,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        <!-- Example Course 1 -->
+
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">

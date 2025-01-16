@@ -29,5 +29,7 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 Route::get('/admin/pending-teachers', [AdminController::class, 'pending']);
 Route::get('/admin/courses', [AdminController::class, 'courses']);
 Route::get('/admin/users', [AdminController::class, 'users']);
+Route::get('/admin/tags', [AdminController::class, 'tags']);
+Route::get('/admin/categories', [AdminController::class, 'categories']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

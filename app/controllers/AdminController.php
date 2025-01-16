@@ -29,6 +29,13 @@ class AdminController extends BaseController {
         $this->render('admin/users', ['AllUsers' => $AllUsers]);
     }
 
+    public function tags (){
+        $this->render('admin/tags');
+    }
+    public function categories (){
+        $this->render('admin/categories');
+    }
+
 
 
 }
