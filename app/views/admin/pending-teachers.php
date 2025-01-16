@@ -49,101 +49,47 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-                        <!-- Teacher 1 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-full object-cover" src="https://via.placeholder.com/150" alt="Teacher">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">John Smith</div>
-                                        <div class="text-sm text-gray-500">Web Development</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">john.smith@example.com</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Jan 15, 2024</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-green-600 hover:text-green-900 mr-3">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <!-- Teacher 2 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-full object-cover" src="https://via.placeholder.com/150" alt="Teacher">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
-                                        <div class="text-sm text-gray-500">UI/UX Design</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">sarah.j@example.com</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Jan 14, 2024</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-green-600 hover:text-green-900 mr-3">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <!-- Teacher 3 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-full object-cover" src="https://via.placeholder.com/150" alt="Teacher">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Michael Brown</div>
-                                        <div class="text-sm text-gray-500">Digital Marketing</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">m.brown@example.com</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Jan 13, 2024</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-green-600 hover:text-green-900 mr-3">
-                                    <i class="fas fa-check"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        <?php if (empty($pendingTeachers)): ?>
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                    No pending teachers found
+                                </td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($pendingTeachers as $teacher): ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="h-10 w-10 rounded-full object-cover" 
+                                                src="https://ui-avatars.com/api/?name=<?= urlencode($teacher['name']) ?>&background=random" 
+                                                alt="<?= htmlspecialchars($teacher['name']) ?>">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($teacher['name']) ?></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900"><?= htmlspecialchars($teacher['email']) ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900"><?= date('M d, Y', strtotime($teacher['created_at'])) ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Pending
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-green-600 hover:text-green-900 mr-3" >
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-900" >
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>

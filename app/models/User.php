@@ -92,4 +92,10 @@ class User extends Db {
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getTeacherpending(){
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE role_id = 2 AND is_active = 0");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 } 

@@ -22,8 +22,3 @@
             </a>
         </nav>
     </div>
-
-        <h3>courser</h3>
-
-
-    <?php include '../app/views/partials/modals/footer.php'; ?> 
