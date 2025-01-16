@@ -28,6 +28,7 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 Route::get('/admin/pending-teachers', [AdminController::class, 'pending']);
 Route::get('/admin/courses', [AdminController::class, 'courses']);
+Route::post('/admin/courses/delete/{id}', [AdminController::class, 'deleteCourse']);
 Route::get('/admin/users', [AdminController::class, 'users']);
 Route::post('/admin/users/delete/{id}', [AdminController::class, 'deleteUser']);
 Route::get('/admin/tags', [AdminController::class, 'tags']);

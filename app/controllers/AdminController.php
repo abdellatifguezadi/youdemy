@@ -4,13 +4,14 @@ require_once '../app/models/Course.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Tag.php';
 
-class AdminController extends BaseController {
+class AdminController extends BaseController
+{
 
     private $userModel;
     private $courseModel;
     private $categoryModel;
     private $tagModel;
-    
+
     function __construct()
     {
         $this->userModel = new User();
@@ -19,7 +20,8 @@ class AdminController extends BaseController {
         $this->tagModel = new Tag();
     }
 
-    public function dashboard() {
+    public function dashboard()
+    {
         $totalUsers = $this->userModel->getTotalUsers();
         $totalCourses = $this->courseModel->getTotalCourses();
         $activeTeachers = $this->userModel->getActiveTeachers();
@@ -28,7 +30,7 @@ class AdminController extends BaseController {
         $categoryDistribution = $this->categoryModel->getCategoryDistribution();
         $topTeachers = $this->userModel->getTopTeachers();
         $recentActivities = $this->userModel->getRecentActivities();
-        
+
         $this->render('admin/dashboard', [
             'totalUsers' => $totalUsers,
             'totalCourses' => $totalCourses,
@@ -41,48 +43,60 @@ class AdminController extends BaseController {
         ]);
     }
 
-    public function pending () {
+    public function pending()
+    {
         $pendingTeachers = $this->userModel->getTeacherpending();
         $this->render('admin/pending-teachers', ['pendingTeachers' => $pendingTeachers]);
     }
 
-    public function courses (){
+    public function courses()
+    {
         $courses = $this->courseModel->searchCourses();
         $data['courses'] = $courses;
         $this->render('admin/courses', $data);
     }
 
-    public function users(){
+    public function users()
+    {
         $AllUsers = $this->userModel->getAllUsers();
         $this->render('admin/users', ['AllUsers' => $AllUsers]);
     }
 
-    public function tags (){
+    public function tags()
+    {
         $tags = $this->tagModel->getAllTags();
-        
+
         foreach ($tags as &$tag) {
             $tag['course_count'] = $this->tagModel->getCoursesCountByTag($tag['id']);
         }
         unset($tag);
-        
+
         $this->render('admin/tags', ['tags' => $tags]);
     }
 
-    public function categories (){
+    public function categories()
+    {
         $categories = $this->categoryModel->getAllCategories();
-        
+
         foreach ($categories as &$category) {
             $category['course_count'] = $this->categoryModel->getCoursesCountByCategory($category['id']);
         }
         unset($category);
-        
+
         $this->render('admin/categories', ['category' => $categories]);
     }
 
-    public function deleteUser($id) {
-        if ($this->userModel->deleteUser($id)) {
-            header('Location: /admin/users');
-            exit;
-        }
+    public function deleteUser($id)
+    {
+        $this->userModel->deleteUser($id);
+        header('Location: /admin/users');
+        exit;
+    }
+
+    public function deleteCourse($id)
+    {
+        $this->courseModel->deleteCourse($id);
+        header('Location: /admin/courses');
+        exit;
     }
 }

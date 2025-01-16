@@ -158,4 +158,14 @@ class Course extends Db
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function deleteCourse($id) {
+        try {
+            $sql = "DELETE FROM courses WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 } 

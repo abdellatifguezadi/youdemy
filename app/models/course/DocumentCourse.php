@@ -11,7 +11,7 @@ class DocumentCourse extends AbstractCourse {
     }
 
     public function getType() {
-        return 'Document';
+        return 'document';
     }
 
     public function getContent() {
