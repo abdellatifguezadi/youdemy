@@ -25,31 +25,6 @@ class Course extends Db
         return new DocumentCourse($courseData);
     }
 
-    // public function getAllCourses($limit = null, $offset = null)
-    // {
-    //     $sql = "SELECT c.*, u.name, cat.name as category_name,
-    //             (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as student_count
-    //             FROM {$this->table} c
-    //             LEFT JOIN users u ON c.teacher_id = u.id
-    //             LEFT JOIN categories cat ON c.category_id = cat.id
-    //             ORDER BY c.created_at DESC";
-
-    //     if ($limit !== null) {
-    //         $sql .= " LIMIT " . (int)$limit;
-    //         if ($offset !== null) {
-    //             $sql .= " OFFSET " . (int)$offset;
-    //         }
-    //     }
-
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->execute();
-    //     $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    //     return array_map(function($course) {
-    //         $course['tags'] = $this->getCourseTags($course['id']);
-    //         return $this->createCourseObject($course);
-    //     }, $courses);
-    // }
 
     public function searchCourses($keywords = '', $category = '', $tag = '', $limit = null, $offset = null)
     {

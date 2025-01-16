@@ -3,10 +3,12 @@
 class AdminController extends BaseController {
 
     private $userModel;
+    private $courseModel;
     
     function __construct()
     {
         $this->userModel = new User();
+        $this->courseModel = new Course();
     }
 
 
@@ -21,7 +23,9 @@ class AdminController extends BaseController {
     }
 
     public function courses (){
-        $this->render('admin/courses');
+        $courses = $this->courseModel->searchCourses();
+        $data['courses'] = $courses;
+        $this->render('admin/courses', $data);
     }
 
     public function users(){

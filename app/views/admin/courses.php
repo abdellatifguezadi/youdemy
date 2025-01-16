@@ -34,17 +34,11 @@
     <!-- Main Content -->
     <div class="flex-1 ml-64">
         <div class="p-8">
-            <!-- Header -->
+
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-2xl font-bold text-gray-800">Courses Management</h1>
-                <div class="flex gap-4">
-                    <button class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">
-                        <i class="fas fa-download mr-2"></i>Export Courses
-                    </button>
-                </div>
             </div>
 
-            <!-- Filters -->
             <div class="bg-white rounded-xl shadow-md p-6 mb-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
@@ -76,7 +70,6 @@
                 </div>
             </div>
 
-            <!-- Courses Table -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <table class="w-full">
                     <thead class="bg-gray-50">
@@ -90,39 +83,43 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-
+                        <?php foreach ($courses as $course): ?>
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <img class="h-10 w-10 rounded-lg object-cover" 
-                                         src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=500" 
+                                         src="<?= $course->getPhotoUrl() ?>" 
                                          alt="Course thumbnail">
                                     <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">JavaScript Mastery</div>
-                                        <div class="text-sm text-gray-500">Created on Jan 15, 2024</div>
+                                        <div class="text-sm font-medium text-gray-900"><?= $course->getTitle() ?></div>
+                                        <div class="text-sm text-gray-500">Created on <?= date('M d, Y', strtotime($course->getCreatedAt())) ?></div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                     <img class="h-8 w-8 rounded-full" 
-                                         src="https://ui-avatars.com/api/?name=John+Doe" 
+                                         src="https://ui-avatars.com/api/?name=<?= urlencode($course->getName()) ?>" 
                                          alt="Teacher">
-                                    <span class="ml-2 text-sm text-gray-900">John Doe</span>
+                                    <span class="ml-2 text-sm text-gray-900"><?= $course->getName() ?></span>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-violet-100 text-violet-800">
-                                    Programming
+                                    <?= $course->getCategoryName() ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="text-sm text-gray-900">
-                                    <i class="fas fa-video text-blue-500 mr-2"></i>Video
+                                    <?php if($course->getType() === 'Cours vidéo'): ?>
+                                        <i class="fas fa-video text-blue-500 mr-2"></i>Video
+                                    <?php else: ?>
+                                        <i class="fas fa-file-alt text-green-500 mr-2"></i>Document
+                                    <?php endif; ?>
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <i class="fas fa-users mr-2"></i>125
+                                <i class="fas fa-users mr-2"></i><?= $course->getStudentCount() ?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <button class="text-violet-600 hover:text-violet-900 mr-3">
@@ -133,94 +130,7 @@
                                 </button>
                             </td>
                         </tr>
-
-                        <!-- Example Course 2 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-lg object-cover" 
-                                         src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=500" 
-                                         alt="Course thumbnail">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">UI/UX Design Fundamentals</div>
-                                        <div class="text-sm text-gray-500">Created on Jan 14, 2024</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-8 w-8 rounded-full" 
-                                         src="https://ui-avatars.com/api/?name=Sarah+Smith" 
-                                         alt="Teacher">
-                                    <span class="ml-2 text-sm text-gray-900">Sarah Smith</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-100 text-pink-800">
-                                    Design
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-900">
-                                    <i class="fas fa-file-alt text-green-500 mr-2"></i>Document
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <i class="fas fa-users mr-2"></i>89
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-violet-600 hover:text-violet-900 mr-3">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <!-- Example Course 3 -->
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-lg object-cover" 
-                                         src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500" 
-                                         alt="Course thumbnail">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Digital Marketing</div>
-                                        <div class="text-sm text-gray-500">Created on Jan 13, 2024</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-8 w-8 rounded-full" 
-                                         src="https://ui-avatars.com/api/?name=Mike+Brown" 
-                                         alt="Teacher">
-                                    <span class="ml-2 text-sm text-gray-900">Mike Brown</span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    Business
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-900">
-                                    <i class="fas fa-video text-blue-500 mr-2"></i>Video
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <i class="fas fa-users mr-2"></i>156
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-violet-600 hover:text-violet-900 mr-3">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
