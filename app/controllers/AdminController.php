@@ -20,7 +20,25 @@ class AdminController extends BaseController {
     }
 
     public function dashboard() {
-        $this->render('admin/dashboard');
+        $totalUsers = $this->userModel->getTotalUsers();
+        $totalCourses = $this->courseModel->getTotalCourses();
+        $activeTeachers = $this->userModel->getActiveTeachers();
+        $pendingTeachers = $this->userModel->getPendingTeachers();
+        $popularCourse = $this->courseModel->getMostPopularCourse();
+        $categoryDistribution = $this->categoryModel->getCategoryDistribution();
+        $topTeachers = $this->userModel->getTopTeachers();
+        $recentActivities = $this->userModel->getRecentActivities();
+        
+        $this->render('admin/dashboard', [
+            'totalUsers' => $totalUsers,
+            'totalCourses' => $totalCourses,
+            'activeTeachers' => $activeTeachers,
+            'pendingTeachers' => $pendingTeachers,
+            'popularCourse' => $popularCourse,
+            'categoryDistribution' => $categoryDistribution,
+            'topTeachers' => $topTeachers,
+            'recentActivities' => $recentActivities
+        ]);
     }
 
     public function pending () {

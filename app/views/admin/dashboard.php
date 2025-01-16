@@ -40,7 +40,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-blue-100 text-sm">Total Users</p>
-                        <p class="text-3xl font-bold mt-1">2,450</p>
+                        <p class="text-3xl font-bold mt-1"><?= $totalUsers ?></p>
                     </div>
                     <div class="p-2 bg-blue-400 bg-opacity-30 rounded-lg">
                         <i class="fas fa-users text-2xl"></i>
@@ -53,7 +53,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-emerald-100 text-sm">Total Courses</p>
-                        <p class="text-3xl font-bold mt-1">150</p>
+                        <p class="text-3xl font-bold mt-1"><?= $totalCourses ?></p>
                     </div>
                     <div class="p-2 bg-emerald-400 bg-opacity-30 rounded-lg">
                         <i class="fas fa-book text-2xl"></i>
@@ -66,7 +66,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-violet-100 text-sm">Active Teachers</p>
-                        <p class="text-3xl font-bold mt-1">45</p>
+                        <p class="text-3xl font-bold mt-1"><?= $activeTeachers ?></p>
                     </div>
                     <div class="p-2 bg-violet-400 bg-opacity-30 rounded-lg">
                         <i class="fas fa-chalkboard-teacher text-2xl"></i>
@@ -79,7 +79,7 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="text-amber-100 text-sm">Pending Teachers</p>
-                        <p class="text-3xl font-bold mt-1">8</p>
+                        <p class="text-3xl font-bold mt-1"><?= $pendingTeachers ?></p>
                     </div>
                     <div class="p-2 bg-amber-400 bg-opacity-30 rounded-lg">
                         <i class="fas fa-user-clock text-2xl"></i>
@@ -96,22 +96,26 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">Most Popular Course</h3>
+                        <?php if ($popularCourse): ?>
                         <div class="flex items-center space-x-4 mb-4">
-                            <img src="https://via.placeholder.com/150" alt="Course thumbnail" 
+                            <img src="<?= htmlspecialchars($popularCourse['photo_url']) ?>" alt="Course thumbnail" 
                                  class="w-24 h-24 rounded-lg object-cover shadow-lg">
                             <div>
-                                <h4 class="text-lg font-bold text-gray-800">Formation Complete JavaScript</h4>
+                                <h4 class="text-lg font-bold text-gray-800"> <?= htmlspecialchars($popularCourse['title']) ?></h4>
                                 <div class="flex items-center mt-2">
-                                    <img src="https://ui-avatars.com/api/?name=John+Doe" class="w-6 h-6 rounded-full mr-2">
-                                    <span class="text-gray-600">John Doe</span>
+                                    <img src="https://ui-avatars.com/api/?name=<?= urlencode($popularCourse['teacher_name']) ?>" class="w-6 h-6 rounded-full mr-2">
+                                    <span class="text-gray-600"><?= htmlspecialchars($popularCourse['teacher_name']) ?></span>
                                 </div>
                                 <div class="mt-2">
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                                        <i class="fas fa-users mr-1"></i>1,234 étudiants
+                                        <i class="fas fa-users mr-1"></i><?= $popularCourse['student_count'] ?> étudiants
                                     </span>
                                 </div>
                             </div>
                         </div>
+                        <?php else: ?>
+                        <p class="text-gray-500">Aucun cours disponible</p>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -119,41 +123,18 @@
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Category Distribution</h3>
                     <div class="space-y-4">
-                        <!-- Web Development -->
+                        <?php foreach ($categoryDistribution as $category): ?>
                         <div class="bg-gradient-to-r from-sky-100 to-blue-200 rounded-lg p-4">
                             <div class="flex items-center justify-between mb-2">
-                                <span class="text-gray-700 font-semibold">Web Development</span>
-                                <span class="text-blue-600 font-bold">45%</span>
+                                <span class="text-gray-700 font-semibold"><?= htmlspecialchars($category['name']) ?></span>
+                                <span class="text-blue-600 font-bold"><?= $category['percentage'] ?>%</span>
                             </div>
                             <div class="w-full bg-blue-100 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full" style="width: 45%"></div>
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: <?= $category['percentage'] ?>%"></div>
                             </div>
-                            <p class="text-sm text-gray-500 mt-2">68 cours</p>
+                            <p class="text-sm text-gray-500 mt-2"><?= $category['course_count'] ?> cours</p>
                         </div>
-
-                        <!-- Design -->
-                        <div class="bg-gradient-to-r from-fuchsia-100 to-purple-200 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-gray-700 font-semibold">Design</span>
-                                <span class="text-purple-600 font-bold">30%</span>
-                            </div>
-                            <div class="w-full bg-purple-100 rounded-full h-2">
-                                <div class="bg-purple-600 h-2 rounded-full" style="width: 30%"></div>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-2">45 cours</p>
-                        </div>
-
-                        <!-- Marketing -->
-                        <div class="bg-gradient-to-r from-teal-100 to-emerald-200 rounded-lg p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-gray-700 font-semibold">Marketing</span>
-                                <span class="text-emerald-600 font-bold">25%</span>
-                            </div>
-                            <div class="w-full bg-emerald-100 rounded-full h-2">
-                                <div class="bg-emerald-600 h-2 rounded-full" style="width: 25%"></div>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-2">37 cours</p>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -164,41 +145,30 @@
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Top 3 Teachers</h3>
                     <div class="space-y-6">
-                        <!-- First Place -->
-                        <div class="flex items-center space-x-4 bg-gradient-to-r from-amber-100 to-yellow-200 p-4 rounded-lg">
+                        <?php foreach ($topTeachers as $index => $teacher): ?>
+                        <div class="flex items-center space-x-4 bg-gradient-to-r 
+                            <?php 
+                            if ($index === 0) echo 'from-amber-100 to-yellow-200';
+                            elseif ($index === 1) echo 'from-slate-100 to-gray-200';
+                            else echo 'from-orange-100 to-red-200';
+                            ?> p-4 rounded-lg">
                             <div class="relative">
-                                <img src="https://ui-avatars.com/api/?name=Sarah+Johnson" class="w-16 h-16 rounded-full">
-                                <span class="absolute -top-2 -right-2 bg-yellow-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm">1</span>
+                                <img src="https://ui-avatars.com/api/?name=<?= urlencode($teacher['name']) ?>" class="w-16 h-16 rounded-full">
+                                <span class="absolute -top-2 -right-2 
+                                    <?php 
+                                    if ($index === 0) echo 'bg-yellow-500';
+                                    elseif ($index === 1) echo 'bg-gray-500';
+                                    else echo 'bg-orange-500';
+                                    ?> text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm">
+                                    <?= $index + 1 ?>
+                                </span>
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-800">Sarah Johnson</h4>
-                                <p class="text-sm text-gray-600">12 cours • 845 étudiants</p>
+                                <h4 class="font-bold text-gray-800"><?= htmlspecialchars($teacher['name']) ?></h4>
+                                <p class="text-sm text-gray-600"><?= $teacher['course_count'] ?> cours • <?= $teacher['student_count'] ?> étudiants</p>
                             </div>
                         </div>
-
-                        <!-- Second Place -->
-                        <div class="flex items-center space-x-4 bg-gradient-to-r from-slate-100 to-gray-200 p-4 rounded-lg">
-                            <div class="relative">
-                                <img src="https://ui-avatars.com/api/?name=Mike+Smith" class="w-16 h-16 rounded-full">
-                                <span class="absolute -top-2 -right-2 bg-gray-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm">2</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Mike Smith</h4>
-                                <p class="text-sm text-gray-600">8 cours • 562 étudiants</p>
-                            </div>
-                        </div>
-
-                        <!-- Third Place -->
-                        <div class="flex items-center space-x-4 bg-gradient-to-r from-orange-100 to-red-200 p-4 rounded-lg">
-                            <div class="relative">
-                                <img src="https://ui-avatars.com/api/?name=Emma+Davis" class="w-16 h-16 rounded-full">
-                                <span class="absolute -top-2 -right-2 bg-orange-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-sm">3</span>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-gray-800">Emma Davis</h4>
-                                <p class="text-sm text-gray-600">6 cours • 428 étudiants</p>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
@@ -206,28 +176,31 @@
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Activities</h3>
                     <div class="space-y-4">
-                        <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                        <?php foreach ($recentActivities as $activity): ?>
+                        <div class="flex items-center space-x-3 p-3 <?= $activity['type'] === 'new_teacher' ? 'bg-blue-50' : 'bg-green-50' ?> rounded-lg">
                             <div class="flex-shrink-0">
-                                <i class="fas fa-user-plus text-blue-600"></i>
+                                <i class="fas <?= $activity['type'] === 'new_teacher' ? 'fa-user-plus text-blue-600' : 'fa-graduation-cap text-green-600' ?>"></i>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-600">Nouveau professeur inscrit</p>
-                                <p class="text-sm font-medium text-gray-800">Ahmed Hassan</p>
+                                <p class="text-sm text-gray-600">
+                                    <?= $activity['type'] === 'new_teacher' ? 'Nouveau professeur inscrit' : 'Nouveau cours publié' ?>
+                                </p>
+                                <p class="text-sm font-medium text-gray-800"><?= htmlspecialchars($activity['name']) ?></p>
                             </div>
-                            <span class="text-xs text-gray-500">Il y a 2h</span>
+                            <span class="text-xs text-gray-500">
+                                <?php 
+                                $time_diff = time() - strtotime($activity['created_at']);
+                                if ($time_diff < 3600) {
+                                    echo 'Il y a ' . floor($time_diff / 60) . ' min';
+                                } elseif ($time_diff < 86400) {
+                                    echo 'Il y a ' . floor($time_diff / 3600) . 'h';
+                                } else {
+                                    echo date('d M', strtotime($activity['created_at']));
+                                }
+                                ?>
+                            </span>
                         </div>
-
-                        <div class="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-graduation-cap text-green-600"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Nouveau cours publié</p>
-                                <p class="text-sm font-medium text-gray-800">Introduction à Python</p>
-                            </div>
-                            <span class="text-xs text-gray-500">Il y a 5h</span>
-                        </div>
-
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>

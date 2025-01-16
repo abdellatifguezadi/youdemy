@@ -145,4 +145,17 @@ class Course extends Db
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
     }
+
+    public function getMostPopularCourse() {
+        $sql = "SELECT c.*, u.name as teacher_name, COUNT(e.student_id) as student_count 
+                FROM courses c 
+                LEFT JOIN users u ON c.teacher_id = u.id 
+                LEFT JOIN enrollments e ON c.id = e.course_id 
+                GROUP BY c.id, c.title, c.photo_url, c.teacher_id, u.name 
+                ORDER BY student_count DESC 
+                LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 } 

@@ -26,4 +26,18 @@ class Category extends Db
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['count'];
     }
+
+    public function getCategoryDistribution() {
+        $sql = "SELECT c.name, 
+                COUNT(co.id) as course_count,
+                ROUND(COUNT(co.id) * 100.0 / (SELECT COUNT(*) FROM courses), 1) as percentage
+                FROM {$this->table} c
+                LEFT JOIN courses co ON c.id = co.category_id
+                GROUP BY c.id, c.name
+                ORDER BY course_count DESC
+                LIMIT 3";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 } 
