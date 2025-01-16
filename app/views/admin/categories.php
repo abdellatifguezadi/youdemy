@@ -34,7 +34,7 @@
     <!-- Main Content -->
     <div class="flex-1 ml-64">
         <div class="p-8">
-            <!-- Header -->
+
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-2xl font-bold text-gray-800">Categories Management</h1>
                 <div class="flex gap-4">
@@ -44,7 +44,6 @@
                 </div>
             </div>
 
-            <!-- Search -->
             <div class="bg-white rounded-xl shadow-md p-6 mb-6">
                 <div class="relative">
                     <input type="text" placeholder="Search categories..."
@@ -52,8 +51,6 @@
                     <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                 </div>
             </div>
-
-            <!-- Categories Table -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <table class="w-full">
                     <thead class="bg-gray-50">
