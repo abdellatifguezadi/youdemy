@@ -78,4 +78,11 @@ class AdminController extends BaseController {
         
         $this->render('admin/categories', ['category' => $categories]);
     }
+
+    public function deleteUser($id) {
+        if ($this->userModel->deleteUser($id)) {
+            header('Location: /admin/users');
+            exit;
+        }
+    }
 }
