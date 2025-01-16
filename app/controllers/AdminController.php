@@ -37,7 +37,13 @@ class AdminController extends BaseController {
         $this->render('admin/tags');
     }
     public function categories (){
-        $this->render('admin/categories');
+        $categories = $this->courseModel->getAllCategories();
+
+        foreach ($categories as &$category) {
+            $category['course_count'] = $this->courseModel->getCoursesCountByCategory($category['id']);
+        }
+        
+        $this->render('admin/categories', ['category' => $categories]);
     }
 
 

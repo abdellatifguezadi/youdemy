@@ -170,4 +170,13 @@ class Course extends Db
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getCoursesCountByCategory($categoryId)
+    {
+        $sql = "SELECT COUNT(*) as count FROM {$this->table} WHERE category_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$categoryId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['count'];
+    }
 } 
