@@ -36,7 +36,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Search</label>
                         <div class="relative">
-                            <input type="text" placeholder="Search users..." 
+                            <input type="text" placeholder="Search users..."
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
                             <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                         </div>
@@ -54,8 +54,9 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                         <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
                             <option value="">All Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="1">Active</option>
+                            <option value="0">Pending</option>
+                            <option value="2">Suspended</option>
                         </select>
                     </div>
                 </div>
@@ -73,111 +74,74 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
-
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-full object-cover" 
-                                         src="https://ui-avatars.com/api/?name=John+Doe&background=random" 
-                                         alt="John Doe">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">John Doe</div>
-                                        <div class="text-sm text-gray-500">john.doe@example.com</div>
+                        <?php foreach ($AllUsers as $user) : ?>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <img class="h-10 w-10 rounded-full object-cover"
+                                            src="https://ui-avatars.com/api/?name=John+Doe&background=random"
+                                            alt="John Doe">
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900"><?= $user['name'] ?></div>
+                                            <div class="text-sm text-gray-500"> <?= $user['email'] ?></div>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-violet-100 text-violet-800">
-                                    Teacher
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Active
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Jan 15, 2024
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-violet-600 hover:text-violet-900 mr-3">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-full object-cover" 
-                                         src="https://ui-avatars.com/api/?name=Sarah+Smith&background=random" 
-                                         alt="Sarah Smith">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Sarah Smith</div>
-                                        <div class="text-sm text-gray-500">sarah.smith@example.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    Student
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Active
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Jan 14, 2024
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-violet-600 hover:text-violet-900 mr-3">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-full object-cover" 
-                                         src="https://ui-avatars.com/api/?name=Admin+User&background=random" 
-                                         alt="Admin User">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Admin User</div>
-                                        <div class="text-sm text-gray-500">admin@example.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    Admin
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Active
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Jan 13, 2024
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-violet-600 hover:text-violet-900 mr-3">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                        <?php 
+                                            switch($user['role_name']) {
+                                                case 'admin':
+                                                    echo 'bg-red-100 text-red-800';
+                                                    break;
+                                                case 'teacher':
+                                                    echo 'bg-violet-100 text-violet-800';
+                                                    break;
+                                                case 'student':
+                                                    echo 'bg-blue-100 text-blue-800';
+                                                    break;
+                                                default:
+                                                    echo 'bg-gray-100 text-gray-800';
+                                            }
+                                        ?>">
+                                        <?= htmlspecialchars($user['role_name']) ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                        <?php 
+                                            if ((int)$user['is_active'] === 2) {
+                                                echo 'bg-yellow-100 text-red-800';
+                                            } elseif ((int)$user['is_active'] === 1) {
+                                                echo 'bg-green-100 text-green-800';
+                                            } else {
+                                                echo 'bg-orange-100 text-orange-800';
+                                            }
+                                        ?>">
+                                        <?php 
+                                            if ((int)$user['is_active'] === 2) {
+                                                echo 'Suspended';
+                                            } elseif ((int)$user['is_active'] === 1) {
+                                                echo 'Active';
+                                            } else {
+                                                echo 'Pending';
+                                            }
+                                        ?>
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                     <?= date('M d, Y', strtotime($user['created_at'])) ?>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-violet-600 hover:text-violet-900 mr-3">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-900">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -186,5 +150,3 @@
 </div>
 
 <?php include '../app/views/partials/modals/footer.php'; ?>
-
-    

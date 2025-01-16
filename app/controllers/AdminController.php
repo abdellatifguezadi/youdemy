@@ -25,8 +25,10 @@ class AdminController extends BaseController {
     }
 
     public function users(){
-        $this->render('admin/users');
+        $AllUsers = $this->userModel->getAllUsers();
+        $this->render('admin/users', ['AllUsers' => $AllUsers]);
     }
+
 
 
 }

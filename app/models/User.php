@@ -2,48 +2,52 @@
 
 require_once '../app/config/db.php';
 
-class User extends Db {
+class User extends Db
+{
     private $id;
     private $name;
     private $email;
     private $role;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
-    private function getRoleId($role) {
+    private function getRoleId($role)
+    {
         $roleMap = [
             'admin' => 1,
             'teacher' => 2,
             'student' => 3
         ];
-        return $roleMap[$role] ?? 3; 
+        return $roleMap[$role] ?? 3;
     }
 
-    public function register($name, $email, $password, $role = 'student') {
-        
+    public function register($name, $email, $password, $role = 'student')
+    {
+
         $stmt = $this->conn->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) {
             return ['success' => false, 'message' => 'Email already exists'];
         }
 
-        
+
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-      
+
         $roleId = $this->getRoleId($role);
 
-       
+
         $isActive = ($role === 'teacher') ? 0 : 1;
 
-     
+
         $stmt = $this->conn->prepare("INSERT INTO users (name, email, password, role_id, is_active) VALUES (?, ?, ?, ?, ?)");
         $success = $stmt->execute([$name, $email, $hashedPassword, $roleId, $isActive]);
 
         if ($success) {
-            $message = ($role === 'teacher') 
+            $message = ($role === 'teacher')
                 ? 'Registration successful! Please wait for admin approval before logging in.'
                 : 'Registration successful! Please login.';
             return ['success' => true, 'message' => $message];
@@ -52,7 +56,8 @@ class User extends Db {
         }
     }
 
-    public function login($email, $password) {
+    public function login($email, $password)
+    {
         $stmt = $this->conn->prepare("
             SELECT u.*, r.name as role_name 
             FROM users u 
@@ -75,14 +80,15 @@ class User extends Db {
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_role'] = $user['role_name'];
-            
+
             return ['success' => true, 'user' => $user];
         }
 
         return ['success' => false, 'message' => 'Invalid credentials'];
     }
 
-    public function getUserById($id) {
+    public function getUserById($id)
+    {
         $stmt = $this->conn->prepare("
             SELECT u.id, u.name, u.email, r.name as role 
             FROM users u 
@@ -93,9 +99,21 @@ class User extends Db {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getTeacherpending(){
+    public function getTeacherpending()
+    {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE role_id = 2 AND is_active = 0");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-} 
+
+    public function getAllUsers()
+    {
+        $stmt = $this->conn->prepare("
+            SELECT users.*, roles.name as role_name 
+            FROM users 
+            LEFT JOIN roles ON users.role_id = roles.id
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
