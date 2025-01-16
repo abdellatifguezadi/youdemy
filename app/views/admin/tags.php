@@ -25,8 +25,212 @@
                 <span class="ml-3">Categories</span>
             </a>
             <a href="/admin/tags" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors bg-white/10">
-                <i class="fas fa-book w-6"></i>
+                <i class="fas fa-tags w-6"></i>
                 <span class="ml-3">Tags</span>
             </a>
         </nav>
     </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 ml-64">
+        <div class="p-8">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-2xl font-bold text-gray-800">Tags Management</h1>
+                <div class="flex gap-4">
+                    <button onclick="document.getElementById('bulkInsertModal').classList.remove('hidden')" class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">
+                        <i class="fas fa-upload mr-2"></i>Add Tags
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bulk Insert Modal -->
+            <div id="bulkInsertModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div class="mt-3">
+                        <div class="flex justify-between items-center pb-3">
+                            <h3 class="text-lg font-medium text-gray-900">Insert Tags</h3>
+                            <button onclick="document.getElementById('bulkInsertModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-500">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="mt-2 px-7 py-3">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Enter Multiple Tags (comma-separated)
+                                </label>
+                                <textarea 
+                                    placeholder="Example: JavaScript, React, Node.js, Python, UI Design"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-violet-500 h-24"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-4 px-7 py-3">
+                            <button onclick="document.getElementById('bulkInsertModal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">
+                                Cancel
+                            </button>
+                            <button class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">
+                                Insert Tags
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search tags..." 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
+                        <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+                    <div>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
+                            <option value="">Sort by usage</option>
+                            <option value="most_used">Most Used</option>
+                            <option value="least_used">Least Used</option>
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tags Grid -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Example Tag 1 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-sm font-medium">
+                                JavaScript
+                            </span>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-violet-600 hover:text-violet-900">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i>45 courses</span>
+                            <span><i class="fas fa-clock mr-1"></i>Added 2 months ago</span>
+                        </div>
+                    </div>
+
+                    <!-- Example Tag 2 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                                React
+                            </span>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-violet-600 hover:text-violet-900">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i>32 courses</span>
+                            <span><i class="fas fa-clock mr-1"></i>Added 1 month ago</span>
+                        </div>
+                    </div>
+
+                    <!-- Example Tag 3 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                                Node.js
+                            </span>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-violet-600 hover:text-violet-900">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i>28 courses</span>
+                            <span><i class="fas fa-clock mr-1"></i>Added 3 weeks ago</span>
+                        </div>
+                    </div>
+
+                    <!-- Example Tag 4 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm font-medium">
+                                UI Design
+                            </span>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-violet-600 hover:text-violet-900">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i>24 courses</span>
+                            <span><i class="fas fa-clock mr-1"></i>Added 1 week ago</span>
+                        </div>
+                    </div>
+
+                    <!-- Example Tag 5 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
+                                Python
+                            </span>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-violet-600 hover:text-violet-900">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i>35 courses</span>
+                            <span><i class="fas fa-clock mr-1"></i>Added 5 days ago</span>
+                        </div>
+                    </div>
+
+                    <!-- Example Tag 6 -->
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">
+                                Machine Learning
+                            </span>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-violet-600 hover:text-violet-900">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-900">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <span class="mr-4"><i class="fas fa-book mr-1"></i>18 courses</span>
+                            <span><i class="fas fa-clock mr-1"></i>Added 2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="z-20">
+    <?php include '../app/views/partials/modals/footer.php'; ?>
+</div> 
