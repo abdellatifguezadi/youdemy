@@ -57,4 +57,17 @@ class Category extends Db
         $deleteStmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE id = ?");
         return $deleteStmt->execute([$id]);
     }
+
+    public function updateCategory($id, $name, $description) {
+        // Vérifier si une autre catégorie avec le même nom existe déjà (sauf celle qu'on met à jour)
+        $checkStmt = $this->conn->prepare("SELECT id FROM {$this->table} WHERE name = ? AND id != ?");
+        $checkStmt->execute([$name, $id]);
+        
+        if ($checkStmt->fetch()) {
+            return false; // Une autre catégorie avec ce nom existe déjà
+        }
+        
+        $updateStmt = $this->conn->prepare("UPDATE {$this->table} SET name = ?, description = ? WHERE id = ?");
+        return $updateStmt->execute([$name, $description, $id]);
+    }
 } 

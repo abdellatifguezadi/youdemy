@@ -72,6 +72,25 @@
                 </div>
             </div>
 
+            <!-- Update Tag Modal -->
+            <div id="updateTagModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div class="mt-3">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 mb-2">Update Tag</h3>
+                        <form action="/admin/tags/update" method="POST">
+                            <input type="hidden" name="tag_id" id="update_tag_id">
+                            <div class="mb-4">
+                                <label for="update_tag_name" class="block text-sm font-medium text-gray-700 mb-2">Tag Name</label>
+                                <input type="text" name="name" id="update_tag_name" class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                            </div>
+                            <div class="flex justify-end gap-3">
+                                <button type="button" onclick="document.getElementById('updateTagModal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+                                <button type="submit" class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">Update Tag</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <div class="bg-white rounded-xl shadow-md p-6 mb-6">
                 <div class="grid grid-cols-2 gap-4">
@@ -102,7 +121,7 @@
                                     <?= htmlspecialchars($tag['name']) ?>
                                 </span>
                                 <div class="flex items-center space-x-2">
-                                    <button class="text-violet-600 hover:text-violet-900">
+                                    <button onclick="openUpdateModal(<?= $tag['id'] ?>, '<?= htmlspecialchars($tag['name']) ?>')" class="text-violet-600 hover:text-violet-900">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <form action="/admin/tags/delete/<?= $tag['id'] ?>" method="POST" class="inline" 
@@ -124,6 +143,14 @@
         </div>
     </div>
 </div>
+
+<script>
+function openUpdateModal(id, name) {
+    document.getElementById('update_tag_id').value = id;
+    document.getElementById('update_tag_name').value = name;
+    document.getElementById('updateTagModal').classList.remove('hidden');
+}
+</script>
 
 <div class="z-20">
     <?php include '../app/views/partials/modals/footer.php'; ?>

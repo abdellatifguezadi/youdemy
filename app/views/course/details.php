@@ -86,15 +86,19 @@
                 <?php if ($course instanceof DocumentCourse): ?>
                 <div class="mt-8 bg-gray-100 rounded-lg p-6">
                     <div class="flex items-center mb-4">
-                        <i class="fas fa-file-alt text-blue-500 text-2xl mr-3"></i>
+                        <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
                         <div>
                             <h3 class="font-semibold text-gray-900">Support de cours</h3>
-                            <p class="text-sm text-gray-600">Document texte</p>
+                            <p class="text-sm text-gray-600">Document PDF</p>
                         </div>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <div class="prose max-w-none">
-                            <?= nl2br(htmlspecialchars($course->getContent())) ?>
+                        <div class="h-[800px] w-full">
+                            <iframe
+                                src="https://docs.google.com/viewer?url=<?= urlencode($course->getContent()) ?>&embedded=true"
+                                class="w-full h-full border-0"
+                                frameborder="0"
+                            ></iframe>
                         </div>
                     </div>
                 </div>

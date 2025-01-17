@@ -76,6 +76,30 @@
                 </div>
             </div>
 
+            <!-- Modal Update Category -->
+            <div id="updateCategoryModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div class="mt-3">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 mb-2">Update Category</h3>
+                        <form action="/admin/categories/update" method="POST">
+                            <input type="hidden" name="category_id" id="edit_category_id">
+                            <div class="mb-4">
+                                <label for="edit_name" class="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
+                                <input type="text" name="name" id="edit_name" class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block w-full sm:text-sm border-gray-300 rounded-md" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="edit_description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                <textarea name="description" id="edit_description" rows="3" class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+                            </div>
+                            <div class="flex justify-end gap-3">
+                                <button type="button" onclick="document.getElementById('updateCategoryModal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+                                <button type="submit" class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">Update Category</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <div class="bg-white rounded-xl shadow-md p-6 mb-6">
                 <div class="relative">
                     <input type="text" placeholder="Search categories..."
@@ -115,7 +139,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button class="text-violet-600 hover:text-violet-900 mr-3">
+                                    <button onclick="openUpdateModal('<?= $category['id'] ?>', '<?= htmlspecialchars($category['name']) ?>', '<?= htmlspecialchars($category['description']) ?>')" class="text-violet-600 hover:text-violet-900 mr-3">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <form action="/admin/categories/delete/<?= $category['id'] ?>" method="POST" class="inline" 
@@ -133,6 +157,15 @@
         </div>
     </div>
 </div>
+
+<script>
+function openUpdateModal(id, name, description) {
+    document.getElementById('edit_category_id').value = id;
+    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_description').value = description;
+    document.getElementById('updateCategoryModal').classList.remove('hidden');
+}
+</script>
 
 <div class="z-20">
     <?php include '../app/views/partials/modals/footer.php'; ?>

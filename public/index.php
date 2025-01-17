@@ -34,7 +34,9 @@ Route::post('/admin/users/delete/{id}', [AdminController::class, 'deleteUser']);
 Route::get('/admin/tags', [AdminController::class, 'tags']);
 Route::get('/admin/categories', [AdminController::class, 'categories']);
 Route::post('/admin/tags/bulk-insert', [AdminController::class, 'bulkInsertTags']);
+Route::post('/admin/tags/update', [AdminController::class, 'updateTag']);
 Route::post('/admin/categories/add', [AdminController::class, 'addCategory']);
+Route::post('/admin/categories/update', [AdminController::class, 'updateCategory']);
 Route::post('/admin/tags/delete/{id}', [AdminController::class, 'deletetag']);
 Route::post('/admin/categories/delete/{id}', [AdminController::class, 'deletecat']);
 

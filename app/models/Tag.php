@@ -71,17 +71,30 @@ class Tag extends Db
 
     public function deleteTag($id) {
         try {
-            // Supprimer d'abord les relations dans course_tags
+
             $sql = "DELETE FROM course_tags WHERE tag_id = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$id]);
-            
-            // Ensuite supprimer le tag
+
             $sql = "DELETE FROM {$this->table} WHERE id = ?";
             $stmt = $this->conn->prepare($sql);
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
             return false;
         }
+    }
+
+    public function updateTag($id, $name) {
+        $checkSql = "SELECT id FROM {$this->table} WHERE name = ? AND id != ?";
+        $checkStmt = $this->conn->prepare($checkSql);
+        $checkStmt->execute([$name, $id]);
+        
+        if ($checkStmt->fetch()) {
+            return false; 
+        }
+
+        $sql = "UPDATE {$this->table} SET name = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$name, $id]);
     }
 } 

@@ -14,6 +14,13 @@ class AdminController extends BaseController
 
     function __construct()
     {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 1) {
+            $_SESSION['message'] = 'Accès non autorisé. Veuillez vous connecter en tant qu\'administrateur.';
+            $_SESSION['message_type'] = 'error';
+            header('Location: /login');
+            exit();
+        }
+        
         $this->userModel = new User();
         $this->courseModel = new Course();
         $this->categoryModel = new Category();
@@ -196,6 +203,70 @@ class AdminController extends BaseController
             $_SESSION['message_type'] = 'error';
         }
         header('Location: /admin/categories');
+        exit();
+    }
+
+    public function updateCategory()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['category_id'])) {
+            $id = trim($_POST['category_id']);
+            $name = trim($_POST['name']);
+            $description = trim($_POST['description']);
+
+            if (empty($name)) {
+                $_SESSION['message'] = 'Le nom de la catégorie ne peut pas être vide';
+                $_SESSION['message_type'] = 'error';
+                header('Location: /admin/categories');
+                exit();
+            }
+
+            if (empty($description)) {
+                $_SESSION['message'] = 'La description ne peut pas être vide';
+                $_SESSION['message_type'] = 'error';
+                header('Location: /admin/categories');
+                exit();
+            }
+
+            if ($this->categoryModel->updateCategory($id, $name, $description)) {
+                $_SESSION['message'] = 'Catégorie mise à jour avec succès';
+                $_SESSION['message_type'] = 'success';
+            } else {
+                $_SESSION['message'] = 'Erreur lors de la mise à jour de la catégorie';
+                $_SESSION['message_type'] = 'error';
+            }
+            header('Location: /admin/categories');
+            exit();
+        }
+
+        header('Location: /admin/categories');
+        exit();
+    }
+
+    public function updateTag()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tag_id'])) {
+            $id = trim($_POST['tag_id']);
+            $name = trim($_POST['name']);
+
+            if (empty($name)) {
+                $_SESSION['message'] = 'Le nom du tag ne peut pas être vide';
+                $_SESSION['message_type'] = 'error';
+                header('Location: /admin/tags');
+                exit();
+            }
+
+            if ($this->tagModel->updateTag($id, $name)) {
+                $_SESSION['message'] = 'Tag mis à jour avec succès';
+                $_SESSION['message_type'] = 'success';
+            } else {
+                $_SESSION['message'] = 'Erreur lors de la mise à jour du tag';
+                $_SESSION['message_type'] = 'error';
+            }
+            header('Location: /admin/tags');
+            exit();
+        }
+
+        header('Location: /admin/tags');
         exit();
     }
 }
