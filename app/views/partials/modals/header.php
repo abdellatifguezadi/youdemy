@@ -4,36 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouDemy - Online Learning Platform</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Custom Styles -->
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .animate-fade-in {
-                animation: fadeIn 0.5s ease-in;
-            }
-            .animate-fade-in-delay {
-                animation: fadeIn 0.5s ease-in 0.2s;
-            }
-            .animate-fade-in-delay-2 {
-                animation: fadeIn 0.5s ease-in 0.4s;
-            }
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(10px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            .animate-shake {
-                animation: shake 0.5s ease-in-out;
-            }
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-5px); }
-                75% { transform: translateX(5px); }
-            }
-        }
-    </style>
 </head>
 <body class="flex flex-col min-h-screen">
     <header class="fixed w-full bg-white shadow-md z-50">
@@ -46,14 +18,14 @@
                 </div>
 
                 <div class="flex gap-4">
-                    <?php 
-                    // Vérifier si nous sommes sur une page d'authentification
-                    $currentPage = $_SERVER['REQUEST_URI'];
-                    $isAuthPage = strpos($currentPage, 'login') !== false || strpos($currentPage, 'register') !== false;
-                    
-                    if ($isAuthPage): ?>
-                        <a href="/" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
-                            <i class="fas fa-home mr-2"></i>Homepage
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <span class="flex items-center text-gray-700 bg-gray-100 px-3 py-2 rounded-md">
+                            <i class="fas fa-user-circle mr-2 text-indigo-600"></i>
+                            <span class="font-medium"><?= htmlspecialchars($_SESSION['user']['name']) ?></span>
+                        </span>
+                        <a href="/logout" class="flex items-center gap-2 px-3 py-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
                         </a>
                     <?php else: ?>
                         <a href="/register" class="px-4 py-2 border border-indigo-500 text-indigo-500 rounded-md hover:bg-indigo-50 transition">
