@@ -16,7 +16,6 @@
         <div class="bg-white rounded-lg shadow-md">
             <div class="p-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Image à gauche -->
                     <div class="h-64 relative">
                         <img src="<?= htmlspecialchars($course->getPhotoUrl()) ?>" 
                              alt="<?= htmlspecialchars($course->getTitle()) ?>" 
@@ -60,33 +59,26 @@
                             <?php if (!isset($_SESSION['user'])): ?>
                                 <a href="/login" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                     <i class="fas fa-sign-in-alt mr-2"></i>
-                                    Login to Enroll
+                                    Se connecter pour s'inscrire
                                 </a>
-                            <?php elseif ($_SESSION['user']['role_name'] === 'student'): ?>
-                                <?php if (isset($enrollment)): ?>
-                                    <?php if ($enrollment['status'] === 'approved'): ?>
-                                        <button disabled class="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg cursor-not-allowed">
-                                            <i class="fas fa-check-circle mr-2"></i>
-                                            Enrolled
-                                        </button>
-                                    <?php elseif ($enrollment['status'] === 'pending'): ?>
-                                        <button disabled class="inline-flex items-center px-6 py-3 bg-yellow-600 text-white rounded-lg cursor-not-allowed">
-                                            <i class="fas fa-clock mr-2"></i>
-                                            Enrollment Pending
-                                        </button>
-                                    <?php elseif ($enrollment['status'] === 'rejected'): ?>
-                                        <button disabled class="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-lg cursor-not-allowed">
-                                            <i class="fas fa-times-circle mr-2"></i>
-                                            Enrollment Rejected
-                                        </button>
-                                    <?php endif; ?>
-                                <?php else: ?>
+                            <?php elseif (isset($_SESSION['user']) && $_SESSION['user']['role_name'] === 'student'): ?>
+                                <?php if ($enrollment === null || $enrollment === false): ?>
                                     <form action="/course/enroll/<?= $course->getId() ?>" method="POST" class="inline">
                                         <button type="submit" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                             <i class="fas fa-graduation-cap mr-2"></i>
-                                            Enroll in Course
+                                            S'inscrire au cours
                                         </button>
                                     </form>
+                                <?php elseif (isset($enrollment['status']) && $enrollment['status'] === 'approved'): ?>
+                                    <button disabled class="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg cursor-not-allowed">
+                                        <i class="fas fa-check-circle mr-2"></i>
+                                        Déjà inscrit
+                                    </button>
+                                <?php elseif (isset($enrollment['status']) && $enrollment['status'] === 'pending'): ?>
+                                    <button disabled class="inline-flex items-center px-6 py-3 bg-yellow-600 text-white rounded-lg cursor-not-allowed">
+                                        <i class="fas fa-clock mr-2"></i>
+                                        Inscription en attente
+                                    </button>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>

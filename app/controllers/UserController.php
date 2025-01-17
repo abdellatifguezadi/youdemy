@@ -2,18 +2,21 @@
 require_once '../app/models/Course.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Tag.php';
+require_once '../app/models/User.php';
 
 class UserController extends BaseController 
 {
     private $courseModel;
     private $categoryModel;
     private $tagModel;
+    private $userModel;
 
     function __construct()
     {
         $this->courseModel = new Course();
         $this->categoryModel = new Category();
         $this->tagModel = new Tag();
+        $this->userModel = new User();
     }
 
     public function index()
@@ -57,9 +60,17 @@ class UserController extends BaseController
     {
         $course = $this->courseModel->getCourseById($id);
         
-        $this->render('course/details', [
-            'course' => $course
-        ]);
+        if (!$course) {
+            header('Location: /404');
+            exit();
+        }
+
+        $enrollment = null;
+        if (isset($_SESSION['user']) && $_SESSION['user']['role_name'] === 'student') {
+            $enrollment = $this->userModel->getEnrollmentStatus($_SESSION['user']['id'], $id);
+        }
+
+        require '../app/views/course/details.php';
     }
 
   
