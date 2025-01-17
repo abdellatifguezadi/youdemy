@@ -118,9 +118,12 @@
                                     <button class="text-violet-600 hover:text-violet-900 mr-3">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <form action="/admin/categories/delete/<?= $category['id'] ?>" method="POST" class="inline" 
+                                          onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                        <button type="submit" class="text-red-600 hover:text-red-900">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

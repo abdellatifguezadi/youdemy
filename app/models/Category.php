@@ -52,4 +52,9 @@ class Category extends Db
         $insertStmt = $this->conn->prepare("INSERT INTO {$this->table} (name , description ) VALUES (?, ?)");
         return $insertStmt->execute([$name , $discription]);
     }
+
+    public function deleteCategory($id) {
+        $deleteStmt = $this->conn->prepare("DELETE FROM {$this->table} WHERE id = ?");
+        return $deleteStmt->execute([$id]);
+    }
 } 

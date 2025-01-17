@@ -141,9 +141,9 @@ class AdminController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
             $name = trim($_POST['name']);
-            $discription = trim($_POST['description']);
+            $description = trim($_POST['description']);
 
-            if (empty($discriptio)) {
+            if (empty($description)) {
                 $_SESSION['message'] = 'Veuillez entrer une description';
                 $_SESSION['message_type'] = 'error';
                 header('Location: /admin/categories');
@@ -157,7 +157,7 @@ class AdminController extends BaseController
                 exit();
             }
 
-            if ($this->categoryModel->addCategory($name, $discription)) {
+            if ($this->categoryModel->addCategory($name, $description)) {
                 $_SESSION['message'] = 'Catégorie ajoutée avec succès';
                 $_SESSION['message_type'] = 'success';
             } else {
@@ -183,6 +183,19 @@ class AdminController extends BaseController
             $_SESSION['message_type'] = 'error';
         }
         header('Location: /admin/tags');
+        exit();
+    }
+
+    public function deletecat($id)
+    {
+        if ($this->categoryModel->deleteCategory($id)) {
+            $_SESSION['message'] = 'Catégorie supprimée avec succès';
+            $_SESSION['message_type'] = 'success';
+        } else {
+            $_SESSION['message'] = 'Erreur lors de la suppression de la catégorie';
+            $_SESSION['message_type'] = 'error';
+        }
+        header('Location: /admin/categories');
         exit();
     }
 }

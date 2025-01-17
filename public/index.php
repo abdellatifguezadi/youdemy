@@ -36,5 +36,6 @@ Route::get('/admin/categories', [AdminController::class, 'categories']);
 Route::post('/admin/tags/bulk-insert', [AdminController::class, 'bulkInsertTags']);
 Route::post('/admin/categories/add', [AdminController::class, 'addCategory']);
 Route::post('/admin/tags/delete/{id}', [AdminController::class, 'deletetag']);
+Route::post('/admin/categories/delete/{id}', [AdminController::class, 'deletecat']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
