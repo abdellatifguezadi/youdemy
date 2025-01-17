@@ -273,10 +273,23 @@ class AdminController extends BaseController
     public function activateTeacher($id)
     {
         if ($this->userModel->activateTeacher($id)) {
-            $_SESSION['message'] = 'Enseignant activé avec succès';
+            $_SESSION['message'] = 'Teacher activated successfully';
             $_SESSION['message_type'] = 'success';
         } else {
-            $_SESSION['message'] = 'Erreur lors de l\'activation de l\'enseignant';
+            $_SESSION['message'] = 'Error activating teacher';
+            $_SESSION['message_type'] = 'error';
+        }
+        header('Location: /admin/pending-teachers');
+        exit();
+    }
+
+    public function rejectTeacher($id)
+    {
+        if ($this->userModel->rejectTeacher($id)) {
+            $_SESSION['message'] = 'Teacher rejected and account deleted successfully';
+            $_SESSION['message_type'] = 'success';
+        } else {
+            $_SESSION['message'] = 'Error rejecting teacher';
             $_SESSION['message_type'] = 'error';
         }
         header('Location: /admin/pending-teachers');

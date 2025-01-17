@@ -44,6 +44,16 @@
                 </div>
             </div>
 
+            <?php if (isset($_SESSION['message'])): ?>
+                <div class="<?= $_SESSION['message_type'] === 'error' ? 'bg-red-100 border-red-400 text-red-700' : 'bg-green-100 border-green-400 text-green-700' ?> px-4 py-3 rounded relative mb-6 border" role="alert">
+                    <span class="block sm:inline"><?= $_SESSION['message'] ?></span>
+                </div>
+                <?php 
+                    unset($_SESSION['message']);
+                    unset($_SESSION['message_type']);
+                ?>
+            <?php endif; ?>
+
             <!-- Teachers Table -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
                 <table class="w-full">
@@ -93,9 +103,12 @@
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         </form>
-                                        <button class="text-red-600 hover:text-red-900">
-                                            <i class="fas fa-times"></i>
-                                        </button>
+                                        <form action="/admin/teachers/reject/<?= $teacher['id'] ?>" method="POST" class="inline" 
+                                              onsubmit="return confirm('Are you sure you want to reject and delete this teacher account?');">
+                                            <button type="submit" class="text-red-600 hover:text-red-900">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

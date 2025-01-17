@@ -187,4 +187,11 @@ class User extends Db
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
+
+    public function rejectTeacher($id)
+    {
+        $sql = "DELETE FROM users WHERE id = ? AND role_id = 2 AND is_active = 0";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$id]);
+    }
 }
