@@ -122,12 +122,11 @@
                                 <i class="fas fa-users mr-2"></i><?= $course->getStudentCount() ?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="/admin/courses/edit/<?= $course->getId() ?>" class="text-indigo-600 hover:text-indigo-900 mr-4">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="/admin/courses/delete/<?= $course->getId() ?>" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
-                                    <button type="submit" class="text-red-600 hover:text-red-900">
+                                <form action="/admin/courses/delete/<?= $course->getId() ?>" method="POST" class="inline" 
+                                      onsubmit="return confirm('Are you sure you want to delete this course?');">
+                                    <button type="submit" class="text-red-600 hover:text-red-900 px-3 py-1 bg-red-100 rounded-md hover:bg-red-200">
                                         <i class="fas fa-trash"></i>
+                                        <span class="ml-1">Delete</span>
                                     </button>
                                 </form>
                             </td>

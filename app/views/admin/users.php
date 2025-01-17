@@ -141,13 +141,11 @@
                                      <?= date('M d, Y', strtotime($user['created_at'])) ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button class="text-violet-600 hover:text-violet-900 mr-3">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
                                     <form action="/admin/users/delete/<?= $user['id'] ?>" method="POST" class="inline" 
                                           onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                        <button type="submit" class="text-red-600 hover:text-red-900">
-                                            <i class="fas fa-trash"></i>
+                                        <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50">
+                                            <i class="fas fa-trash-alt"></i>
+                                            <span class="ml-1">Delete</span>
                                         </button>
                                     </form>
                                 </td>

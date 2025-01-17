@@ -105,9 +105,12 @@
                                     <button class="text-violet-600 hover:text-violet-900">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <form action="/admin/tags/delete/<?= $tag['id'] ?>" method="POST" class="inline" 
+                                          onsubmit="return confirm('Are you sure you want to delete this tag?');">
+                                        <button type="submit" class="text-red-600 hover:text-red-900">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <div class="text-sm text-gray-500">

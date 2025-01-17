@@ -67,4 +67,21 @@ class Tag extends Db
         
         return true;
     }
+
+
+    public function deleteTag($id) {
+        try {
+            // Supprimer d'abord les relations dans course_tags
+            $sql = "DELETE FROM course_tags WHERE tag_id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$id]);
+            
+            // Ensuite supprimer le tag
+            $sql = "DELETE FROM {$this->table} WHERE id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 } 
