@@ -48,4 +48,23 @@ class Tag extends Db
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['count'];
     }
+
+    public function bulkInsertTags($tagNames) {
+        $selectStmt = $this->conn->prepare("SELECT id FROM {$this->table} WHERE name = ?");
+        $insertStmt = $this->conn->prepare("INSERT INTO {$this->table} (name) VALUES (?)");
+        
+        foreach ($tagNames as $tagName) {
+            $tagName = trim($tagName);
+            if (!empty($tagName)) {
+                $selectStmt->execute([$tagName]);
+                $tag = $selectStmt->fetch();
+                
+                if (!$tag) {
+                    $insertStmt->execute([$tagName]);
+                }
+            }
+        }
+        
+        return true;
+    }
 } 
