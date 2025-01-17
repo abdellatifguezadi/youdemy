@@ -295,4 +295,30 @@ class AdminController extends BaseController
         header('Location: /admin/pending-teachers');
         exit();
     }
+
+    public function suspendUser($id)
+    {
+        if ($this->userModel->suspendUser($id)) {
+            $_SESSION['message'] = 'User suspended successfully';
+            $_SESSION['message_type'] = 'success';
+        } else {
+            $_SESSION['message'] = 'Error suspending user';
+            $_SESSION['message_type'] = 'error';
+        }
+        header('Location: /admin/users');
+        exit();
+    }
+
+    public function activateUser($id)
+    {
+        if ($this->userModel->activateUser($id)) {
+            $_SESSION['message'] = 'User activated successfully';
+            $_SESSION['message_type'] = 'success';
+        } else {
+            $_SESSION['message'] = 'Error activating user';
+            $_SESSION['message_type'] = 'error';
+        }
+        header('Location: /admin/users');
+        exit();
+    }
 }

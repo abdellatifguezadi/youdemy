@@ -160,7 +160,7 @@ class AuthController extends BaseController {
             case 'teacher':
                 return '/teacher/dashboard';
             case 'student':
-                return '/student/dashboard';
+                return '/';
             default:
                 return '/';
         }

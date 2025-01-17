@@ -19,10 +19,27 @@
 
                 <div class="flex gap-4">
                     <?php if (isset($_SESSION['user'])): ?>
-                        <span class="flex items-center text-gray-700 bg-gray-100 px-3 py-2 rounded-md">
-                            <i class="fas fa-user-circle mr-2 text-indigo-600"></i>
-                            <span class="font-medium"><?= htmlspecialchars($_SESSION['user']['name']) ?></span>
-                        </span>
+                        <?php if ($_SESSION['user']['role_name'] === 'admin'): ?>
+                            <span class="flex items-center text-gray-700 bg-gray-100 px-3 py-2 rounded-md">
+                                <i class="fas fa-user-circle mr-2 text-indigo-600"></i>
+                                <span class="font-medium"><?= htmlspecialchars($_SESSION['user']['name']) ?></span>
+                            </span>
+                        <?php else: ?>
+                            <?php if ($_SESSION['user']['role_name'] === 'student'): ?>
+                                <a href="/my-enrollments" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+                                    <i class="fas fa-graduation-cap mr-2"></i>My Enrollments
+                                </a>
+                            <?php endif; ?>
+                            <div class="relative" x-data="{ open: false }" @click.away="open = false">
+                                <button @click="open = !open" class="flex items-center gap-2 text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
+                                    <img class="h-8 w-8 rounded-full object-cover" 
+                                         src="https://ui-avatars.com/api/?name=<?= urlencode($_SESSION['user']['name']) ?>&background=random" 
+                                         alt="<?= htmlspecialchars($_SESSION['user']['name']) ?>">
+                                    <span><?= htmlspecialchars($_SESSION['user']['name']) ?></span>
+                                    <i class="fas fa-chevron-down text-xs"></i>
+                                </button>
+                            </div>
+                        <?php endif; ?>
                         <a href="/logout" class="flex items-center gap-2 px-3 py-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition">
                             <i class="fas fa-sign-out-alt"></i>
                             <span>Logout</span>

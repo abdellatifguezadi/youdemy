@@ -41,5 +41,7 @@ Route::post('/admin/tags/delete/{id}', [AdminController::class, 'deletetag']);
 Route::post('/admin/categories/delete/{id}', [AdminController::class, 'deletecat']);
 Route::post('/admin/teachers/activate/{id}', [AdminController::class, 'activateTeacher']);
 Route::post('/admin/teachers/reject/{id}', [AdminController::class, 'rejectTeacher']);
+Route::post('/admin/users/suspend/{id}', [AdminController::class, 'suspendUser']);
+Route::post('/admin/users/activate/{id}', [AdminController::class, 'activateUser']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

@@ -87,11 +87,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <img class="h-10 w-10 rounded-full object-cover"
-                                            src="https://ui-avatars.com/api/?name=John+Doe&background=random"
-                                            alt="John Doe">
+                                            src="https://ui-avatars.com/api/?name=<?= urlencode($user['name']) ?>&background=random"
+                                            alt="<?= htmlspecialchars($user['name']) ?>">
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900"><?= $user['name'] ?></div>
-                                            <div class="text-sm text-gray-500"> <?= $user['email'] ?></div>
+                                            <div class="text-sm text-gray-500"><?= $user['email'] ?></div>
                                         </div>
                                     </div>
                                 </td>
@@ -99,9 +99,6 @@
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                         <?php 
                                             switch($user['role_name']) {
-                                                case 'admin':
-                                                    echo 'bg-red-100 text-red-800';
-                                                    break;
                                                 case 'teacher':
                                                     echo 'bg-violet-100 text-violet-800';
                                                     break;
@@ -141,9 +138,24 @@
                                      <?= date('M d, Y', strtotime($user['created_at'])) ?>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <?php if ((int)$user['is_active'] === 2): ?>
+                                        <form action="/admin/users/activate/<?= $user['id'] ?>" method="POST" class="inline mr-2">
+                                            <button type="submit" class="px-3 py-1 bg-green-100 text-green-600 rounded-md hover:bg-green-200">
+                                                <i class="fas fa-check"></i>
+                                                <span class="ml-1">Activate</span>
+                                            </button>
+                                        </form>
+                                    <?php else: ?>
+                                        <form action="/admin/users/suspend/<?= $user['id'] ?>" method="POST" class="inline mr-2">
+                                            <button type="submit" class="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-md hover:bg-yellow-200">
+                                                <i class="fas fa-ban"></i>
+                                                <span class="ml-1">Suspend</span>
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
                                     <form action="/admin/users/delete/<?= $user['id'] ?>" method="POST" class="inline" 
                                           onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                        <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50">
+                                        <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200">
                                             <i class="fas fa-trash-alt"></i>
                                             <span class="ml-1">Delete</span>
                                         </button>

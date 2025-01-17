@@ -2,6 +2,7 @@
 
 
 <main class="flex-grow mt-24">
+    <?php if (!isset($_SESSION['user']) || $_SESSION['user']['role_name'] === 'student' || $_SESSION['user']['role_name'] === 'admin'): ?>
     <section class="relative h-[400px] overflow-hidden">
 
         <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop" 
@@ -11,6 +12,7 @@
         <div class="absolute inset-0 bg-gradient-to-r from-indigo-900/40 to-purple-800/30"></div>
 
         <div class="container mx-auto text-center text-white relative z-10 h-full flex flex-col justify-center px-4">
+            <?php if (!isset($_SESSION['user']) || $_SESSION['user']['role_name'] === 'admin'): ?>
             <h1 class="text-3xl md:text-4xl font-bold mb-3 animate-fade-in">
                 Welcome to YouDemy
             </h1>
@@ -31,8 +33,17 @@
                     </a>
                 </div>
             </div>
+            <?php elseif ($_SESSION['user']['role_name'] === 'student'): ?>
+            <h1 class="text-3xl md:text-4xl font-bold mb-3 animate-fade-in">
+                Welcome back, <?= htmlspecialchars($_SESSION['user']['name']) ?>!
+            </h1>
+            <p class="text-lg md:text-xl mb-6 animate-fade-in-delay">
+                Continue your learning journey
+            </p>
+            <?php endif; ?>
         </div>
     </section>
+    <?php endif; ?>
 
     <section class="container mx-auto px-4 py-8">
         <div class="bg-white rounded-lg shadow-md p-6">

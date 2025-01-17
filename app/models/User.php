@@ -72,6 +72,10 @@ class User extends Db
             return ['success' => false, 'message' => 'Invalid credentials'];
         }
 
+        if ((int)$user['is_active'] === 2) {
+            return ['success' => false, 'message' => 'Your account has been suspended. '];
+        }
+
         if (!$user['is_active']) {
             return ['success' => false, 'message' => 'Your account is not active. Please wait for admin approval.'];
         }
@@ -116,6 +120,7 @@ class User extends Db
             SELECT users.*, roles.name as role_name 
             FROM users 
             LEFT JOIN roles ON users.role_id = roles.id
+            WHERE users.role_id != 1
         ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -191,6 +196,20 @@ class User extends Db
     public function rejectTeacher($id)
     {
         $sql = "DELETE FROM users WHERE id = ? AND role_id = 2 AND is_active = 0";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+
+    public function suspendUser($id)
+    {
+        $sql = "UPDATE users SET is_active = 2 WHERE id = ? AND role_id != 1";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+
+    public function activateUser($id)
+    {
+        $sql = "UPDATE users SET is_active = 1 WHERE id = ? AND role_id != 1";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
