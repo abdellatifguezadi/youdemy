@@ -39,5 +39,6 @@ Route::post('/admin/categories/add', [AdminController::class, 'addCategory']);
 Route::post('/admin/categories/update', [AdminController::class, 'updateCategory']);
 Route::post('/admin/tags/delete/{id}', [AdminController::class, 'deletetag']);
 Route::post('/admin/categories/delete/{id}', [AdminController::class, 'deletecat']);
+Route::post('/admin/teachers/activate/{id}', [AdminController::class, 'activateTeacher']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

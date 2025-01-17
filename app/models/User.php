@@ -8,6 +8,7 @@ class User extends Db
     private $name;
     private $email;
     private $role;
+    protected $table = "users";
 
     public function __construct()
     {
@@ -176,6 +177,13 @@ class User extends Db
 
     public function deleteUser($id) {
         $sql = "DELETE FROM users WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+
+    public function activateTeacher($id)
+    {
+        $sql = "UPDATE users SET is_active = 1 WHERE id = ? AND role_id = 2";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }

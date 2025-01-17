@@ -88,10 +88,12 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-green-600 hover:text-green-900 mr-3" >
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                        <button class="text-red-600 hover:text-red-900" >
+                                        <form action="/admin/teachers/activate/<?= $teacher['id'] ?>" method="POST" class="inline">
+                                            <button type="submit" class="text-green-600 hover:text-green-900 mr-3">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form>
+                                        <button class="text-red-600 hover:text-red-900">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </td>
