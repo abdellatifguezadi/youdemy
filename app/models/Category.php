@@ -40,4 +40,16 @@ class Category extends Db
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function addCategory($name , $discription) {
+        $selectStmt = $this->conn->prepare("SELECT id FROM {$this->table} WHERE name = ?");
+        $selectStmt->execute([$name]);
+        
+        if ($selectStmt->fetch()) {
+            return false;
+        }
+        
+        $insertStmt = $this->conn->prepare("INSERT INTO {$this->table} (name , description ) VALUES (?, ?)");
+        return $insertStmt->execute([$name , $discription]);
+    }
 } 

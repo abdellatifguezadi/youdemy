@@ -38,9 +38,41 @@
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-2xl font-bold text-gray-800">Categories Management</h1>
                 <div class="flex gap-4">
-                    <button class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">
+                    <button onclick="document.getElementById('addCategoryModal').classList.remove('hidden')" class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">
                         <i class="fas fa-plus mr-2"></i>Add Category
                     </button>
+                </div>
+            </div>
+
+            <?php if (isset($_SESSION['message'])): ?>
+            <div class="<?= $_SESSION['message_type'] === 'error' ? 'bg-red-100 border-red-400 text-red-700' : 'bg-green-100 border-green-400 text-green-700' ?> px-4 py-3 rounded relative mb-4 border" role="alert">
+                <span class="block sm:inline"><?= $_SESSION['message'] ?></span>
+                <?php 
+                    unset($_SESSION['message']);
+                    unset($_SESSION['message_type']);
+                ?>
+            </div>
+            <?php endif; ?>
+
+            <div id="addCategoryModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                    <div class="mt-3">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900 mb-2">Add New Category</h3>
+                        <form action="/admin/categories/add" method="POST">
+                            <div class="mb-4">
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
+                                <input type="text" name="name" id="name" class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block w-full sm:text-sm border-gray-300 rounded-md" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                <textarea name="description" id="description" rows="3" class="shadow-sm focus:ring-violet-500 focus:border-violet-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Enter category description"></textarea>
+                            </div>
+                            <div class="flex justify-end gap-3">
+                                <button type="button" onclick="document.getElementById('addCategoryModal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">Cancel</button>
+                                <button type="submit" class="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600 transition-colors">Add Category</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 

@@ -25,13 +25,15 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
 // Routes admin
-Route::get('/admin', [AdminController::class, 'dashboard']);
-Route::get('/admin/users', [AdminController::class, 'users']);
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+Route::get('/admin/pending-teachers', [AdminController::class, 'pending']);
 Route::get('/admin/courses', [AdminController::class, 'courses']);
 Route::post('/admin/courses/delete/{id}', [AdminController::class, 'deleteCourse']);
-Route::get('/admin/categories', [AdminController::class, 'categories']);
+Route::get('/admin/users', [AdminController::class, 'users']);
+Route::post('/admin/users/delete/{id}', [AdminController::class, 'deleteUser']);
 Route::get('/admin/tags', [AdminController::class, 'tags']);
+Route::get('/admin/categories', [AdminController::class, 'categories']);
 Route::post('/admin/tags/bulk-insert', [AdminController::class, 'bulkInsertTags']);
-Route::get('/admin/pending-teachers', [AdminController::class, 'pendingTeachers']);
+Route::post('/admin/categories/add', [AdminController::class, 'addCategory']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

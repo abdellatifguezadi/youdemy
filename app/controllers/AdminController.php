@@ -127,4 +127,39 @@ class AdminController extends BaseController {
         header('Location: /admin/tags');
         exit();
     }
+
+    public function addCategory() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
+            $name = trim($_POST['name']);
+            $discription = trim($_POST['description']);
+            
+            if(empty($discriptio)){
+                $_SESSION['message']= 'Veuillez entrer une description';
+                $_SESSION['message_type']= 'error';
+                header('Location: /admin/categories');
+                exit();
+            }
+
+            if (empty($name)) {
+                $_SESSION['message'] = 'Le nom de la catégorie ne peut pas être vide';
+                $_SESSION['message_type'] = 'error';
+                header('Location: /admin/categories');
+                exit();
+            }
+            
+            if ($this->categoryModel->addCategory($name , $discription)) {
+                $_SESSION['message'] = 'Catégorie ajoutée avec succès';
+                $_SESSION['message_type'] = 'success';
+            } else {
+                $_SESSION['message'] = 'Cette catégorie existe déjà';
+                $_SESSION['message_type'] = 'error';
+            }
+            
+            header('Location: /admin/categories');
+            exit();
+        }
+        
+        header('Location: /admin/categories');
+        exit();
+    }
 }
