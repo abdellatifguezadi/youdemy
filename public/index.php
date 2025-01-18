@@ -49,6 +49,7 @@ Route::post('/admin/users/activate/{id}', [AdminController::class, 'activateUser
 // Routes teacher
 Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard']);
 Route::get('/teacher/courses', [TeacherController::class, 'courses']);
+Route::post('/teacher/courses', [TeacherController::class, 'createCourse']);
 Route::get('/teacher/students', [TeacherController::class, 'students']);
 
 // Student routes

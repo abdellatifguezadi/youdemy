@@ -41,8 +41,7 @@
                         <div class="relative">
                             <img src="<?= htmlspecialchars($course['photo_url']) ?>" alt="<?= htmlspecialchars($course['title']) ?>" 
                                  class="w-full h-48 object-cover rounded-t-xl">
-                            
-                            <!-- Action Buttons -->
+
                             <div class="absolute top-2 right-2 flex gap-2">
                                 <button class="bg-violet-600 hover:bg-violet-700 text-white p-2 rounded-lg transition-colors">
                                     <i class="fas fa-edit"></i>
@@ -66,15 +65,13 @@
                                     <i class="fas <?= !empty($course['video_url']) ? 'fa-video' : 'fa-file-alt' ?>"></i>
                                     <span><?= !empty($course['video_url']) ? 'Video Course' : 'Document Course' ?></span>
                                 </span>
-                                
-                                <!-- Student Count -->
+>
                                 <div class="flex items-center gap-2 text-gray-500">
                                     <i class="fas fa-users"></i>
                                     <span class="text-sm"><?= $course['student_count'] ?? 0 ?> students</span>
                                 </div>
                             </div>
 
-                            <!-- Tags -->
                             <?php if (!empty($course['tags'])) : ?>
                                 <div class="mt-4 flex flex-wrap gap-2">
                                     <?php foreach ($course['tags'] as $tag) : ?>
@@ -112,7 +109,7 @@
                 </button>
             </div>
 
-            <form class="space-y-6">
+            <form action="/teacher/courses" method="POST" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Course Title</label>
@@ -123,12 +120,12 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                        <select name="category_id" required
+                        <select name="category" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
                             <option value="">Select Category</option>
-                            <option value="1">Web Development</option>
-                            <option value="2">Mobile Development</option>
-                            <option value="3">Data Science</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
@@ -149,7 +146,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Course Image URL</label>
                         <input type="url" name="photo_url" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500"
-                            placeholder="Enter image URL (e.g., https://example.com/image.jpg)">
+                            placeholder="Enter image URL">
                     </div>
                 </div>
 
@@ -158,75 +155,35 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Video URL</label>
                         <input type="url" name="video_url"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500"
-                            placeholder="Enter video URL (e.g., YouTube, Vimeo)">
+                            placeholder="Enter video URL">
                     </div>
 
                     <div id="documentField" class="hidden">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Document URL</label>
                         <input type="url" name="document_url"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500"
-                            placeholder="Enter document URL (e.g., PDF, DOC)">
+                            placeholder="Enter document URL">
                     </div>
                 </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                     <textarea name="description" required rows="4"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500"
                         placeholder="Enter course description"></textarea>
                 </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tags</label>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 p-3 border border-gray-300 rounded-lg max-h-[200px] overflow-y-auto">
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="php" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">PHP</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="javascript" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">JavaScript</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="html" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">HTML</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="css" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">CSS</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="react" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">React</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="vue" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">Vue.js</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="angular" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">Angular</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="nodejs" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">Node.js</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="python" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">Python</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="java" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">Java</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="csharp" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">C#</span>
-                        </label>
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" name="tags[]" value="ruby" class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
-                            <span class="text-sm text-gray-700">Ruby</span>
-                        </label>
+                        <?php foreach ($tags as $tag): ?>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="checkbox" name="tags[]" value="<?= $tag['id'] ?>" 
+                                       class="w-4 h-4 text-violet-600 rounded focus:ring-violet-500">
+                                <span class="text-sm text-gray-700"><?= htmlspecialchars($tag['name']) ?></span>
+                            </label>
+                        <?php endforeach; ?>
                     </div>
-                    <p class="mt-1 text-sm text-gray-500">Select all applicable tags for your course</p>
                 </div>
 
                 <div class="flex justify-end gap-4">

@@ -26,12 +26,22 @@ class TeacherController extends BaseController
 
     public function courses()
     {
-
         $teacherId = $_SESSION['user']['id'];
-
+        
+        // Récupérer les cours
         $courses = $this->courseModel->teacherCourses($teacherId);
+        
+        // Récupérer les catégories et tags pour le formulaire
+        $categoryModel = new Category();
+        $tagModel = new Tag();
+        
+        $categories = $categoryModel->getAllCategories();
+        $tags = $tagModel->getAllTags();
+
         $this->render('teacher/courses', [
-            'courses' => $courses
+            'courses' => $courses,
+            'categories' => $categories,
+            'tags' => $tags
         ]);
     }
 
