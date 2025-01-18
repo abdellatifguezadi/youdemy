@@ -131,5 +131,4 @@
 
 <div class="z-20">
     <?php include '../app/views/partials/modals/footer.php'; ?>
-</div> 
- 
+</div>
