@@ -257,4 +257,16 @@ class User extends Db
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
+
+    public function getTeacherTotalStudents($teacherId)
+    {
+        $sql = "SELECT COUNT(DISTINCT e.student_id) as total
+                FROM enrollments e
+                JOIN courses c ON e.course_id = c.id
+                WHERE c.teacher_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$teacherId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'] ?? 0;
+    }
 }

@@ -268,4 +268,69 @@ class Course extends Db
             throw new Exception("Error creating course: " . $e->getMessage());
         }
     }
+
+    public function getPopularCoursesByTeacher($teacherId, $limit = 3)
+    {
+        $sql = "SELECT c.*, u.name as name, cat.name as category_name,
+                COUNT(e.student_id) as student_count
+                FROM courses c
+                LEFT JOIN users u ON c.teacher_id = u.id
+                LEFT JOIN categories cat ON c.category_id = cat.id
+                LEFT JOIN enrollments e ON c.id = e.course_id
+                WHERE c.teacher_id = ?
+                GROUP BY c.id, c.title, c.description, c.photo_url, c.teacher_id, 
+                         c.category_id, c.created_at, c.video_url, c.document,
+                         u.name, cat.name
+                ORDER BY student_count DESC
+                LIMIT " . (int)$limit;
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$teacherId]);
+        $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $result = [];
+        foreach ($courses as $courseData) {
+            $courseData['tags'] = $this->tagModel->getCourseTags($courseData['id']);
+            $result[] = $this->createCourseObject($courseData);
+        }
+        
+        return $result;
+    }
+
+    public function getRecentCoursesByTeacher($teacherId, $limit = 5)
+    {
+        $sql = "SELECT c.*, u.name as name, cat.name as category_name,
+                (SELECT COUNT(*) FROM enrollments e WHERE e.course_id = c.id) as student_count
+                FROM courses c
+                LEFT JOIN users u ON c.teacher_id = u.id
+                LEFT JOIN categories cat ON c.category_id = cat.id
+                WHERE c.teacher_id = ?
+                ORDER BY c.created_at DESC
+                LIMIT " . (int)$limit;
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$teacherId]);
+        $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $result = [];
+        foreach ($courses as $courseData) {
+            $courseData['tags'] = $this->tagModel->getCourseTags($courseData['id']);
+            $result[] = $this->createCourseObject($courseData);
+        }
+        
+        return $result;
+    }
+
+    public function getPendingEnrollmentsCount($teacherId)
+    {
+        $sql = "SELECT COUNT(*) as count
+                FROM enrollments e
+                JOIN courses c ON e.course_id = c.id
+                WHERE c.teacher_id = ? AND e.status = 'pending'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$teacherId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int)$result['count'];
+    }
 } 

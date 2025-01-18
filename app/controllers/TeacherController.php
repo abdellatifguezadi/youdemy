@@ -26,7 +26,35 @@ class TeacherController extends BaseController
 
     public function dashboard()
     {
-        $this->render('teacher/dashboard');
+        $teacherId = $_SESSION['user']['id'];
+        $courses = $this->courseModel->teacherCourses($teacherId);
+        $totalCourses = $courses ? count($courses) : 0;
+
+        $videoCourses = 0;
+        $documentCourses = 0;
+        if ($courses) {
+            foreach ($courses as $course) {
+                if ($course->getType() === 'Cours vidéo') {
+                    $videoCourses++;
+                } else {
+                    $documentCourses++;
+                }
+            }
+        }
+        $totalStudents = $this->userModel->getTeacherTotalStudents($teacherId);
+        $popularCourses = $this->courseModel->getPopularCoursesByTeacher($teacherId);
+        $recentCourses = $this->courseModel->getRecentCoursesByTeacher($teacherId, 5);
+        $pendingEnrollments = $this->courseModel->getPendingEnrollmentsCount($teacherId);
+        
+        $this->render('teacher/dashboard', [
+            'totalCourses' => $totalCourses,
+            'totalStudents' => $totalStudents,
+            'videoCourses' => $videoCourses,
+            'documentCourses' => $documentCourses,
+            'popularCourses' => $popularCourses,
+            'recentCourses' => $recentCourses,
+            'pendingEnrollments' => $pendingEnrollments
+        ]);
     }
 
     public function courses()
@@ -67,7 +95,7 @@ class TeacherController extends BaseController
             $courseData['document'] = $_POST['document'];
         }
 
-        try {
+
             $courseId = $this->courseModel->createCourse($courseData);
             
             if ($courseId) {
@@ -81,12 +109,7 @@ class TeacherController extends BaseController
                     'text' => 'Failed to create course.'
                 ];
             }
-        } catch (Exception $e) {
-            $_SESSION['message'] = [
-                'type' => 'error',
-                'text' => 'Error: ' . $e->getMessage()
-            ];
-        }
+      
 
         header('Location: /teacher/courses');
         exit();
