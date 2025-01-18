@@ -19,7 +19,7 @@
 
                 <div class="flex gap-4">
                     <?php if (isset($_SESSION['user'])): ?>
-                        <?php if ($_SESSION['user']['role_name'] === 'admin' || $_SESSION['user']['role_name'] === 'teacher'): ?>
+                         <?php if ($_SESSION['user']['role_name'] === 'admin' || $_SESSION['user']['role_name'] === 'teacher'): ?>
                             <span class="flex items-center text-gray-700 bg-gray-100 px-3 py-2 rounded-md">
                                 <i class="fas fa-user-circle mr-2 text-indigo-600"></i>
                                 <span class="font-medium"><?= htmlspecialchars($_SESSION['user']['name']) ?></span>
