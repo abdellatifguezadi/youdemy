@@ -8,6 +8,7 @@ require_once '../app/controllers/UserController.php';
 require_once '../app/controllers/AuthController.php';
 require_once '../app/controllers/AdminController.php';
 require_once '../app/controllers/StudentController.php';
+require_once '../app/controllers/TeacherController.php';
 
 session_start();
 
@@ -44,6 +45,11 @@ Route::post('/admin/teachers/activate/{id}', [AdminController::class, 'activateT
 Route::post('/admin/teachers/reject/{id}', [AdminController::class, 'rejectTeacher']);
 Route::post('/admin/users/suspend/{id}', [AdminController::class, 'suspendUser']);
 Route::post('/admin/users/activate/{id}', [AdminController::class, 'activateUser']);
+
+// Routes teacher
+Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard']);
+Route::get('/teacher/courses', [TeacherController::class, 'courses']);
+Route::get('/teacher/students', [TeacherController::class, 'students']);
 
 // Student routes
 Route::get('/my-enrollments', [StudentController::class, 'enrollments']);
