@@ -168,43 +168,42 @@ class Course extends Db
     }
 
     public function teacherCourses($teacherId) {
-        $sql = "SELECT 
-                    c.*,
-                    u.name as teacher_name,
-                    cat.name as category_name,
-                    (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as student_count
-                FROM {$this->table} c
-                LEFT JOIN users u ON c.teacher_id = u.id
-                LEFT JOIN categories cat ON c.category_id = cat.id
+        $sql = "SELECT c.*, c.title as name, u.name as teacher_name, cat.name as category_name,
+                (SELECT COUNT(*) FROM enrollments e WHERE e.course_id = c.id) as student_count
+                FROM courses c 
+                JOIN users u ON c.teacher_id = u.id
+                JOIN categories cat ON c.category_id = cat.id
                 WHERE c.teacher_id = ?
                 ORDER BY c.created_at DESC";
-                
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$teacherId]);
         $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach ($courses as &$course) {
-            $course['tags'] = $this->tagModel->getCourseTags($course['id']);
+        $result = [];
+        foreach ($courses as $courseData) {
+            $courseData['tags'] = $this->tagModel->getCourseTags($courseData['id']);
+            
+            if (!empty($courseData['video_url'])) {
+                $result[] = new VideoCourse($courseData);
+            } else {
+                $result[] = new DocumentCourse($courseData);
+            }
         }
-
-        return $courses;
+        
+        return $result;
     }
 
     public function createCourse($data) {
         try {
             $this->conn->beginTransaction();
 
-            // Debug des données reçues
-            echo "<pre>Données reçues : ";
-            print_r($data);
-            echo "</pre>";
-
-            // Récupérer le nom de la catégorie
+   
             $stmt = $this->conn->prepare("SELECT name FROM categories WHERE id = ?");
             $stmt->execute([$data['category_id']]);
             $categoryName = $stmt->fetchColumn();
 
-            // Créer l'objet du bon type avec les données complètes
+           
             $course = $data['type'] === 'video' 
                 ? new VideoCourse([
                     'title' => $data['title'],
@@ -227,56 +226,35 @@ class Course extends Db
                     'document' => $data['document']
                 ]);
 
-            // Utiliser les méthodes de l'objet pour l'insertion
             $sql = "INSERT INTO {$this->table} (title, description, photo_url, teacher_id, category_id, created_at";
-            
-            // Utiliser getType() pour déterminer la colonne
+
             if ($course->getType() === 'Cours vidéo') {
                 $sql .= ", video_url";
             } else {
                 $sql .= ", document";
             }
             $sql .= ") VALUES (?, ?, ?, ?, ?, NOW(), ?)";
-
+            
             $params = [
                 $course->getTitle(),
                 $course->getDescription(),
                 $course->getPhotoUrl(),
                 $course->getTeacherId(),
                 $course->getCategoryId(),
-                $course->getContent()  // Polymorphique : retourne soit video_url soit document
+                $course->getContent() 
             ];
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($params);
             $courseId = $this->conn->lastInsertId();
 
-            echo "<br>Cours créé avec ID: " . $courseId;
-
-            // Debug des tags
-            echo "<pre>Tags reçus : ";
-            print_r($data['tags'] ?? 'Aucun tag');
-            echo "</pre>";
-
-            // Gestion des tags
             if (isset($data['tags']) && is_array($data['tags'])) {
-                echo "<br>Nombre de tags à insérer : " . count($data['tags']);
-                
                 $tagSql = "INSERT INTO course_tags (course_id, tag_id) VALUES (?, ?)";
                 $tagStmt = $this->conn->prepare($tagSql);
                 
                 foreach ($data['tags'] as $tagId) {
-                    try {
-                        echo "<br>Insertion du tag {$tagId} pour le cours {$courseId}";
-                        $tagStmt->execute([$courseId, $tagId]);
-                        echo "<br>Tag {$tagId} inséré avec succès";
-                    } catch (PDOException $e) {
-                        echo "<br>Erreur lors de l'insertion du tag {$tagId}: " . $e->getMessage();
-                        throw $e;
-                    }
+                    $tagStmt->execute([$courseId, $tagId]);
                 }
-            } else {
-                echo "<br>Pas de tags valides dans les données";
             }
 
             $this->conn->commit();
@@ -284,11 +262,9 @@ class Course extends Db
 
         } catch (PDOException $e) {
             $this->conn->rollBack();
-            echo "<br>Erreur PDO: " . $e->getMessage();
             throw new Exception("Database error: " . $e->getMessage());
         } catch (Exception $e) {
             $this->conn->rollBack();
-            echo "<br>Erreur générale: " . $e->getMessage();
             throw new Exception("Error creating course: " . $e->getMessage());
         }
     }

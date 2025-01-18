@@ -47,7 +47,8 @@
                 <?php foreach ($courses as $course) : ?>
                     <div class="bg-white rounded-xl shadow-lg">
                         <div class="relative">
-                            <img src="<?= htmlspecialchars($course['photo_url']) ?>" alt="<?= htmlspecialchars($course['title']) ?>" 
+                            <img src="<?= htmlspecialchars($course->getPhotoUrl()) ?>" 
+                                 alt="<?= htmlspecialchars($course->getTitle()) ?>" 
                                  class="w-full h-48 object-cover rounded-t-xl">
 
                             <div class="absolute top-2 right-2 flex gap-2">
@@ -62,27 +63,27 @@
                         
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-gray-900 mb-3">
-                                <?= htmlspecialchars($course['title']) ?>
+                                <?= htmlspecialchars($course->getTitle()) ?>
                             </h3>
                             <p class="text-gray-500 text-sm mb-4 line-clamp-2">
-                                <?= htmlspecialchars($course['description']) ?>
+                                <?= htmlspecialchars($course->getDescription()) ?>
                             </p>
 
                             <div class="flex items-center justify-between">
-                                <span class="flex items-center gap-1 px-3 py-1 <?= !empty($course['video_url']) ? 'bg-blue-50 text-blue-700' : 'bg-violet-50 text-violet-700' ?> rounded-full text-sm">
-                                    <i class="fas <?= !empty($course['video_url']) ? 'fa-video' : 'fa-file-alt' ?>"></i>
-                                    <span><?= !empty($course['video_url']) ? 'Video Course' : 'Document Course' ?></span>
+                                <span class="flex items-center gap-1 px-3 py-1 <?= $course instanceof VideoCourse ? 'bg-blue-50 text-blue-700' : 'bg-violet-50 text-violet-700' ?> rounded-full text-sm">
+                                    <i class="fas <?= $course instanceof VideoCourse ? 'fa-video' : 'fa-file-alt' ?>"></i>
+                                    <span><?= $course->getType() ?></span>
                                 </span>
->
+
                                 <div class="flex items-center gap-2 text-gray-500">
                                     <i class="fas fa-users"></i>
-                                    <span class="text-sm"><?= $course['student_count'] ?? 0 ?> students</span>
+                                    <span class="text-sm"><?= $course->getStudentCount() ?> students</span>
                                 </div>
                             </div>
 
-                            <?php if (!empty($course['tags'])) : ?>
+                            <?php if (!empty($course->getTags())) : ?>
                                 <div class="mt-4 flex flex-wrap gap-2">
-                                    <?php foreach ($course['tags'] as $tag) : ?>
+                                    <?php foreach ($course->getTags() as $tag) : ?>
                                         <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
                                             <?= htmlspecialchars($tag['name']) ?>
                                         </span>
