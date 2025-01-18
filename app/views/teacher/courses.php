@@ -2,6 +2,7 @@
 
 <div class="flex min-h-screen bg-gray-100 pt-16">
 
+
     <button id="mobile-menu-button" class="lg:hidden fixed top-[1.35rem] left-4 z-50 bg-violet-600 text-white p-2 rounded-lg">
         <i class="fas fa-bars"></i>
     </button>
@@ -27,6 +28,13 @@
 
     <div class="flex-1 lg:ml-64">
         <div class="p-6">
+            <?php if (isset($_SESSION['message'])): ?>
+                <div class="mb-4 p-4 rounded-lg <?= $_SESSION['message']['type'] === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?>">
+                    <?= $_SESSION['message']['text'] ?>
+                </div>
+                <?php unset($_SESSION['message']); ?>
+            <?php endif; ?>
+
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-gray-900">My Courses</h1>
                 <button onclick="toggleAddCourseModal()" class="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
@@ -120,7 +128,7 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                        <select name="category" required
+                        <select name="category_id" required
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
                             <option value="">Select Category</option>
                             <?php foreach ($categories as $category): ?>
@@ -153,14 +161,14 @@
                 <div id="courseContentField" class="hidden">
                     <div id="videoField" class="hidden">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Video URL</label>
-                        <input type="url" name="video_url"
+                        <input type="url" name="video"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500"
                             placeholder="Enter video URL">
                     </div>
 
                     <div id="documentField" class="hidden">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Document URL</label>
-                        <input type="url" name="document_url"
+                        <input type="url" name="document"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500"
                             placeholder="Enter document URL">
                     </div>
@@ -221,24 +229,24 @@
 
     function toggleContentField() {
         const courseType = document.getElementById('courseType').value;
-        const courseContentField = document.getElementById('courseContentField');
+        const contentField = document.getElementById('courseContentField');
         const videoField = document.getElementById('videoField');
         const documentField = document.getElementById('documentField');
+        const videoInput = videoField.querySelector('input');
+        const documentInput = documentField.querySelector('input');
 
-        courseContentField.classList.add('hidden');
+        contentField.classList.remove('hidden');
         videoField.classList.add('hidden');
         documentField.classList.add('hidden');
+        videoInput.removeAttribute('required');
+        documentInput.removeAttribute('required');
 
         if (courseType === 'video') {
-            courseContentField.classList.remove('hidden');
             videoField.classList.remove('hidden');
-            videoField.querySelector('input').required = true;
-            documentField.querySelector('input').required = false;
+            videoInput.setAttribute('required', 'required');
         } else if (courseType === 'document') {
-            courseContentField.classList.remove('hidden');
             documentField.classList.remove('hidden');
-            documentField.querySelector('input').required = true;
-            videoField.querySelector('input').required = false;
+            documentInput.setAttribute('required', 'required');
         }
     }
 </script>

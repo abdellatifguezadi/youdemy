@@ -52,6 +52,8 @@ Route::get('/teacher/courses', [TeacherController::class, 'courses']);
 Route::post('/teacher/courses', [TeacherController::class, 'createCourse']);
 Route::get('/teacher/students', [TeacherController::class, 'students']);
 
+
+
 // Student routes
 Route::get('/my-enrollments', [StudentController::class, 'enrollments']);
 Route::post('/course/enroll/{id}', [StudentController::class, 'enroll']);
