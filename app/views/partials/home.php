@@ -147,8 +147,12 @@
                                 <span class="text-gray-500 text-sm">
                                     <i class="fas fa-users mr-2"></i><?= $course->getStudentCount() ?> students
                                 </span>
-                                <span class="<?= $course->getIconColor() ?> text-sm" title="<?= $course->getType() ?>">
-                                    <i class="fas <?= $course->getIcon() ?>"></i>
+                                <span class="text-sm" title="<?= $course->getType() ?>">
+                                    <?php if ($course->getType() === 'Cours vidéo'): ?>
+                                        <i class="fas fa-video text-blue-500"></i>
+                                    <?php else: ?>
+                                        <i class="fas fa-file-pdf text-red-500"></i>
+                                    <?php endif; ?>
                                 </span>
                             </div>
                             <a href="/course/<?= $course->getId() ?>" 

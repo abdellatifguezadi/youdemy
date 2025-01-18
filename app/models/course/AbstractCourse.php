@@ -29,8 +29,6 @@ abstract class AbstractCourse {
 
     abstract public function getType();
     abstract public function getContent();
-    abstract public function getIcon();
-    abstract public function getIconColor();
 
     public function getId() { return $this->id; }
     public function getTitle() { return $this->title; }

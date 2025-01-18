@@ -85,7 +85,7 @@
                     </div>
                 </div>
 
-                <?php if ($course instanceof VideoCourse): ?>
+                <?php if ($course->getType() === 'Cours vidéo'): ?>
                 <div class="mt-8">
                     <div class="bg-gray-100 rounded-lg p-4 max-w-3xl mx-auto">
                         <div class="aspect-w-16 aspect-h-9">
@@ -103,7 +103,7 @@
                 </div>
                 <?php endif; ?>
 
-                <?php if ($course instanceof DocumentCourse): ?>
+                <?php if ($course->getType() === 'document'): ?>
                 <div class="mt-8 bg-gray-100 rounded-lg p-6">
                     <div class="flex items-center mb-4">
                         <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>

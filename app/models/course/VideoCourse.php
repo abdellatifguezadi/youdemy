@@ -17,12 +17,4 @@ class VideoCourse extends AbstractCourse {
     public function getContent() {
         return $this->video_url;
     }
-
-    public function getIcon(){
-        return 'fa-video';
-    }
-
-    public function getIconColor(){
-        return 'text-blue-500';
-    }
 } 

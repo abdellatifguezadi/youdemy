@@ -17,12 +17,4 @@ class DocumentCourse extends AbstractCourse {
     public function getContent() {
         return $this->document;
     }
-
-    public function getIcon(){
-        return 'fa-file-alt';
-    }
-
-    public function getIconColor(){
-        return 'text-green-500';
-    }
 } 

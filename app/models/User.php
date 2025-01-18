@@ -71,6 +71,10 @@ class User extends Db
             return ['success' => false, 'message' => 'Your account is not active. Please wait for admin approval.'];
         }
 
+        if ((int)$user['is_active'] === 2) {
+            return ['success' => false, 'message' => 'Your account has been suspended. Please contact support.'];
+        }
+
         if (password_verify($password, $user['password'])) {
             $_SESSION['user'] = [
                 'id' => $user['id'],
@@ -112,6 +116,7 @@ class User extends Db
             SELECT users.*, roles.name as role_name 
             FROM users 
             LEFT JOIN roles ON users.role_id = roles.id
+            WHERE users.role_id != 1
         ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
