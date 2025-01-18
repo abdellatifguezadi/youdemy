@@ -1,8 +1,13 @@
 <?php include '../app/views/partials/modals/header.php'; ?>
 
 <div class="flex min-h-screen bg-gray-100 pt-16">
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-button" class="lg:hidden fixed top-[1.35rem] left-4 z-50 bg-violet-600 text-white p-2 rounded-lg">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <!-- Sidebar -->
-    <div class="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-violet-800 to-violet-600 text-white shadow-lg mt-16 z-10">
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-violet-800 to-violet-600 text-white shadow-lg mt-16 z-40 transition-transform duration-300 lg:translate-x-0 -translate-x-full">
         <nav class="py-6">
             <a href="/admin/dashboard" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors bg-white/10">
                 <i class="fas fa-home w-6"></i>
@@ -31,8 +36,11 @@
         </nav>
     </div>
 
+    <!-- Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden"></div>
+
     <!-- Main Content -->
-    <div class="flex-1 ml-64 p-8 pb-16">
+    <div class="flex-1 lg:ml-64 p-8 pb-16">
         <!-- Stats Grid -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <!-- Total Users -->
@@ -207,6 +215,21 @@
         </div>
     </div>
 </div>
+
+<!-- JavaScript for sidebar toggle -->
+<script>
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('-translate-x-full');
+        sidebarOverlay.classList.toggle('hidden');
+    }
+
+    mobileMenuButton.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+</script>
 
 <div class="z-20">
     <?php include '../app/views/partials/modals/footer.php'; ?>

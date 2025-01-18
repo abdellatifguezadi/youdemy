@@ -1,8 +1,13 @@
 <?php include '../app/views/partials/modals/header.php'; ?>
 
 <div class="flex min-h-screen bg-gray-100 pt-16">
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-button" class="lg:hidden fixed top-[1.35rem] left-4 z-50 bg-violet-600 text-white p-2 rounded-lg">
+        <i class="fas fa-bars"></i>
+    </button>
 
-    <div class="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-violet-800 to-violet-600 text-white shadow-lg mt-16 z-10">
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-violet-800 to-violet-600 text-white shadow-lg mt-16 z-40 transition-transform duration-300 lg:translate-x-0 -translate-x-full">
         <nav class="py-6">
             <a href="/teacher/dashboard" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors">
                 <i class="fas fa-home w-6"></i>
@@ -19,9 +24,11 @@
         </nav>
     </div>
 
-    <div class="flex-1 ml-64">
-        <div class="p-6">
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden"></div>
 
+    <!-- Main Content -->
+    <div class="flex-1 lg:ml-64">
+        <div class="p-6">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-bold text-gray-900">My Courses</h1>
                 <button class="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
@@ -31,7 +38,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
+                <!-- Course Card 1 -->
                 <div class="bg-white rounded-xl shadow-lg">
                     <div class="relative">
                         <img src="https://via.placeholder.com/600x340" alt="Course thumbnail" class="w-full h-48 object-cover rounded-t-xl">
@@ -48,7 +55,7 @@
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-3">Web Development Bootcamp</h3>
                         <p class="text-gray-500 text-sm mb-4 line-clamp-2">Complete web development course from zero to hero. Learn HTML, CSS, JavaScript, and more.</p>
-
+                        
                         <div class="flex items-center justify-between">
                             <span class="flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
                                 <i class="fas fa-video"></i>
@@ -62,6 +69,7 @@
                     </div>
                 </div>
 
+                <!-- Course Card 2 -->
                 <div class="bg-white rounded-xl shadow-lg">
                     <div class="relative">
                         <img src="https://via.placeholder.com/600x340" alt="Course thumbnail" class="w-full h-48 object-cover rounded-t-xl">
@@ -78,7 +86,7 @@
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-3">JavaScript Mastery</h3>
                         <p class="text-gray-500 text-sm mb-4 line-clamp-2">Master JavaScript with modern ES6+ features, async programming, and practical projects.</p>
-
+                        
                         <div class="flex items-center justify-between">
                             <span class="flex items-center gap-1 px-3 py-1 bg-violet-50 text-violet-700 rounded-full text-sm">
                                 <i class="fas fa-file-alt"></i>
@@ -92,6 +100,7 @@
                     </div>
                 </div>
 
+                <!-- Course Card 3 -->
                 <div class="bg-white rounded-xl shadow-lg">
                     <div class="relative">
                         <img src="https://via.placeholder.com/600x340" alt="Course thumbnail" class="w-full h-48 object-cover rounded-t-xl">
@@ -108,7 +117,7 @@
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-3">React for Beginners</h3>
                         <p class="text-gray-500 text-sm mb-4 line-clamp-2">Start your journey with React.js. Learn components, hooks, and build real applications.</p>
-
+                        
                         <div class="flex items-center justify-between">
                             <span class="flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
                                 <i class="fas fa-video"></i>
@@ -125,6 +134,21 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('-translate-x-full');
+        sidebarOverlay.classList.toggle('hidden');
+    }
+
+    mobileMenuButton.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+</script>
 
 <div class="z-20">
     <?php include '../app/views/partials/modals/footer.php'; ?>

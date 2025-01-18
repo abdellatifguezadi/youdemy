@@ -11,8 +11,8 @@
     <header class="fixed w-full bg-white shadow-md z-50">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold text-gray-800">
-                    <a href="/" class="flex items-center">
+                <div class="text-l font-bold text-gray-800">
+                    <a href="/" class="flex items-center pl-8">
                         <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">You</span>Demy
                     </a>
                 </div>
