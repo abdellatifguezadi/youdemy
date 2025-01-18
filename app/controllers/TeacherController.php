@@ -20,12 +20,19 @@ class TeacherController extends BaseController
 
     public function dashboard()
     {
+        
         $this->render('teacher/dashboard');
     }
 
     public function courses()
     {
-        $this->render('teacher/courses');
+
+        $teacherId = $_SESSION['user']['id'];
+
+        $courses = $this->courseModel->teacherCourses($teacherId);
+        $this->render('teacher/courses', [
+            'courses' => $courses
+        ]);
     }
 
     public function students()

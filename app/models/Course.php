@@ -2,19 +2,16 @@
 require_once(__DIR__ . '/../config/db.php');
 require_once(__DIR__ . '/course/VideoCourse.php');
 require_once(__DIR__ . '/course/DocumentCourse.php');
-require_once 'User.php';
 require_once 'Tag.php';
 
 class Course extends Db
 {
     private $table = "courses";
-    private $user;
     private $tagModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->user = new User();
         $this->tagModel = new Tag();
     }
 
@@ -160,12 +157,33 @@ class Course extends Db
     }
 
     public function deleteCourse($id) {
-        try {
+        
             $sql = "DELETE FROM courses WHERE id = ?";
             $stmt = $this->conn->prepare($sql);
             return $stmt->execute([$id]);
-        } catch (PDOException $e) {
-            return false;
+        
+    }
+
+    public function teacherCourses($teacherId) {
+        $sql = "SELECT 
+                    c.*,
+                    u.name as teacher_name,
+                    cat.name as category_name,
+                    (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as student_count
+                FROM {$this->table} c
+                LEFT JOIN users u ON c.teacher_id = u.id
+                LEFT JOIN categories cat ON c.category_id = cat.id
+                WHERE c.teacher_id = ?
+                ORDER BY c.created_at DESC";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$teacherId]);
+        $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($courses as &$course) {
+            $course['tags'] = $this->tagModel->getCourseTags($course['id']);
         }
+
+        return $courses;
     }
 } 

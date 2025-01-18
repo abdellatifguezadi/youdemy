@@ -36,96 +36,68 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-                <div class="bg-white rounded-xl shadow-lg">
-                    <div class="relative">
-                        <img src="https://via.placeholder.com/600x340" alt="Course thumbnail" class="w-full h-48 object-cover rounded-t-xl">
-                        <span class="absolute top-2 left-2 px-3 py-1 text-sm text-emerald-700 bg-emerald-100 rounded-full">Published</span>
-                        <div class="absolute top-2 right-2 flex gap-2">
-                            <button class="bg-violet-600 hover:bg-violet-700 text-white p-2 rounded-lg transition-colors">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">Web Development Bootcamp</h3>
-                        <p class="text-gray-500 text-sm mb-4 line-clamp-2">Complete web development course from zero to hero. Learn HTML, CSS, JavaScript, and more.</p>
-
-                        <div class="flex items-center justify-between">
-                            <span class="flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
-                                <i class="fas fa-video"></i>
-                                <span>Video Course</span>
-                            </span>
-                            <div class="flex items-center gap-2 text-gray-500">
-                                <i class="fas fa-users"></i>
-                                <span class="text-sm">1,234 students</span>
+                <?php foreach ($courses as $course) : ?>
+                    <div class="bg-white rounded-xl shadow-lg">
+                        <div class="relative">
+                            <img src="<?= htmlspecialchars($course['photo_url']) ?>" alt="<?= htmlspecialchars($course['title']) ?>" 
+                                 class="w-full h-48 object-cover rounded-t-xl">
+                            
+                            <!-- Action Buttons -->
+                            <div class="absolute top-2 right-2 flex gap-2">
+                                <button class="bg-violet-600 hover:bg-violet-700 text-white p-2 rounded-lg transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
+                        
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">
+                                <?= htmlspecialchars($course['title']) ?>
+                            </h3>
+                            <p class="text-gray-500 text-sm mb-4 line-clamp-2">
+                                <?= htmlspecialchars($course['description']) ?>
+                            </p>
 
-                <div class="bg-white rounded-xl shadow-lg">
-                    <div class="relative">
-                        <img src="https://via.placeholder.com/600x340" alt="Course thumbnail" class="w-full h-48 object-cover rounded-t-xl">
-                        <span class="absolute top-2 left-2 px-3 py-1 text-sm text-amber-700 bg-amber-100 rounded-full">Draft</span>
-                        <div class="absolute top-2 right-2 flex gap-2">
-                            <button class="bg-violet-600 hover:bg-violet-700 text-white p-2 rounded-lg transition-colors">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">JavaScript Mastery</h3>
-                        <p class="text-gray-500 text-sm mb-4 line-clamp-2">Master JavaScript with modern ES6+ features, async programming, and practical projects.</p>
-
-                        <div class="flex items-center justify-between">
-                            <span class="flex items-center gap-1 px-3 py-1 bg-violet-50 text-violet-700 rounded-full text-sm">
-                                <i class="fas fa-file-alt"></i>
-                                <span>Document Course</span>
-                            </span>
-                            <div class="flex items-center gap-2 text-gray-500">
-                                <i class="fas fa-users"></i>
-                                <span class="text-sm">956 students</span>
+                            <div class="flex items-center justify-between">
+                                <span class="flex items-center gap-1 px-3 py-1 <?= !empty($course['video_url']) ? 'bg-blue-50 text-blue-700' : 'bg-violet-50 text-violet-700' ?> rounded-full text-sm">
+                                    <i class="fas <?= !empty($course['video_url']) ? 'fa-video' : 'fa-file-alt' ?>"></i>
+                                    <span><?= !empty($course['video_url']) ? 'Video Course' : 'Document Course' ?></span>
+                                </span>
+                                
+                                <!-- Student Count -->
+                                <div class="flex items-center gap-2 text-gray-500">
+                                    <i class="fas fa-users"></i>
+                                    <span class="text-sm"><?= $course['student_count'] ?? 0 ?> students</span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="bg-white rounded-xl shadow-lg">
-                    <div class="relative">
-                        <img src="https://via.placeholder.com/600x340" alt="Course thumbnail" class="w-full h-48 object-cover rounded-t-xl">
-                        <span class="absolute top-2 left-2 px-3 py-1 text-sm text-emerald-700 bg-emerald-100 rounded-full">Published</span>
-                        <div class="absolute top-2 right-2 flex gap-2">
-                            <button class="bg-violet-600 hover:bg-violet-700 text-white p-2 rounded-lg transition-colors">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <!-- Tags -->
+                            <?php if (!empty($course['tags'])) : ?>
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <?php foreach ($course['tags'] as $tag) : ?>
+                                        <span class="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
+                                            <?= htmlspecialchars($tag['name']) ?>
+                                        </span>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-3">React for Beginners</h3>
-                        <p class="text-gray-500 text-sm mb-4 line-clamp-2">Start your journey with React.js. Learn components, hooks, and build real applications.</p>
+                <?php endforeach; ?>
 
-                        <div class="flex items-center justify-between">
-                            <span class="flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm">
-                                <i class="fas fa-video"></i>
-                                <span>Video Course</span>
-                            </span>
-                            <div class="flex items-center gap-2 text-gray-500">
-                                <i class="fas fa-users"></i>
-                                <span class="text-sm">784 students</span>
-                            </div>
-                        </div>
+                <?php if (empty($courses)) : ?>
+                    <div class="col-span-full text-center py-8">
+                        <p class="text-gray-500">You haven't created any courses yet.</p>
+                        <button onclick="toggleAddCourseModal()" 
+                                class="mt-4 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-colors">
+                            <i class="fas fa-plus"></i>
+                            <span>Create Your First Course</span>
+                        </button>
                     </div>
-                </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -273,7 +245,6 @@
 </div>
 
 <script>
-
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebar-overlay');
     const mobileMenuButton = document.getElementById('mobile-menu-button');
