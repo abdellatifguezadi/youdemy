@@ -36,21 +36,21 @@ class Course extends Db
                 LEFT JOIN users u ON c.teacher_id = u.id
                 LEFT JOIN categories cat ON c.category_id = cat.id";
 
-       
+
         if (!empty($tag)) {
             $sql .= " LEFT JOIN course_tags ct ON c.id = ct.course_id";
         }
-        
+
         $sql .= " WHERE 1=1";
-        
+
         $params = [];
-        
+
         if (!empty($keywords)) {
             $sql .= " AND (c.title LIKE ? OR c.description LIKE ?)";
             $params[] = "%$keywords%";
             $params[] = "%$keywords%";
         }
-        
+
         if (!empty($category)) {
             $sql .= " AND cat.id = ?";
             $params[] = $category;
@@ -60,7 +60,7 @@ class Course extends Db
             $sql .= " AND ct.tag_id = ?";
             $params[] = $tag;
         }
-        
+
         $sql .= " ORDER BY c.created_at DESC";
 
         if ($limit !== null) {
@@ -89,17 +89,17 @@ class Course extends Db
         if (!empty($tag)) {
             $sql .= " LEFT JOIN course_tags ct ON c.id = ct.course_id";
         }
-        
+
         $sql .= " WHERE 1=1";
-        
+
         $params = [];
-        
+
         if (!empty($keywords)) {
             $sql .= " AND (c.title LIKE ? OR c.description LIKE ?)";
             $params[] = "%$keywords%";
             $params[] = "%$keywords%";
         }
-        
+
         if (!empty($category)) {
             $sql .= " AND cat.id = ?";
             $params[] = $category;
@@ -124,7 +124,7 @@ class Course extends Db
                 LEFT JOIN users u ON c.teacher_id = u.id
                 LEFT JOIN categories cat ON c.category_id = cat.id
                 WHERE c.id = ?";
-                
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
         $course = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -160,11 +160,11 @@ class Course extends Db
     }
 
     public function deleteCourse($id) {
-        
+
             $sql = "DELETE FROM courses WHERE id = ?";
             $stmt = $this->conn->prepare($sql);
             return $stmt->execute([$id]);
-        
+
     }
 
     public function teacherCourses($teacherId) {
@@ -183,66 +183,75 @@ class Course extends Db
         $result = [];
         foreach ($courses as $courseData) {
             $courseData['tags'] = $this->tagModel->getCourseTags($courseData['id']);
-            
+
             if (!empty($courseData['video_url'])) {
                 $result[] = new VideoCourse($courseData);
             } else {
                 $result[] = new DocumentCourse($courseData);
             }
         }
-        
+
         return $result;
     }
 
-    public function createCourse($data)
-    {
+    public function createCourse($data) {
         try {
             $this->conn->beginTransaction();
 
-            // Get category name for the course object
+
             $stmt = $this->conn->prepare("SELECT name FROM categories WHERE id = ?");
             $stmt->execute([$data['category_id']]);
             $categoryName = $stmt->fetchColumn();
 
-            // Create the appropriate course object
-            $courseData = array_merge($data, [
-                'id' => null,
-                'created_at' => date('Y-m-d H:i:s'),
-                'name' => isset($data['name']) ? $data['name'] : '',
-                'category_name' => $categoryName
-            ]);
 
             $course = $data['type'] === 'video' 
-                ? new VideoCourse($courseData)
-                : new DocumentCourse($courseData);
+                ? new VideoCourse([
+                    'title' => $data['title'],
+                    'description' => $data['description'],
+                    'photo_url' => $data['photo_url'],
+                    'teacher_id' => $data['teacher_id'],
+                    'category_id' => $data['category_id'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'category_name' => $categoryName,
+                    'video_url' => $data['video']
+                ])
+                : new DocumentCourse([
+                    'title' => $data['title'],
+                    'description' => $data['description'],
+                    'photo_url' => $data['photo_url'],
+                    'teacher_id' => $data['teacher_id'],
+                    'category_id' => $data['category_id'],
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'category_name' => $categoryName,
+                    'document' => $data['document']
+                ]);
 
-            // Insert into database
             $sql = "INSERT INTO {$this->table} (title, description, photo_url, teacher_id, category_id, created_at";
-            if ($course instanceof VideoCourse) {
+
+            if ($course->getType() === 'Cours vidéo') {
                 $sql .= ", video_url";
             } else {
                 $sql .= ", document";
             }
             $sql .= ") VALUES (?, ?, ?, ?, ?, NOW(), ?)";
-            
+
             $params = [
                 $course->getTitle(),
                 $course->getDescription(),
                 $course->getPhotoUrl(),
                 $course->getTeacherId(),
                 $course->getCategoryId(),
-                $course->getContent()
+                $course->getContent() 
             ];
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($params);
             $courseId = $this->conn->lastInsertId();
 
-            // Insert tags if any
-            if (!empty($data['tags'])) {
+            if (isset($data['tags']) && is_array($data['tags'])) {
                 $tagSql = "INSERT INTO course_tags (course_id, tag_id) VALUES (?, ?)";
                 $tagStmt = $this->conn->prepare($tagSql);
-                
+
                 foreach ($data['tags'] as $tagId) {
                     $tagStmt->execute([$courseId, $tagId]);
                 }
@@ -306,7 +315,7 @@ class Course extends Db
             if (!empty($data['tags'])) {
                 $tagSql = "INSERT INTO course_tags (course_id, tag_id) VALUES (?, ?)";
                 $tagStmt = $this->conn->prepare($tagSql);
-                
+
                 foreach ($data['tags'] as $tagId) {
                     $tagStmt->execute([$data['id'], $tagId]);
                 }
@@ -345,7 +354,7 @@ class Course extends Db
             $courseData['tags'] = $this->tagModel->getCourseTags($courseData['id']);
             $result[] = $this->createCourseObject($courseData);
         }
-        
+
         return $result;
     }
 
@@ -369,7 +378,7 @@ class Course extends Db
             $courseData['tags'] = $this->tagModel->getCourseTags($courseData['id']);
             $result[] = $this->createCourseObject($courseData);
         }
-        
+
         return $result;
     }
 
@@ -385,41 +394,32 @@ class Course extends Db
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return (int)$result['count'];
     }
-
     public function validateCourseData($courseData)
     {
         $errors = [];
-
         $requiredFields = ['title', 'description', 'photo_url', 'type', 'category_id'];
         foreach ($requiredFields as $field) {
             if (empty($courseData[$field])) {
                 $errors[] = ucfirst($field) . ' is required.';
             }
         }
-
         if (strlen($courseData['title']) < 3 || strlen($courseData['title']) > 100) {
             $errors[] = 'Title must be between 3 and 100 characters.';
         }
-
         if (strlen($courseData['description']) < 10 || strlen($courseData['description']) > 1000) {
             $errors[] = 'Description must be between 10 and 1000 characters.';
         }
-
         if (!filter_var($courseData['photo_url'], FILTER_VALIDATE_URL)) {
             $errors[] = 'Invalid photo URL format.';
         }
-
         if (!in_array($courseData['type'], ['video', 'document'])) {
             $errors[] = 'Invalid course type.';
         }
-
         if ($courseData['type'] === 'video' && empty($courseData['video'])) {
             $errors[] = 'Video URL is required for video courses.';
         } elseif ($courseData['type'] === 'document' && empty($courseData['document'])) {
             $errors[] = 'Document URL is required for document courses.';
         }
-
-
         return $errors;
     }
 } 
