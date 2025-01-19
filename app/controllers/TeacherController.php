@@ -117,7 +117,31 @@ class TeacherController extends BaseController
 
     public function students()
     {
-        $this->render('teacher/students');
+        $teacherId = $_SESSION['user']['id'];
+        $enrolledStudents = $this->userModel->getTeacherStudents($teacherId);
+        
+        // Organiser les données par cours
+        $courseStudents = [];
+        foreach ($enrolledStudents as $enrollment) {
+            if (!isset($courseStudents[$enrollment['course_id']])) {
+                $courseStudents[$enrollment['course_id']] = [
+                    'id' => $enrollment['course_id'],
+                    'title' => $enrollment['course_title'],
+                    'students' => []
+                ];
+            }
+            $courseStudents[$enrollment['course_id']]['students'][] = [
+                'id' => $enrollment['student_id'],
+                'name' => $enrollment['student_name'],
+                'email' => $enrollment['student_email'],
+                'enrollment_date' => $enrollment['enrollment_date'],
+                'status' => $enrollment['status']
+            ];
+        }
+
+        $this->render('teacher/students', [
+            'courseStudents' => $courseStudents
+        ]);
     }
 
     public function deleteCourse($id)
@@ -164,6 +188,37 @@ class TeacherController extends BaseController
         }
 
         header('Location: /teacher/courses');
+        exit();
+    }
+
+    public function deleteStudent($studentId)
+    {
+        if (!isset($_POST['course_id'])) {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => 'Course ID is required.'
+            ];
+            header('Location: /teacher/students');
+            exit();
+        }
+
+        $courseId = $_POST['course_id'];
+        $teacherId = $_SESSION['user']['id'];
+
+        // Vérifier que le cours appartient bien au professeur
+        if ($this->userModel->deleteStudentFromCourse($studentId, $courseId, $teacherId)) {
+            $_SESSION['message'] = [
+                'type' => 'success',
+                'text' => 'Student removed from course successfully.'
+            ];
+        } else {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => 'Failed to remove student from course.'
+            ];
+        }
+
+        header('Location: /teacher/students');
         exit();
     }
 } 

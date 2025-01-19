@@ -241,6 +241,27 @@ class User extends Db
         }
     }
 
+    public function deleteStudentFromCourse($studentId, $courseId, $teacherId)
+    {
+        try {
+            // Vérifier que le cours appartient bien au professeur
+            $sql = "SELECT id FROM courses WHERE id = ? AND teacher_id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([$courseId, $teacherId]);
+            
+            if (!$stmt->fetch()) {
+                return false;
+            }
+
+            // Supprimer l'inscription
+            $sql = "DELETE FROM enrollments WHERE student_id = ? AND course_id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$studentId, $courseId]);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public function suspendUser($id)
     {
         $sql = "UPDATE users SET is_active = 2 WHERE id = ? AND role_id != 1";
@@ -279,5 +300,21 @@ class User extends Db
         $stmt->execute([$teacherId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'] ?? 0;
+    }
+
+    public function getTeacherStudents($teacherId)
+    {
+        $sql = "SELECT c.id as course_id, c.title as course_title, 
+                       u.id as student_id, u.name as student_name, u.email as student_email,
+                       e.enrollment_date, e.status
+                FROM courses c
+                JOIN enrollments e ON c.id = e.course_id
+                JOIN users u ON e.student_id = u.id
+                WHERE c.teacher_id = ?
+                ORDER BY c.title, e.enrollment_date DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$teacherId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

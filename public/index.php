@@ -53,6 +53,7 @@ Route::post('/teacher/courses', [TeacherController::class, 'createCourse']);
 Route::post('/teacher/courses/update', [TeacherController::class, 'updateCourse']);
 Route::post('/teacher/courses/delete/{id}', [TeacherController::class, 'deleteCourse']);
 Route::get('/teacher/students', [TeacherController::class, 'students']);
+Route::post('/teacher/students/delete/{id}', [TeacherController::class, 'deleteStudent']);
 
 // Student routes
 Route::get('/my-enrollments', [StudentController::class, 'enrollments']);
