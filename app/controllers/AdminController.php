@@ -1,5 +1,5 @@
 <?php
-require_once '../app/models/User.php';
+require_once '../app/models/Admin.php';
 require_once '../app/models/Course.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Tag.php';
@@ -7,7 +7,7 @@ require_once '../app/models/Tag.php';
 class AdminController extends BaseController
 {
 
-    private $userModel;
+    private $adminModel;
     private $courseModel;
     private $categoryModel;
     private $tagModel;
@@ -21,7 +21,7 @@ class AdminController extends BaseController
             exit();
         }
         
-        $this->userModel = new User();
+        $this->adminModel = new Admin();
         $this->courseModel = new Course();
         $this->categoryModel = new Category();
         $this->tagModel = new Tag();
@@ -29,14 +29,14 @@ class AdminController extends BaseController
 
     public function dashboard()
     {
-        $totalUsers = $this->userModel->getTotalUsers();
+        $totalUsers = $this->adminModel->getTotalUsers();
         $totalCourses = $this->courseModel->getTotalCourses();
-        $activeTeachers = $this->userModel->getActiveTeachers();
-        $pendingTeachers = $this->userModel->getPendingTeachers();
+        $activeTeachers = $this->adminModel->getActiveTeachers();
+        $pendingTeachers = $this->adminModel->getPendingTeachers();
         $popularCourse = $this->courseModel->getMostPopularCourse();
         $categoryDistribution = $this->categoryModel->getCategoryDistribution();
-        $topTeachers = $this->userModel->getTopTeachers();
-        $recentActivities = $this->userModel->getRecentActivities();
+        $topTeachers = $this->adminModel->getTopTeachers();
+        $recentActivities = $this->adminModel->getRecentActivities();
 
         $this->render('admin/dashboard', [
             'totalUsers' => $totalUsers,
@@ -52,7 +52,7 @@ class AdminController extends BaseController
 
     public function pending()
     {
-        $pendingTeachers = $this->userModel->getTeacherpending();
+        $pendingTeachers = $this->adminModel->getTeacherpending();
         $this->render('admin/pending-teachers', ['pendingTeachers' => $pendingTeachers]);
     }
 
@@ -65,7 +65,7 @@ class AdminController extends BaseController
 
     public function users()
     {
-        $AllUsers = $this->userModel->getAllUsers();
+        $AllUsers = $this->adminModel->getAllUsers();
         $this->render('admin/users', ['AllUsers' => $AllUsers]);
     }
 
@@ -95,7 +95,7 @@ class AdminController extends BaseController
 
     public function deleteUser($id)
     {
-        $this->userModel->deleteUser($id);
+        $this->adminModel->deleteUser($id);
         header('Location: /admin/users');
         exit;
     }
@@ -272,7 +272,7 @@ class AdminController extends BaseController
 
     public function activateTeacher($id)
     {
-        if ($this->userModel->activateTeacher($id)) {
+        if ($this->adminModel->activateTeacher($id)) {
             $_SESSION['message'] = 'Teacher activated successfully';
             $_SESSION['message_type'] = 'success';
         } else {
@@ -285,7 +285,7 @@ class AdminController extends BaseController
 
     public function rejectTeacher($id)
     {
-        if ($this->userModel->rejectTeacher($id)) {
+        if ($this->adminModel->rejectTeacher($id)) {
             $_SESSION['message'] = 'Teacher rejected and account deleted successfully';
             $_SESSION['message_type'] = 'success';
         } else {
@@ -298,7 +298,7 @@ class AdminController extends BaseController
 
     public function suspendUser($id)
     {
-        if ($this->userModel->suspendUser($id)) {
+        if ($this->adminModel->suspendUser($id)) {
             $_SESSION['message'] = 'User suspended successfully';
             $_SESSION['message_type'] = 'success';
         } else {
@@ -311,7 +311,7 @@ class AdminController extends BaseController
 
     public function activateUser($id)
     {
-        if ($this->userModel->activateUser($id)) {
+        if ($this->adminModel->activateUser($id)) {
             $_SESSION['message'] = 'User activated successfully';
             $_SESSION['message_type'] = 'success';
         } else {

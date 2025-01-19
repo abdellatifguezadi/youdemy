@@ -3,6 +3,7 @@ require_once '../app/models/Course.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Tag.php';
 require_once '../app/models/User.php';
+require_once '../app/models/Student.php';
 
 class UserController extends BaseController 
 {
@@ -10,6 +11,7 @@ class UserController extends BaseController
     private $categoryModel;
     private $tagModel;
     private $userModel;
+    private $studentModel;
 
     function __construct()
     {
@@ -17,6 +19,7 @@ class UserController extends BaseController
         $this->categoryModel = new Category();
         $this->tagModel = new Tag();
         $this->userModel = new User();
+        $this->studentModel = new Student();
     }
 
     public function index()
@@ -67,7 +70,7 @@ class UserController extends BaseController
 
         $enrollment = null;
         if (isset($_SESSION['user']) && $_SESSION['user']['role_name'] === 'student') {
-            $enrollment = $this->userModel->getEnrollmentStatus($_SESSION['user']['id'], $id);
+            $enrollment = $this->studentModel->getEnrollmentStatus($id, $_SESSION['user']['id']);
         }
 
         require '../app/views/course/details.php';

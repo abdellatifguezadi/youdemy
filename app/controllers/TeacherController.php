@@ -1,8 +1,12 @@
 <?php
+require_once '../app/models/Teacher.php';
+require_once '../app/models/Course.php';
+require_once '../app/models/Category.php';
+require_once '../app/models/Tag.php';
 
 class TeacherController extends BaseController
 {
-    private $userModel;
+    private $teacherModel;
     private $courseModel;
     private $categoryModel;
     private $tagModel;
@@ -18,7 +22,7 @@ class TeacherController extends BaseController
             exit();
         }
         
-        $this->userModel = new User();
+        $this->teacherModel = new Teacher();
         $this->courseModel = new Course();
         $this->categoryModel = new Category();
         $this->tagModel = new Tag();
@@ -41,7 +45,7 @@ class TeacherController extends BaseController
                 }
             }
         }
-        $totalStudents = $this->userModel->getTeacherTotalStudents($teacherId);
+        $totalStudents = $this->teacherModel->getTeacherTotalStudents($teacherId);
         $popularCourses = $this->courseModel->getPopularCoursesByTeacher($teacherId);
         $recentCourses = $this->courseModel->getRecentCoursesByTeacher($teacherId, 5);
         $pendingEnrollments = $this->courseModel->getPendingEnrollmentsCount($teacherId);
@@ -130,7 +134,7 @@ class TeacherController extends BaseController
     public function students()
     {
         $teacherId = $_SESSION['user']['id'];
-        $enrolledStudents = $this->userModel->getTeacherStudents($teacherId);
+        $enrolledStudents = $this->teacherModel->getTeacherStudents($teacherId);
 
         $courseStudents = [];
         foreach ($enrolledStudents as $enrollment) {
@@ -168,7 +172,7 @@ class TeacherController extends BaseController
         $courseId = $_POST['course_id'];
         $teacherId = $_SESSION['user']['id'];
 
-
+    
 
         $courseData = [
             'id' => $courseId,
@@ -227,7 +231,7 @@ class TeacherController extends BaseController
         $courseId = $_POST['course_id'];
         $teacherId = $_SESSION['user']['id'];
 
-        if ($this->userModel->deleteStudentFromCourse($studentId, $courseId, $teacherId)) {
+        if ($this->teacherModel->deleteStudentFromCourse($studentId, $courseId, $teacherId)) {
             $_SESSION['message'] = [
                 'type' => 'success',
                 'text' => 'Student removed from course successfully.'
@@ -249,7 +253,7 @@ class TeacherController extends BaseController
         $status = $_POST['status'];
         $teacherId = $_SESSION['user']['id'];
 
-        if ($this->userModel->updateEnrollmentStatus($studentId, $courseId, $status, $teacherId)) {
+        if ($this->teacherModel->updateEnrollmentStatus($studentId, $courseId, $status, $teacherId)) {
             $_SESSION['message'] = [
                 'type' => 'success',
                 'text' => 'Enrollment status updated successfully.'

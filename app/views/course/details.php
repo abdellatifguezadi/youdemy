@@ -62,19 +62,19 @@
                                     Se connecter pour s'inscrire
                                 </a>
                             <?php elseif (isset($_SESSION['user']) && $_SESSION['user']['role_name'] === 'student'): ?>
-                                <?php if ($enrollment === null || $enrollment === false): ?>
+                                <?php if (!$enrollment): ?>
                                     <form action="/course/enroll/<?= $course->getId() ?>" method="POST" class="inline">
                                         <button type="submit" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                             <i class="fas fa-graduation-cap mr-2"></i>
                                             S'inscrire au cours
                                         </button>
                                     </form>
-                                <?php elseif (isset($enrollment['status']) && $enrollment['status'] === 'approved'): ?>
+                                <?php elseif ($enrollment === 'approved'): ?>
                                     <button disabled class="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg cursor-not-allowed">
                                         <i class="fas fa-check-circle mr-2"></i>
                                         Déjà inscrit
                                     </button>
-                                <?php elseif (isset($enrollment['status']) && $enrollment['status'] === 'pending'): ?>
+                                <?php elseif ($enrollment === 'pending'): ?>
                                     <button disabled class="inline-flex items-center px-6 py-3 bg-yellow-600 text-white rounded-lg cursor-not-allowed">
                                         <i class="fas fa-clock mr-2"></i>
                                         Inscription en attente

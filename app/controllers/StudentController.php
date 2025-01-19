@@ -1,12 +1,13 @@
 <?php
+require_once '../app/models/Student.php';
 
 class StudentController extends BaseController
 {
-    private $userModel;
+    private $studentModel;
 
     public function __construct()
     {
-        $this->userModel = new User();
+        $this->studentModel = new Student();
         
         if (!isset($_SESSION['user']) || $_SESSION['user']['role_name'] !== 'student') {
             $_SESSION['message'] = 'You must be logged in as a student to access this page';
@@ -18,7 +19,7 @@ class StudentController extends BaseController
 
     public function enrollments()
     {
-        $enrollments = $this->userModel->getMyEnrollments($_SESSION['user']['id']);
+        $enrollments = $this->studentModel->getMyEnrollments($_SESSION['user']['id']);
         $this->render('user/enrollments', [
             'enrollments' => $enrollments
         ]);
@@ -26,7 +27,7 @@ class StudentController extends BaseController
 
     public function enroll($courseId)
     {
-        if ($this->userModel->enrollInCourse($_SESSION['user']['id'], $courseId)) {
+        if ($this->studentModel->enrollInCourse($courseId, $_SESSION['user']['id'])) {
             $_SESSION['message'] = 'Successfully enrolled in the course!';
             $_SESSION['message_type'] = 'success';
         } else {
@@ -40,7 +41,7 @@ class StudentController extends BaseController
 
     public function deleteEnrollment($courseId)
     {
-        if ($this->userModel->deleteEnrollment($_SESSION['user']['id'], $courseId)) {
+        if ($this->studentModel->deleteEnrollment($courseId, $_SESSION['user']['id'])) {
             $_SESSION['message'] = 'Successfully unenrolled from the course.';
             $_SESSION['message_type'] = 'success';
         } else {
