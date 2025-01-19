@@ -57,28 +57,33 @@
 
                         <div class="text-center md:text-left">
                             <?php if (!isset($_SESSION['user'])): ?>
-                                <a href="/login" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                <a href="/login" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition">
                                     <i class="fas fa-sign-in-alt mr-2"></i>
                                     Se connecter pour s'inscrire
                                 </a>
                             <?php elseif (isset($_SESSION['user']) && $_SESSION['user']['role_name'] === 'student'): ?>
-                                <?php if (!$enrollment): ?>
+                                <?php if ($enrollment === null): ?>
                                     <form action="/course/enroll/<?= $course->getId() ?>" method="POST" class="inline">
-                                        <button type="submit" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                        <button type="submit" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition">
                                             <i class="fas fa-graduation-cap mr-2"></i>
                                             S'inscrire au cours
                                         </button>
                                     </form>
                                 <?php elseif ($enrollment === 'approved'): ?>
-                                    <button disabled class="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg cursor-not-allowed">
+                                    <span class="inline-flex items-center px-6 py-3 bg-green-100 text-green-800 rounded-lg">
                                         <i class="fas fa-check-circle mr-2"></i>
                                         Déjà inscrit
-                                    </button>
+                                    </span>
                                 <?php elseif ($enrollment === 'pending'): ?>
-                                    <button disabled class="inline-flex items-center px-6 py-3 bg-yellow-600 text-white rounded-lg cursor-not-allowed">
+                                    <span class="inline-flex items-center px-6 py-3 bg-yellow-100 text-yellow-800 rounded-lg">
                                         <i class="fas fa-clock mr-2"></i>
                                         Inscription en attente
-                                    </button>
+                                    </span>
+                                <?php elseif ($enrollment === 'rejected'): ?>
+                                    <span class="inline-flex items-center px-6 py-3 bg-red-100 text-red-800 rounded-lg">
+                                        <i class="fas fa-times-circle mr-2"></i>
+                                        Inscription refusée
+                                    </span>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>

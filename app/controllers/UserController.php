@@ -24,6 +24,17 @@ class UserController extends BaseController
 
     public function index()
     {
+        // Rediriger les admins et teachers vers leurs tableaux de bord
+        if (isset($_SESSION['user'])) {
+            if ($_SESSION['user']['role_name'] === 'admin') {
+                header('Location: /admin/dashboard');
+                exit();
+            } elseif ($_SESSION['user']['role_name'] === 'teacher') {
+                header('Location: /teacher/dashboard');
+                exit();
+            }
+        }
+
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $limit = 8;
         $offset = ($page - 1) * $limit;
@@ -55,26 +66,8 @@ class UserController extends BaseController
             'currentKeywords' => $keywords,
             'currentCategory' => $category,
             'currentTag' => $tag,
-            'queryParams' => $queryParams
+            'queryParams' => $queryParams,
+            'studentModel' => $this->studentModel
         ]);
     }
-
-    public function courseDetails($id)
-    {
-        $course = $this->courseModel->getCourseById($id);
-        
-        if (!$course) {
-            header('Location: /404');
-            exit();
-        }
-
-        $enrollment = null;
-        if (isset($_SESSION['user']) && $_SESSION['user']['role_name'] === 'student') {
-            $enrollment = $this->studentModel->getEnrollmentStatus($id, $_SESSION['user']['id']);
-        }
-
-        require '../app/views/course/details.php';
-    }
-
-  
 }

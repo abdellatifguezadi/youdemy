@@ -17,7 +17,6 @@ Route::setRouter($router);
 
 // Pages principales
 Route::get('/', [UserController::class, 'index']);
-Route::get('/course/{id}', [UserController::class, 'courseDetails']);
 
 // Routes d'authentification
 Route::get('/login', [AuthController::class, 'showLoginForm']);
@@ -60,5 +59,6 @@ Route::post('/teacher/students/update-status/{id}', [TeacherController::class, '
 Route::get('/my-enrollments', [StudentController::class, 'enrollments']);
 Route::post('/course/enroll/{id}', [StudentController::class, 'enroll']);
 Route::post('/my-enrollments/delete/{id}', [StudentController::class, 'deleteEnrollment']);
+Route::get('/course/{id}', [StudentController::class, 'courseDetails']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

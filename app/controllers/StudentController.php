@@ -1,5 +1,6 @@
 <?php
 require_once '../app/models/Student.php';
+require_once '../app/models/Course.php';
 
 class StudentController extends BaseController
 {
@@ -15,6 +16,31 @@ class StudentController extends BaseController
             header('Location: /login');
             exit();
         }
+    }
+
+    public function courseDetails($id)
+    {
+        $courseModel = new Course();
+        $course = $courseModel->getCourseById($id);
+        
+        if (!$course) {
+            header('Location: /404');
+            exit();
+        }
+
+        $enrollment = $this->studentModel->getEnrollmentStatus($id, $_SESSION['user']['id']);
+
+        // Vérifier si l'étudiant est inscrit et approuvé
+        if ($enrollment !== 'approved') {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => 'Vous devez être inscrit et approuvé pour accéder aux détails de ce cours.'
+            ];
+            header('Location: /');
+            exit();
+        }
+
+        require '../app/views/course/details.php';
     }
 
     public function enrollments()

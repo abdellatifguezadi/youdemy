@@ -93,12 +93,12 @@ class TeacherController extends BaseController
             'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
         ];
 
+        // Add the appropriate content field based on type
         if ($courseData['type'] === 'video') {
-            $courseData['video'] = trim($_POST['video']);
+            $courseData['video_url'] = trim($_POST['video']);
         } else {
             $courseData['document'] = trim($_POST['document']);
         }
-
 
         $errors = $this->courseModel->validateCourseData($courseData);
         
@@ -108,7 +108,7 @@ class TeacherController extends BaseController
                 'text' => implode(' ', $errors)
             ];
             $_SESSION['form_data'] = $courseData;
-            header('Location: /teacher/courses/create');
+            header('Location: /teacher/courses');
             exit();
         }
 
@@ -124,7 +124,7 @@ class TeacherController extends BaseController
                 'type' => 'error',
                 'text' => 'Failed to create course.'
             ];
-            $_SESSION['form_data'] = $courseData; 
+            $_SESSION['form_data'] = $courseData;
         }
 
         header('Location: /teacher/courses');

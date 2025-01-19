@@ -155,10 +155,42 @@
                                     <?php endif; ?>
                                 </span>
                             </div>
-                            <a href="/course/<?= $course->getId() ?>" 
-                               class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
-                                View Details
-                            </a>
+                            <?php if (!isset($_SESSION['user'])): ?>
+                                <a href="/login" 
+                                   class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
+                                    Se connecter
+                                </a>
+                            <?php elseif ($_SESSION['user']['role_name'] === 'student'): ?>
+                                <?php 
+                                    $enrollment = $studentModel->getEnrollmentStatus($course->getId(), $_SESSION['user']['id']);
+                                    if ($enrollment === null): 
+                                ?>
+                                    <form action="/course/enroll/<?= $course->getId() ?>" method="POST" class="inline">
+                                        <button type="submit" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition">
+                                            S'inscrire
+                                        </button>
+                                    </form>
+                                <?php elseif ($enrollment === 'approved'): ?>
+                                    <div class="flex gap-2">
+                                        <a href="/course/<?= $course->getId() ?>" 
+                                           class="px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-md hover:from-green-600 hover:to-green-700 transition">
+                                            Voir le cours
+                                        </a>
+                                    </div>
+                                <?php elseif ($enrollment === 'pending'): ?>
+                                    <span class="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-md">
+                                        <i class="fas fa-clock mr-1"></i> En attente
+                                    </span>
+                                <?php elseif ($enrollment === 'rejected'): ?>
+                                    <span class="px-4 py-2 bg-red-100 text-red-800 rounded-md">
+                                        <i class="fas fa-times-circle mr-1"></i> Refusé
+                                    </span>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <span class="text-sm text-gray-500">
+                                    <i class="fas fa-lock mr-1"></i> Réservé aux étudiants
+                                </span>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

@@ -194,41 +194,31 @@ class Course extends Db
         return $result;
     }
 
-    public function createCourse($data) {
+    public function createCourse($data)
+    {
         try {
             $this->conn->beginTransaction();
 
-   
+            // Get category name for the course object
             $stmt = $this->conn->prepare("SELECT name FROM categories WHERE id = ?");
             $stmt->execute([$data['category_id']]);
             $categoryName = $stmt->fetchColumn();
 
-           
+            // Create the appropriate course object
+            $courseData = array_merge($data, [
+                'id' => null,
+                'created_at' => date('Y-m-d H:i:s'),
+                'name' => isset($data['name']) ? $data['name'] : '',
+                'category_name' => $categoryName
+            ]);
+
             $course = $data['type'] === 'video' 
-                ? new VideoCourse([
-                    'title' => $data['title'],
-                    'description' => $data['description'],
-                    'photo_url' => $data['photo_url'],
-                    'teacher_id' => $data['teacher_id'],
-                    'category_id' => $data['category_id'],
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'category_name' => $categoryName,
-                    'video_url' => $data['video']
-                ])
-                : new DocumentCourse([
-                    'title' => $data['title'],
-                    'description' => $data['description'],
-                    'photo_url' => $data['photo_url'],
-                    'teacher_id' => $data['teacher_id'],
-                    'category_id' => $data['category_id'],
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'category_name' => $categoryName,
-                    'document' => $data['document']
-                ]);
+                ? new VideoCourse($courseData)
+                : new DocumentCourse($courseData);
 
+            // Insert into database
             $sql = "INSERT INTO {$this->table} (title, description, photo_url, teacher_id, category_id, created_at";
-
-            if ($course->getType() === 'Cours vidéo') {
+            if ($course instanceof VideoCourse) {
                 $sql .= ", video_url";
             } else {
                 $sql .= ", document";
@@ -241,14 +231,15 @@ class Course extends Db
                 $course->getPhotoUrl(),
                 $course->getTeacherId(),
                 $course->getCategoryId(),
-                $course->getContent() 
+                $course->getContent()
             ];
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($params);
             $courseId = $this->conn->lastInsertId();
 
-            if (isset($data['tags']) && is_array($data['tags'])) {
+            // Insert tags if any
+            if (!empty($data['tags'])) {
                 $tagSql = "INSERT INTO course_tags (course_id, tag_id) VALUES (?, ?)";
                 $tagStmt = $this->conn->prepare($tagSql);
                 
