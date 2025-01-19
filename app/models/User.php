@@ -232,34 +232,45 @@ class User extends Db
 
     public function deleteEnrollment($studentId, $courseId)
     {
-        try {
+
             $sql = "DELETE FROM enrollments WHERE student_id = ? AND course_id = ?";
             $stmt = $this->conn->prepare($sql);
             return $stmt->execute([$studentId, $courseId]);
-        } catch (Exception $e) {
-            return false;
-        }
+
     }
 
     public function deleteStudentFromCourse($studentId, $courseId, $teacherId)
     {
-        try {
-            // Vérifier que le cours appartient bien au professeur
-            $sql = "SELECT id FROM courses WHERE id = ? AND teacher_id = ?";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute([$courseId, $teacherId]);
-            
-            if (!$stmt->fetch()) {
-                return false;
-            }
-
-            // Supprimer l'inscription
-            $sql = "DELETE FROM enrollments WHERE student_id = ? AND course_id = ?";
-            $stmt = $this->conn->prepare($sql);
-            return $stmt->execute([$studentId, $courseId]);
-        } catch (Exception $e) {
+        // Vérifier que le cours appartient bien au professeur
+        $sql = "SELECT id FROM courses WHERE id = ? AND teacher_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$courseId, $teacherId]);
+        
+        if (!$stmt->fetch()) {
             return false;
         }
+
+        // Supprimer l'inscription
+        $sql = "DELETE FROM enrollments WHERE student_id = ? AND course_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$studentId, $courseId]);
+    }
+
+    public function updateEnrollmentStatus($studentId, $courseId, $status, $teacherId)
+    {
+        // Vérifier que le cours appartient bien au professeur
+        $sql = "SELECT id FROM courses WHERE id = ? AND teacher_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$courseId, $teacherId]);
+        
+        if (!$stmt->fetch()) {
+            return false;
+        }
+
+        // Mettre à jour le statut
+        $sql = "UPDATE enrollments SET status = ? WHERE student_id = ? AND course_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$status, $studentId, $courseId]);
     }
 
     public function suspendUser($id)

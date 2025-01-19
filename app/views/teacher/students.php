@@ -1,12 +1,11 @@
 <?php include '../app/views/partials/modals/header.php'; ?>
 
 <div class="flex min-h-screen bg-gray-100 pt-16">
-    <!-- Mobile Menu Button -->
+
     <button id="mobile-menu-button" class="lg:hidden fixed top-[1.35rem] left-4 z-50 bg-violet-600 text-white p-2 rounded-lg">
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- Sidebar -->
     <div id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-violet-800 to-violet-600 text-white shadow-lg mt-14 z-40 transition-transform duration-300 lg:translate-x-0 -translate-x-full">
         <nav class="py-6">
             <a href="/teacher/dashboard" class="flex items-center px-6 py-3 hover:bg-white/10 transition-colors">
@@ -24,10 +23,8 @@
         </nav>
     </div>
 
-    <!-- Overlay -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden"></div>
 
-    <!-- Main Content -->
     <div class="flex-1 lg:ml-64">
         <div class="p-8">
             <h1 class="text-2xl font-bold text-gray-800 mb-8">My Students</h1>
@@ -86,22 +83,28 @@
                                                 <?= date('M d, Y', strtotime($student['enrollment_date'])) ?>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                    <?php
-                                                    switch($student['status']) {
-                                                        case 'approved':
-                                                            echo 'bg-green-100 text-green-800';
-                                                            break;
-                                                        case 'pending':
-                                                            echo 'bg-yellow-100 text-yellow-800';
-                                                            break;
-                                                        case 'rejected':
-                                                            echo 'bg-red-100 text-red-800';
-                                                            break;
-                                                    }
-                                                    ?>">
-                                                    <?= $student['status'] ?>
-                                                </span>
+                                                <form action="/teacher/students/update-status/<?= $student['id'] ?>" method="POST" class="inline">
+                                                    <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
+                                                    <select name="status" onchange="this.form.submit()" 
+                                                            class="appearance-none bg-none cursor-pointer px-2 py-1 text-xs font-semibold rounded-full border-0 focus:ring-2 focus:ring-violet-500 [&::-ms-expand]:hidden
+                                                            <?php
+                                                            switch($student['status']) {
+                                                                case 'approved':
+                                                                    echo 'bg-green-100 text-green-800';
+                                                                    break;
+                                                                case 'pending':
+                                                                    echo 'bg-yellow-100 text-yellow-800';
+                                                                    break;
+                                                                case 'rejected':
+                                                                    echo 'bg-red-100 text-red-800';
+                                                                    break;
+                                                            }
+                                                            ?>">
+                                                        <option value="pending" <?= $student['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
+                                                        <option value="approved" <?= $student['status'] === 'approved' ? 'selected' : '' ?>>Approved</option>
+                                                        <option value="rejected" <?= $student['status'] === 'rejected' ? 'selected' : '' ?>>Rejected</option>
+                                                    </select>
+                                                </form>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                 <form action="/teacher/students/delete/<?= $student['id'] ?>" method="POST" 

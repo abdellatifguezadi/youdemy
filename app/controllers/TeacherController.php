@@ -119,8 +119,7 @@ class TeacherController extends BaseController
     {
         $teacherId = $_SESSION['user']['id'];
         $enrolledStudents = $this->userModel->getTeacherStudents($teacherId);
-        
-        // Organiser les données par cours
+
         $courseStudents = [];
         foreach ($enrolledStudents as $enrollment) {
             if (!isset($courseStudents[$enrollment['course_id']])) {
@@ -205,7 +204,6 @@ class TeacherController extends BaseController
         $courseId = $_POST['course_id'];
         $teacherId = $_SESSION['user']['id'];
 
-        // Vérifier que le cours appartient bien au professeur
         if ($this->userModel->deleteStudentFromCourse($studentId, $courseId, $teacherId)) {
             $_SESSION['message'] = [
                 'type' => 'success',
@@ -215,6 +213,28 @@ class TeacherController extends BaseController
             $_SESSION['message'] = [
                 'type' => 'error',
                 'text' => 'Failed to remove student from course.'
+            ];
+        }
+
+        header('Location: /teacher/students');
+        exit();
+    }
+
+    public function updateEnrollmentStatus($studentId)
+    {
+        $courseId = $_POST['course_id'];
+        $status = $_POST['status'];
+        $teacherId = $_SESSION['user']['id'];
+
+        if ($this->userModel->updateEnrollmentStatus($studentId, $courseId, $status, $teacherId)) {
+            $_SESSION['message'] = [
+                'type' => 'success',
+                'text' => 'Enrollment status updated successfully.'
+            ];
+        } else {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => 'Failed to update enrollment status.'
             ];
         }
 
