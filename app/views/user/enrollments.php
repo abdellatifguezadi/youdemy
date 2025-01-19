@@ -82,6 +82,16 @@
                                     Continue Learning
                                 </a>
                             <?php endif; ?>
+
+                            <form action="/my-enrollments/delete/<?= $enrollment['course_id'] ?>" method="POST" 
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir vous désinscrire de ce cours ?');" 
+                                  class="mt-2">
+                                <button type="submit" 
+                                        class="w-full px-4 py-2 border border-red-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <i class="fas fa-trash-alt mr-2"></i>
+                                    Se désinscrire
+                                </button>
+                            </form>
                         </div>
                     </div>
                 <?php endforeach; ?>

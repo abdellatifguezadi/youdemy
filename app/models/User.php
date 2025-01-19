@@ -230,6 +230,17 @@ class User extends Db
         return $stmt->execute([$studentId, $courseId]);
     }
 
+    public function deleteEnrollment($studentId, $courseId)
+    {
+        try {
+            $sql = "DELETE FROM enrollments WHERE student_id = ? AND course_id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$studentId, $courseId]);
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public function suspendUser($id)
     {
         $sql = "UPDATE users SET is_active = 2 WHERE id = ? AND role_id != 1";

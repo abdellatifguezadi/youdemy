@@ -37,4 +37,18 @@ class StudentController extends BaseController
         header('Location: /my-enrollments');
         exit();
     }
+
+    public function deleteEnrollment($courseId)
+    {
+        if ($this->userModel->deleteEnrollment($_SESSION['user']['id'], $courseId)) {
+            $_SESSION['message'] = 'Successfully unenrolled from the course.';
+            $_SESSION['message_type'] = 'success';
+        } else {
+            $_SESSION['message'] = 'Error occurred while trying to unenroll from the course.';
+            $_SESSION['message_type'] = 'error';
+        }
+        
+        header('Location: /my-enrollments');
+        exit();
+    }
 } 

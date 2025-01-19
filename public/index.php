@@ -57,5 +57,6 @@ Route::get('/teacher/students', [TeacherController::class, 'students']);
 // Student routes
 Route::get('/my-enrollments', [StudentController::class, 'enrollments']);
 Route::post('/course/enroll/{id}', [StudentController::class, 'enroll']);
+Route::post('/my-enrollments/delete/{id}', [StudentController::class, 'deleteEnrollment']);
 
 $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
