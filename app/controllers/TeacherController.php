@@ -80,9 +80,9 @@ class TeacherController extends BaseController
         }
 
         $courseData = [
-            'title' => $_POST['title'],
-            'description' => $_POST['description'],
-            'photo_url' => $_POST['photo_url'],
+            'title' => trim($_POST['title']),
+            'description' => trim($_POST['description']),
+            'photo_url' => trim($_POST['photo_url']),
             'teacher_id' => $_SESSION['user']['id'],
             'category_id' => $_POST['category_id'],
             'type' => $_POST['type'],
@@ -90,26 +90,38 @@ class TeacherController extends BaseController
         ];
 
         if ($courseData['type'] === 'video') {
-            $courseData['video'] = $_POST['video'];
+            $courseData['video'] = trim($_POST['video']);
         } else {
-            $courseData['document'] = $_POST['document'];
+            $courseData['document'] = trim($_POST['document']);
         }
 
 
-            $courseId = $this->courseModel->createCourse($courseData);
-            
-            if ($courseId) {
-                $_SESSION['message'] = [
-                    'type' => 'success',
-                    'text' => 'Course created successfully!'
-                ];
-            } else {
-                $_SESSION['message'] = [
-                    'type' => 'error',
-                    'text' => 'Failed to create course.'
-                ];
-            }
-      
+        $errors = $this->courseModel->validateCourseData($courseData);
+        
+        if (!empty($errors)) {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => implode(' ', $errors)
+            ];
+            $_SESSION['form_data'] = $courseData;
+            header('Location: /teacher/courses/create');
+            exit();
+        }
+
+        $courseId = $this->courseModel->createCourse($courseData);
+        
+        if ($courseId) {
+            $_SESSION['message'] = [
+                'type' => 'success',
+                'text' => 'Course created successfully!'
+            ];
+        } else {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => 'Failed to create course.'
+            ];
+            $_SESSION['form_data'] = $courseData; 
+        }
 
         header('Location: /teacher/courses');
         exit();
@@ -152,10 +164,7 @@ class TeacherController extends BaseController
 
     public function updateCourse()
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /teacher/courses');
-            exit();
-        }
+
 
         $courseData = [
             'id' => $_POST['course_id'],

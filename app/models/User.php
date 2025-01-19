@@ -241,7 +241,7 @@ class User extends Db
 
     public function deleteStudentFromCourse($studentId, $courseId, $teacherId)
     {
-        // Vérifier que le cours appartient bien au professeur
+
         $sql = "SELECT id FROM courses WHERE id = ? AND teacher_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$courseId, $teacherId]);
@@ -250,7 +250,6 @@ class User extends Db
             return false;
         }
 
-        // Supprimer l'inscription
         $sql = "DELETE FROM enrollments WHERE student_id = ? AND course_id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$studentId, $courseId]);
@@ -258,7 +257,7 @@ class User extends Db
 
     public function updateEnrollmentStatus($studentId, $courseId, $status, $teacherId)
     {
-        // Vérifier que le cours appartient bien au professeur
+
         $sql = "SELECT id FROM courses WHERE id = ? AND teacher_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$courseId, $teacherId]);
@@ -267,7 +266,6 @@ class User extends Db
             return false;
         }
 
-        // Mettre à jour le statut
         $sql = "UPDATE enrollments SET status = ? WHERE student_id = ? AND course_id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$status, $studentId, $courseId]);

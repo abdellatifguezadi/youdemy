@@ -394,4 +394,41 @@ class Course extends Db
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return (int)$result['count'];
     }
+
+    public function validateCourseData($courseData)
+    {
+        $errors = [];
+
+        $requiredFields = ['title', 'description', 'photo_url', 'type', 'category_id'];
+        foreach ($requiredFields as $field) {
+            if (empty($courseData[$field])) {
+                $errors[] = ucfirst($field) . ' is required.';
+            }
+        }
+
+        if (strlen($courseData['title']) < 3 || strlen($courseData['title']) > 100) {
+            $errors[] = 'Title must be between 3 and 100 characters.';
+        }
+
+        if (strlen($courseData['description']) < 10 || strlen($courseData['description']) > 1000) {
+            $errors[] = 'Description must be between 10 and 1000 characters.';
+        }
+
+        if (!filter_var($courseData['photo_url'], FILTER_VALIDATE_URL)) {
+            $errors[] = 'Invalid photo URL format.';
+        }
+
+        if (!in_array($courseData['type'], ['video', 'document'])) {
+            $errors[] = 'Invalid course type.';
+        }
+
+        if ($courseData['type'] === 'video' && empty($courseData['video'])) {
+            $errors[] = 'Video URL is required for video courses.';
+        } elseif ($courseData['type'] === 'document' && empty($courseData['document'])) {
+            $errors[] = 'Document URL is required for document courses.';
+        }
+
+
+        return $errors;
+    }
 } 
