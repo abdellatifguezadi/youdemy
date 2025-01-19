@@ -24,7 +24,7 @@ class UserController extends BaseController
 
     public function index()
     {
-        // Rediriger les admins et teachers vers leurs tableaux de bord
+       
         if (isset($_SESSION['user'])) {
             if ($_SESSION['user']['role_name'] === 'admin') {
                 header('Location: /admin/dashboard');
