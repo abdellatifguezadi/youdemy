@@ -50,6 +50,7 @@ Route::post('/admin/users/activate/{id}', [AdminController::class, 'activateUser
 Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard']);
 Route::get('/teacher/courses', [TeacherController::class, 'courses']);
 Route::post('/teacher/courses', [TeacherController::class, 'createCourse']);
+Route::post('/teacher/courses/update', [TeacherController::class, 'updateCourse']);
 Route::post('/teacher/courses/delete/{id}', [TeacherController::class, 'deleteCourse']);
 Route::get('/teacher/students', [TeacherController::class, 'students']);
 

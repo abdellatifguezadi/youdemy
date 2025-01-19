@@ -269,6 +269,67 @@ class Course extends Db
         }
     }
 
+    public function updateCourse($data) {
+        try {
+            $this->conn->beginTransaction();
+
+            $stmt = $this->conn->prepare("SELECT teacher_id FROM {$this->table} WHERE id = ?");
+            $stmt->execute([$data['id']]);
+            $course = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$course || $course['teacher_id'] != $data['teacher_id']) {
+                throw new Exception("Unauthorized access to course");
+            }
+
+            $sql = "UPDATE {$this->table} SET 
+                    title = ?, 
+                    description = ?, 
+                    photo_url = ?, 
+                    category_id = ?";
+
+            $params = [
+                $data['title'],
+                $data['description'],
+                $data['photo_url'],
+                $data['category_id']
+            ];
+
+            if ($data['type'] === 'video') {
+                $sql .= ", video_url = ?, document = NULL";
+                $params[] = $data['video'];
+            } else {
+                $sql .= ", document = ?, video_url = NULL";
+                $params[] = $data['document'];
+            }
+
+            $sql .= " WHERE id = ? AND teacher_id = ?";
+            $params[] = $data['id'];
+            $params[] = $data['teacher_id'];
+
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute($params);
+
+            $stmt = $this->conn->prepare("DELETE FROM course_tags WHERE course_id = ?");
+            $stmt->execute([$data['id']]);
+
+            if (!empty($data['tags'])) {
+                $tagSql = "INSERT INTO course_tags (course_id, tag_id) VALUES (?, ?)";
+                $tagStmt = $this->conn->prepare($tagSql);
+                
+                foreach ($data['tags'] as $tagId) {
+                    $tagStmt->execute([$data['id'], $tagId]);
+                }
+            }
+
+            $this->conn->commit();
+            return true;
+
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            return false;
+        }
+    }
+
     public function getPopularCoursesByTeacher($teacherId, $limit = 3)
     {
         $sql = "SELECT c.*, u.name as name, cat.name as category_name,

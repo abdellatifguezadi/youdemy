@@ -126,4 +126,44 @@ class TeacherController extends BaseController
         header('Location: /teacher/courses');
         exit;
     }
+
+    public function updateCourse()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: /teacher/courses');
+            exit();
+        }
+
+        $courseData = [
+            'id' => $_POST['course_id'],
+            'title' => $_POST['title'],
+            'description' => $_POST['description'],
+            'photo_url' => $_POST['photo_url'],
+            'teacher_id' => $_SESSION['user']['id'],
+            'category_id' => $_POST['category_id'],
+            'type' => $_POST['type'],
+            'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
+        ];
+
+        if ($courseData['type'] === 'video') {
+            $courseData['video'] = $_POST['video'];
+        } else {
+            $courseData['document'] = $_POST['document'];
+        }
+
+        if ($this->courseModel->updateCourse($courseData)) {
+            $_SESSION['message'] = [
+                'type' => 'success',
+                'text' => 'Course updated successfully!'
+            ];
+        } else {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => 'Failed to update course.'
+            ];
+        }
+
+        header('Location: /teacher/courses');
+        exit();
+    }
 } 
