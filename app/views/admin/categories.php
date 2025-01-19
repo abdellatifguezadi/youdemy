@@ -108,13 +108,6 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-                <div class="relative">
-                    <input type="text" placeholder="Search categories..."
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-violet-500 focus:border-violet-500">
-                    <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
-                </div>
-            </div>
             <div class="bg-white rounded-xl shadow-lg">
                 <div class="relative" style="height: 500px;">
                     <div style="position: absolute; inset: 0; overflow-x: auto;">

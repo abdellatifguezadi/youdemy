@@ -92,6 +92,13 @@
                                 </div>
                             </div>
 
+                            <div class="mt-4 flex items-center gap-2">
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                                    <i class="fas fa-folder mr-1"></i>
+                                    <?= htmlspecialchars($course->getCategoryName()) ?>
+                                </span>
+                            </div>
+
                             <?php if (!empty($course->getTags())) : ?>
                                 <div class="mt-4 flex flex-wrap gap-2">
                                     <?php foreach ($course->getTags() as $tag) : ?>
