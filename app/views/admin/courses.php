@@ -78,69 +78,73 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teacher</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <?php foreach ($courses as $course): ?>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-10 w-10 rounded-lg object-cover" 
-                                         src="<?= $course->getPhotoUrl() ?>" 
-                                         alt="Course thumbnail">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900"><?= $course->getTitle() ?></div>
-                                        <div class="text-sm text-gray-500">Created on <?= date('M d, Y', strtotime($course->getCreatedAt())) ?></div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img class="h-8 w-8 rounded-full" 
-                                         src="https://ui-avatars.com/api/?name=<?= urlencode($course->getName()) ?>" 
-                                         alt="Teacher">
-                                    <span class="ml-2 text-sm text-gray-900"><?= $course->getName() ?></span>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-violet-100 text-violet-800">
-                                    <?= $course->getCategoryName() ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-900">
-                                    <?php if($course->getType() === 'Cours vidéo'): ?>
-                                        <i class="fas fa-video text-blue-500 mr-2"></i>Video
-                                    <?php else: ?>
-                                        <i class="fas fa-file-alt text-green-500 mr-2"></i>Document
-                                    <?php endif; ?>
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <i class="fas fa-users mr-2"></i><?= $course->getStudentCount() ?>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <form action="/admin/courses/delete/<?= $course->getId() ?>" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
-                                    <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50">
-                                        <i class="fas fa-trash-alt"></i>
-                                        <span class="ml-1">Delete</span>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <div class="bg-white rounded-xl shadow-lg">
+                <div class="relative" style="height: 500px;">
+                    <div style="position: absolute; inset: 0; overflow-x: auto;">
+                        <table style="min-width: 800px;" class="w-full">
+                            <thead class="bg-gray-50 sticky top-0">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teacher</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
+                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php foreach ($courses as $course): ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="h-10 w-10 rounded-lg object-cover" 
+                                                 src="<?= $course->getPhotoUrl() ?>" 
+                                                 alt="Course thumbnail">
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900"><?= $course->getTitle() ?></div>
+                                                <div class="text-sm text-gray-500">Created on <?= date('M d, Y', strtotime($course->getCreatedAt())) ?></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="h-8 w-8 rounded-full" 
+                                                 src="https://ui-avatars.com/api/?name=<?= urlencode($course->getName()) ?>" 
+                                                 alt="Teacher">
+                                            <span class="ml-2 text-sm text-gray-900"><?= $course->getName() ?></span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-violet-100 text-violet-800">
+                                            <?= $course->getCategoryName() ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm text-gray-900">
+                                            <?php if($course->getType() === 'Cours vidéo'): ?>
+                                                <i class="fas fa-video text-blue-500 mr-2"></i>Video
+                                            <?php else: ?>
+                                                <i class="fas fa-file-alt text-green-500 mr-2"></i>Document
+                                            <?php endif; ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <i class="fas fa-users mr-2"></i><?= $course->getStudentCount() ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <form action="/admin/courses/delete/<?= $course->getId() ?>" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
+                                            <button type="submit" class="px-3 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-50">
+                                                <i class="fas fa-trash-alt"></i>
+                                                <span class="ml-1">Delete</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -165,22 +165,36 @@ class TeacherController extends BaseController
     public function updateCourse()
     {
 
+        $courseId = $_POST['course_id'];
+        $teacherId = $_SESSION['user']['id'];
+
+
 
         $courseData = [
-            'id' => $_POST['course_id'],
-            'title' => $_POST['title'],
-            'description' => $_POST['description'],
-            'photo_url' => $_POST['photo_url'],
-            'teacher_id' => $_SESSION['user']['id'],
+            'id' => $courseId,
+            'title' => trim($_POST['title']),
+            'description' => trim($_POST['description']),
+            'photo_url' => trim($_POST['photo_url']),
+            'teacher_id' => $teacherId,
             'category_id' => $_POST['category_id'],
             'type' => $_POST['type'],
             'tags' => isset($_POST['tags']) ? $_POST['tags'] : []
         ];
 
         if ($courseData['type'] === 'video') {
-            $courseData['video'] = $_POST['video'];
+            $courseData['video'] = trim($_POST['video']);
         } else {
-            $courseData['document'] = $_POST['document'];
+            $courseData['document'] = trim($_POST['document']);
+        }
+
+        $errors = $this->courseModel->validateCourseData($courseData);
+        if (!empty($errors)) {
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => implode(' ', $errors)
+            ];
+            header('Location: /teacher/courses');
+            exit();
         }
 
         if ($this->courseModel->updateCourse($courseData)) {

@@ -115,52 +115,56 @@
                     <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                 </div>
             </div>
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Courses</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <?php foreach ($category as $category) : ?>
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="p-2 bg-violet-100 rounded-lg">
-                                            <i class="fas fa-code text-violet-600"></i>
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900"> <?= htmlspecialchars($category['name']) ?> </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-sm text-gray-500"> <?= htmlspecialchars($category['description']) ?> </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-violet-100 text-violet-800">
-                                        <?= $category['course_count'] ?> Courses
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button onclick="openUpdateModal('<?= $category['id'] ?>', '<?= htmlspecialchars($category['name']) ?>', '<?= htmlspecialchars($category['description']) ?>')" class="text-violet-600 hover:text-violet-900 mr-3">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form action="/admin/categories/delete/<?= $category['id'] ?>" method="POST" class="inline" 
-                                          onsubmit="return confirm('Are you sure you want to delete this category?');">
-                                        <button type="submit" class="text-red-600 hover:text-red-900">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <div class="bg-white rounded-xl shadow-lg">
+                <div class="relative" style="height: 500px;">
+                    <div style="position: absolute; inset: 0; overflow-x: auto;">
+                        <table style="min-width: 800px;" class="w-full">
+                            <thead class="bg-gray-50 sticky top-0">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Courses</th>
+                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php foreach ($category as $category) : ?>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="p-2 bg-violet-100 rounded-lg">
+                                                    <i class="fas fa-code text-violet-600"></i>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <div class="text-sm font-medium text-gray-900"> <?= htmlspecialchars($category['name']) ?> </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="text-sm text-gray-500"> <?= htmlspecialchars($category['description']) ?> </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-violet-100 text-violet-800">
+                                                <?= $category['course_count'] ?> Courses
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onclick="openUpdateModal('<?= $category['id'] ?>', '<?= htmlspecialchars($category['name']) ?>', '<?= htmlspecialchars($category['description']) ?>')" class="text-violet-600 hover:text-violet-900 mr-3">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <form action="/admin/categories/delete/<?= $category['id'] ?>" method="POST" class="inline" 
+                                                  onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

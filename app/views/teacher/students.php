@@ -52,75 +52,77 @@
                             </h2>
                         </div>
 
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrollment Date</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <?php foreach ($course['students'] as $student): ?>
-                                        <tr class="hover:bg-gray-50">
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <img class="h-8 w-8 rounded-full" 
-                                                         src="https://ui-avatars.com/api/?name=<?= urlencode($student['name']) ?>&background=6D28D9&color=fff" 
-                                                         alt="<?= htmlspecialchars($student['name']) ?>">
-                                                    <span class="ml-3 text-sm font-medium text-gray-900">
-                                                        <?= htmlspecialchars($student['name']) ?>
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                <?= htmlspecialchars($student['email']) ?>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                <?= date('M d, Y', strtotime($student['enrollment_date'])) ?>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <form action="/teacher/students/update-status/<?= $student['id'] ?>" method="POST" class="inline">
-                                                    <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
-                                                    <select name="status" onchange="this.form.submit()" 
-                                                            class="appearance-none bg-none cursor-pointer px-2 py-1 text-xs font-semibold rounded-full border-0 focus:ring-2 focus:ring-violet-500 [&::-ms-expand]:hidden
-                                                            <?php
-                                                            switch($student['status']) {
-                                                                case 'approved':
-                                                                    echo 'bg-green-100 text-green-800';
-                                                                    break;
-                                                                case 'pending':
-                                                                    echo 'bg-yellow-100 text-yellow-800';
-                                                                    break;
-                                                                case 'rejected':
-                                                                    echo 'bg-red-100 text-red-800';
-                                                                    break;
-                                                            }
-                                                            ?>">
-                                                        <option value="pending" <?= $student['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
-                                                        <option value="approved" <?= $student['status'] === 'approved' ? 'selected' : '' ?>>Approved</option>
-                                                        <option value="rejected" <?= $student['status'] === 'rejected' ? 'selected' : '' ?>>Rejected</option>
-                                                    </select>
-                                                </form>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                <form action="/teacher/students/delete/<?= $student['id'] ?>" method="POST" 
-                                                      class="inline" 
-                                                      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant de ce cours ?');">
-                                                    <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
-                                                    <button type="submit" 
-                                                            class="text-red-600 hover:text-red-800 transition-colors">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
+                        <div class="relative" style="height: 500px;">
+                            <div style="position: absolute; inset: 0; overflow-x: auto;">
+                                <table style="min-width: 800px;" class="w-full">
+                                    <thead class="bg-gray-50 sticky top-0">
+                                        <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrollment Date</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                         </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <?php foreach ($course['students'] as $student): ?>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="flex items-center">
+                                                        <img class="h-8 w-8 rounded-full" 
+                                                             src="https://ui-avatars.com/api/?name=<?= urlencode($student['name']) ?>&background=6D28D9&color=fff" 
+                                                             alt="<?= htmlspecialchars($student['name']) ?>">
+                                                        <span class="ml-3 text-sm font-medium text-gray-900">
+                                                            <?= htmlspecialchars($student['name']) ?>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    <?= htmlspecialchars($student['email']) ?>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    <?= date('M d, Y', strtotime($student['enrollment_date'])) ?>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <form action="/teacher/students/update-status/<?= $student['id'] ?>" method="POST" class="inline">
+                                                        <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
+                                                        <select name="status" onchange="this.form.submit()" 
+                                                                class="appearance-none bg-none cursor-pointer px-2 py-1 text-xs font-semibold rounded-full border-0 focus:ring-2 focus:ring-violet-500 [&::-ms-expand]:hidden
+                                                                <?php
+                                                                switch($student['status']) {
+                                                                    case 'approved':
+                                                                        echo 'bg-green-100 text-green-800';
+                                                                        break;
+                                                                    case 'pending':
+                                                                        echo 'bg-yellow-100 text-yellow-800';
+                                                                        break;
+                                                                    case 'rejected':
+                                                                        echo 'bg-red-100 text-red-800';
+                                                                        break;
+                                                                }
+                                                                ?>">
+                                                            <option value="pending" <?= $student['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
+                                                            <option value="approved" <?= $student['status'] === 'approved' ? 'selected' : '' ?>>Approved</option>
+                                                            <option value="rejected" <?= $student['status'] === 'rejected' ? 'selected' : '' ?>>Rejected</option>
+                                                        </select>
+                                                    </form>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <form action="/teacher/students/delete/<?= $student['id'] ?>" method="POST" 
+                                                          class="inline" 
+                                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant de ce cours ?');">
+                                                        <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
+                                                        <button type="submit" 
+                                                                class="text-red-600 hover:text-red-800 transition-colors">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 <?php endforeach; ?>

@@ -63,66 +63,70 @@
             <?php endif; ?>
 
             <!-- Teachers Table -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <table class="w-full">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teacher</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registration Date</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <?php if (empty($pendingTeachers)): ?>
-                            <tr>
-                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                                    No pending teachers found
-                                </td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach ($pendingTeachers as $teacher): ?>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <img class="h-10 w-10 rounded-full object-cover" 
-                                                src="https://ui-avatars.com/api/?name=<?= urlencode($teacher['name']) ?>&background=random" 
-                                                alt="<?= htmlspecialchars($teacher['name']) ?>">
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($teacher['name']) ?></div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900"><?= htmlspecialchars($teacher['email']) ?></div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900"><?= date('M d, Y', strtotime($teacher['created_at'])) ?></div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <form action="/admin/teachers/activate/<?= $teacher['id'] ?>" method="POST" class="inline">
-                                            <button type="submit" class="text-green-600 hover:text-green-900 mr-3">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        </form>
-                                        <form action="/admin/teachers/reject/<?= $teacher['id'] ?>" method="POST" class="inline" 
-                                              onsubmit="return confirm('Are you sure you want to reject and delete this teacher account?');">
-                                            <button type="submit" class="text-red-600 hover:text-red-900">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+            <div class="bg-white rounded-xl shadow-lg">
+                <div class="relative" style="height: 500px;">
+                    <div style="position: absolute; inset: 0; overflow-x: auto;">
+                        <table style="min-width: 800px;" class="w-full">
+                            <thead class="bg-gray-50 sticky top-0">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teacher</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registration Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php if (empty($pendingTeachers)): ?>
+                                    <tr>
+                                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">
+                                            No pending teachers found
+                                        </td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php foreach ($pendingTeachers as $teacher): ?>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <img class="h-10 w-10 rounded-full object-cover" 
+                                                        src="https://ui-avatars.com/api/?name=<?= urlencode($teacher['name']) ?>&background=random" 
+                                                        alt="<?= htmlspecialchars($teacher['name']) ?>">
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900"><?= htmlspecialchars($teacher['name']) ?></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-900"><?= htmlspecialchars($teacher['email']) ?></div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-900"><?= date('M d, Y', strtotime($teacher['created_at'])) ?></div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                    Pending
+                                                </span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                <form action="/admin/teachers/activate/<?= $teacher['id'] ?>" method="POST" class="inline">
+                                                    <button type="submit" class="text-green-600 hover:text-green-900 mr-3">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                </form>
+                                                <form action="/admin/teachers/reject/<?= $teacher['id'] ?>" method="POST" class="inline" 
+                                                      onsubmit="return confirm('Are you sure you want to reject and delete this teacher account?');">
+                                                    <button type="submit" class="text-red-600 hover:text-red-900">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
