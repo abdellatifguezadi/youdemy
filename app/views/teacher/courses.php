@@ -55,9 +55,11 @@
                                 <button class="bg-violet-600 hover:bg-violet-700 text-white p-2 rounded-lg transition-colors">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                <form action="/teacher/courses/delete/<?= $course->getId() ?>" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition-colors">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         

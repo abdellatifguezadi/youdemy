@@ -119,4 +119,11 @@ class TeacherController extends BaseController
     {
         $this->render('teacher/students');
     }
+
+    public function deleteCourse($id)
+    {
+        $this->courseModel->deleteCourse($id);
+        header('Location: /teacher/courses');
+        exit;
+    }
 } 
