@@ -90,22 +90,15 @@ class User extends Db
         return ['success' => false, 'message' => 'Invalid credentials'];
     }
 
-    public function getUserById($id)
-    {
-        $stmt = $this->conn->prepare("
-            SELECT u.id, u.name, u.email, r.name as role 
-            FROM users u 
-            JOIN roles r ON u.role_id = r.id 
-            WHERE u.id = ?
-        ");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function deleteUser($id)
-    {
-        $sql = "DELETE FROM users WHERE id = ?";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$id]);
-    }
+    // public function getUserById($id)
+    // {
+    //     $stmt = $this->conn->prepare("
+    //         SELECT u.id, u.name, u.email, r.name as role 
+    //         FROM users u 
+    //         JOIN roles r ON u.role_id = r.id 
+    //         WHERE u.id = ?
+    //     ");
+    //     $stmt->execute([$id]);
+    //     return $stmt->fetch(PDO::FETCH_ASSOC);
+    // }
 }

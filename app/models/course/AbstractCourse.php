@@ -11,6 +11,7 @@ abstract class AbstractCourse {
     protected $name;
     protected $category_name;
     protected $student_count;
+    protected $engagement_rate;
     protected $tags;
 
     public function __construct(array $data) {
@@ -23,7 +24,8 @@ abstract class AbstractCourse {
         $this->created_at = $data['created_at'];
         $this->name = $data['name'];
         $this->category_name = $data['category_name'];
-        $this->student_count = $data['student_count'] ?? 0;
+        $this->student_count = $data['student_count'] ?? null;
+        $this->engagement_rate = $data['engagement_rate'] ?? null;
         $this->tags = $data['tags'] ?? [];
     }
 
@@ -41,4 +43,5 @@ abstract class AbstractCourse {
     public function getCategoryName() { return $this->category_name; }
     public function getStudentCount() { return $this->student_count; }
     public function getTags() { return $this->tags; }
+    public function getEngagementRate() { return $this->engagement_rate; }
 } 

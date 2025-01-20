@@ -46,6 +46,16 @@
                 <h1 class="text-2xl font-bold text-gray-800">Users Management</h1>
             </div>
 
+            <?php if (isset($_SESSION['message'])): ?>
+                <div class="mb-4 p-4 rounded-lg <?= $_SESSION['message_type'] === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?>">
+                    <?= $_SESSION['message'] ?>
+                </div>
+                <?php 
+                    unset($_SESSION['message']);
+                    unset($_SESSION['message_type']);
+                ?>
+            <?php endif; ?>
+
             <div class="bg-white rounded-xl shadow-lg">
                 <div class="relative" style="height: 500px;">
                     <div style="position: absolute; inset: 0; overflow-x: auto;">

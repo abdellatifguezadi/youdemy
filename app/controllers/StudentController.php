@@ -30,7 +30,6 @@ class StudentController extends BaseController
 
         $enrollment = $this->studentModel->getEnrollmentStatus($id, $_SESSION['user']['id']);
 
-        // Vérifier si l'étudiant est inscrit et approuvé
         if ($enrollment !== 'approved') {
             $_SESSION['message'] = [
                 'type' => 'error',

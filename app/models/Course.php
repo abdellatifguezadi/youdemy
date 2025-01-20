@@ -31,12 +31,12 @@ class Course extends Db
     public function searchCourses($keywords = '', $category = '', $tag = '', $limit = null, $offset = null)
     {
         $sql = "SELECT DISTINCT c.*, u.name, cat.name as category_name,
-                (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as student_count
+                (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id) as student_count,
+                (SELECT COUNT(*) FROM enrollments WHERE course_id = c.id AND status = 'approved') as approved_count
                 FROM {$this->table} c
                 LEFT JOIN users u ON c.teacher_id = u.id
                 LEFT JOIN categories cat ON c.category_id = cat.id";
 
-       
         if (!empty($tag)) {
             $sql .= " LEFT JOIN course_tags ct ON c.id = ct.course_id";
         }
@@ -75,6 +75,7 @@ class Course extends Db
         $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return array_map(function($course) {
+            $course['engagement_rate'] = $this->getEngagementRate($course['id']);
             $course['tags'] = $this->tagModel->getCourseTags($course['id']);
             return $this->createCourseObject($course);
         }, $courses);
@@ -430,5 +431,22 @@ class Course extends Db
 
 
         return $errors;
+    }
+
+    public function getEngagementRate($courseId) {
+        $sql = "SELECT 
+                COUNT(DISTINCT student_id) as total_enrollments,
+                COUNT(DISTINCT CASE WHEN status = 'approved' THEN student_id END) as approved_enrollments
+                FROM enrollments 
+                WHERE course_id = ?";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$courseId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($result['total_enrollments'] > 0) {
+            return round(($result['approved_enrollments'] / $result['total_enrollments']) * 100);
+        }
+        return 0;
     }
 } 

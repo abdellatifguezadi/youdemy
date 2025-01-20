@@ -91,13 +91,6 @@ class Admin extends User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getPendingTeachersCount() {
-        $sql = "SELECT COUNT(*) as total FROM users WHERE role_id = 2 AND is_active = 0";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result['total'];
-    }
 
     public function getTeacherpending() {
         $sql = "SELECT * FROM users WHERE role_id = 2 AND is_active = 0";
@@ -115,5 +108,12 @@ class Admin extends User {
         ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteUser($id)
+    {
+        $sql = "DELETE FROM users WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$id]);
     }
 } 

@@ -58,6 +58,9 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Taux d'engagement
+                                    </th>
                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
@@ -99,6 +102,21 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         <i class="fas fa-users mr-2"></i><?= $course->getStudentCount() ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <?php 
+                                            $engagementRate = $course->getEngagementRate();
+                                            $colorClass = $engagementRate >= 70 ? 'text-green-600' :
+                                                        ($engagementRate >= 40 ? 'text-yellow-600' : 'text-red-600');
+                                            ?>
+                                            <span class="<?= $colorClass ?> font-semibold">
+                                                <?= $engagementRate ?>%
+                                            </span>
+                                            <span class="ml-2 text-gray-500 text-sm">
+                                                approuvés
+                                            </span>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <form action="/admin/courses/delete/<?= $course->getId() ?>" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?');">
