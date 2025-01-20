@@ -127,6 +127,9 @@
                         <h3 class="text-lg font-semibold mb-2">
                             <?= htmlspecialchars($course->getTitle()) ?>
                         </h3>
+                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">
+                            <?= htmlspecialchars($course->getDescription()) ?>
+                        </p>
                         <p class="text-gray-600 text-sm mb-3">
                             <span class="mr-4">
                                 <i class="fas fa-user mr-2"></i>
