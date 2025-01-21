@@ -136,7 +136,6 @@
                                 <?= htmlspecialchars($course->getName()) ?>
                             </span>
                         </p>
-
                         <div class="flex flex-wrap gap-2 mb-4">
                             <?php foreach ($course->getTags() as $tag): ?>
                             <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs rounded-full">

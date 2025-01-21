@@ -108,7 +108,7 @@ class TeacherController extends BaseController
                 'text' => implode(' ', $errors)
             ];
             $_SESSION['form_data'] = $courseData;
-            header('Location: /teacher/courses/create');
+            header('Location: /teacher/courses');
             exit();
         }
 

@@ -81,8 +81,8 @@
                             </p>
 
                             <div class="flex items-center justify-between">
-                                <span class="flex items-center gap-1 px-3 py-1 <?= $course instanceof VideoCourse ? 'bg-blue-50 text-blue-700' : 'bg-violet-50 text-violet-700' ?> rounded-full text-sm">
-                                    <i class="fas <?= $course instanceof VideoCourse ? 'fa-video' : 'fa-file-alt' ?>"></i>
+                                <span class="flex items-center gap-1 px-3 py-1 <?= $course->getType() === 'Cours vidéo' ? 'bg-blue-50 text-blue-700' : 'bg-violet-50 text-violet-700' ?> rounded-full text-sm">
+                                    <i class="fas <?= $course->getType() === 'Cours vidéo' ? 'fa-video' : 'fa-file-alt' ?>"></i>
                                     <span><?= $course->getType() ?></span>
                                 </span>
 
@@ -329,7 +329,7 @@
         </div>
     </div>
 </div>
-
+  
 <script>
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebar-overlay');
