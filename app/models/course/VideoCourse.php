@@ -18,3 +18,5 @@ class VideoCourse extends AbstractCourse {
         return $this->video_url;
     }
 } 
+
+
